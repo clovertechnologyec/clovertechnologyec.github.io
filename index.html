@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clover Technology | Desarrollo Web, Consultoría & Inteligencia Artificial</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="icono.jpeg">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cloverGreen: '#10b981',
+                        cloverDark: '#090d16',
+                        cloverCard: '#131c2e',
+                        cloverBorder: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-panel {
+            background: rgba(19, 28, 46, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-effect {
+            box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-cloverDark text-slate-100 antialiased selection:bg-cloverGreen selection:text-slate-950 overflow-x-hidden">
+
+    <!-- Navbar con Logotipo SVG Integrado -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-cloverDark/80 backdrop-blur-md border-b border-cloverBorder">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logotipo SVG Vectorial Integrado -->
+            <a href="#" class="flex items-center gap-2.5 group focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 60" class="h-9 sm:h-10 w-auto">
+                  <defs>
+                    <linearGradient id="cloverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#34d399" />
+                      <stop offset="100%" stop-color="#0d9488" />
+                    </linearGradient>
+                    <linearGradient id="glowGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#22d3ee" />
+                      <stop offset="100%" stop-color="#10b981" />
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Icono del Trébol / Nodos de IA -->
+                  <g transform="translate(2, 5)">
+                    <rect width="50" height="50" rx="14" fill="url(#cloverGrad)" opacity="0.18" />
+                    <rect width="50" height="50" rx="14" fill="none" stroke="url(#cloverGrad)" stroke-width="1.5" />
+                    
+                    <circle cx="25" cy="16" r="6" fill="url(#cloverGrad)" />
+                    <circle cx="16" cy="30" r="6" fill="url(#cloverGrad)" />
+                    <circle cx="34" cy="30" r="6" fill="url(#cloverGrad)" />
+                    <circle cx="25" cy="25" r="3" fill="#ffffff" />
+
+                    <path d="M25 25 L25 16 M25 25 L16 30 M25 25 L34 30" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                  </g>
+
+                  <!-- Tipografía -->
+                  <text x="64" y="37" font-family="'Plus Jakarta Sans', sans-serif" font-size="22" font-weight="800" fill="#ffffff" letter-spacing="-0.5">
+                    Clover <tspan fill="url(#glowGrad)">Technology</tspan>
+                  </text>
+                  
+                  <text x="65" y="48" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="600" fill="#94a3b8" letter-spacing="2.8">
+                    WEB &amp; AI SOLUTIONS
+                  </text>
+                </svg>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#servicios" class="hover:text-cloverGreen transition">Servicios</a>
+                <a href="#ia" class="hover:text-cloverGreen transition">Chatbots & IA</a>
+                <a href="#sobre-mi" class="hover:text-cloverGreen transition">Desarrollador</a>
+                <a href="#stack" class="hover:text-cloverGreen transition">Tecnologías</a>
+                <a href="#contacto" class="bg-cloverGreen hover:bg-emerald-600 text-slate-950 font-semibold px-5 py-2.5 rounded-xl transition shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Cotizar Proyecto
+                </a>
+            </nav>
+
+            <button id="menu-btn" class="md:hidden text-2xl text-slate-300 focus:outline-none p-2">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Menú Móvil -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cloverCard border-b border-cloverBorder px-6 py-5 space-y-4 shadow-2xl">
+            <a href="#servicios" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Servicios</a>
+            <a href="#ia" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Chatbots & IA</a>
+            <a href="#sobre-mi" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Desarrollador</a>
+            <a href="#stack" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Tecnologías</a>
+            <a href="#contacto" class="block text-center bg-cloverGreen text-slate-950 font-semibold py-3 rounded-xl mt-2">Cotizar por WhatsApp</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-36 pb-24 md:pt-48 md:pb-36 px-6 relative">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-emerald-500/10 rounded-full blur-[100px] sm:blur-[120px] pointer-events-none"></div>
+        <div class="absolute top-1/3 right-10 w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] bg-cyan-500/10 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold bg-emerald-500/10 text-cloverGreen border border-emerald-500/20 mb-8 animate-pulse text-center">
+                <i class="fa-solid fa-microchip"></i> Ingeniería de Software & Inteligencia Artificial Avanzada
+            </div>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-8 leading-[1.1]">
+                Elevamos tu negocio con <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Innovación Digital & IA</span>
+            </h1>
+            <p class="text-base sm:text-lg md:text-xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
+                Desarrollo web de alto rendimiento, consultoría técnica especializada e implementación de micro apps y chatbots con Inteligencia Artificial para automatizar y escalar tus operaciones comerciales.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#contacto" class="w-full sm:w-auto bg-cloverGreen hover:bg-emerald-600 text-slate-950 font-bold px-8 py-4 rounded-2xl transition shadow-xl shadow-emerald-500/25 flex items-center justify-center gap-3 text-base">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> Iniciar Cotización
+                </a>
+                <a href="#servicios" class="w-full sm:w-auto glass-panel hover:bg-slate-800/80 text-slate-200 font-semibold px-8 py-4 rounded-2xl transition flex items-center justify-center gap-2 text-base">
+                    Explorar Soluciones <i class="fa-solid fa-arrow-down text-xs text-cloverGreen"></i>
+                </a>
+            </div>
+
+            <!-- Estadísticas -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-20 pt-12 border-t border-slate-800/80 max-w-3xl mx-auto">
+                <div>
+                    <h4 class="text-3xl font-bold text-white mb-1">+15</h4>
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Años de Experiencia</p>
+                </div>
+                <div>
+                    <h4 class="text-3xl font-bold text-white mb-1">24/7</h4>
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Automatización con IA</p>
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-3xl font-bold text-white mb-1">Top</h4>
+                    <p class="text-xs text-slate-400 uppercase tracking-wider">Calidad de Código</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Section (Actualizada con Micro Apps a Medida) -->
+    <section id="servicios" class="py-24 px-6 relative bg-cloverCard/40 border-y border-cloverBorder">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-cloverGreen mb-3">Nuestra Oferta de Valor</h2>
+                <h3 class="text-3xl md:text-4xl font-extrabold text-white">Soluciones Tecnológicas de Vanguardia</h3>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Tarjeta 1: Desarrollo Web FullStack -->
+                <div class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-2xl mb-6 group-hover:scale-110 group-hover:bg-cloverGreen group-hover:text-slate-950 transition duration-300">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">Desarrollo Web FullStack</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed font-light">
+                            Creación de plataformas web a la medida, sistemas POS, portales educativos y aplicaciones robustas orientadas a conversión y velocidad.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2: Creación de Micro App´s a Medida (NUEVA) -->
+                <div class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between border-cloverGreen/30 relative">
+                    <div class="absolute -top-3 right-6 bg-cloverGreen text-slate-950 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full shadow-md">
+                        Alta Demanda
+                    </div>
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-2xl mb-6 group-hover:scale-110 group-hover:bg-cloverGreen group-hover:text-slate-950 transition duration-300">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">Micro App´s a Medida</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed font-light">
+                            Desarrollo ágil de mini aplicaciones hiper-enfocadas para resolver tareas específicas: calculadoras de precios, herramientas de conversión, catálogos interactivos, simuladores y utilidades web ultrarrápidas.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3: Consultoría Tecnológica -->
+                <div class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-2xl mb-6 group-hover:scale-110 group-hover:bg-cloverGreen group-hover:text-slate-950 transition duration-300">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">Consultoría Tecnológica</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed font-light">
+                            Asesoría experta en arquitectura de software, optimización de bases de datos, auditoría de código y selección del stack ideal para tu empresa.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 4: Chatbots & IA -->
+                <div id="ia" class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-2xl mb-6 group-hover:scale-110 group-hover:bg-cloverGreen group-hover:text-slate-950 transition duration-300">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">Chatbots & Algoritmos IA</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed font-light">
+                            Implementación de asistentes conversacionales inteligentes conectados a WhatsApp y Web, integrados con modelos de lenguaje avanzados (LLMs).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre el Desarrollador Section con Imagen y Biografía -->
+    <section id="sobre-mi" class="py-24 px-6 relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="glass-panel p-8 md:p-12 rounded-3xl border border-cloverBorder glow-effect relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
+                    
+                    <!-- Columna de Imagen / Foto del Desarrollador -->
+                    <div class="md:col-span-5 flex flex-col items-center">
+                        <div class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-3xl p-1.5 bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 shadow-2xl shadow-emerald-500/20 group">
+                            <div class="w-full h-full rounded-[22px] overflow-hidden bg-cloverDark flex items-center justify-center relative">
+                                <img src="Desarrollador.jpeg" alt="Ing. Teddy Valencia" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="absolute inset-0 hidden flex-col items-center justify-center bg-cloverCard text-cloverGreen">
+                                    <i class="fa-solid fa-user-tie text-6xl mb-2"></i>
+                                    <span class="text-xs font-bold text-slate-400">Ing. Teddy Valencia</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-cloverGreen text-xs font-semibold border border-emerald-500/20">
+                            <i class="fa-solid fa-circle-check text-[10px]"></i> Verificado en Línea
+                        </div>
+                    </div>
+
+                    <!-- Columna de Biografía y Proyectos Destacados -->
+                    <div class="md:col-span-7 space-y-6 text-center md:text-left">
+                        <div>
+                            <span class="inline-block text-xs font-bold uppercase tracking-widest text-cloverGreen mb-2">Liderazgo Técnico</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ing. Teddy Valencia</h2>
+                            <p class="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
+                                Con más de <strong class="text-white font-semibold">15 años de experiencia</strong> desarrollando sistemas web avanzados, lidero soluciones de alta ingeniería para optimizar los procesos digitales de instituciones y empresas con un rendimiento superior.
+                            </p>
+                        </div>
+
+                        <!-- Tarjetas de Proyectos Destacados -->
+                        <div class="grid sm:grid-cols-2 gap-4 pt-2 text-left">
+                            <div class="bg-cloverDark/70 p-4 rounded-2xl border border-cloverBorder hover:border-cloverGreen/40 transition">
+                                <div class="flex items-center gap-2.5 mb-2 text-cloverGreen text-base">
+                                    <i class="fa-solid fa-school"></i>
+                                    <h4 class="font-bold text-white text-xs sm:text-sm">Sistemas escolares completos</h4>
+                                </div>
+                                <p class="text-xs text-slate-400 leading-relaxed font-light">
+                                    Plataformas integrales de gestión académica, portales virtuales y sistemas POS robustos.
+                                </p>
+                            </div>
+
+                            <div class="bg-cloverDark/70 p-4 rounded-2xl border border-cloverBorder hover:border-cloverGreen/40 transition">
+                                <div class="flex items-center gap-2.5 mb-2 text-cloverGreen text-base">
+                                    <i class="fa-solid fa-microchip"></i>
+                                    <h4 class="font-bold text-white text-xs sm:text-sm">Automatización con IA</h4>
+                                </div>
+                                <p class="text-xs text-slate-400 leading-relaxed font-light">
+                                    Implementación de asistentes conversacionales, algoritmos biométricos y analítica inteligente.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stack Tecnológico -->
+    <section id="stack" class="py-24 px-6 bg-cloverCard/40 border-t border-cloverBorder">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-xs font-bold uppercase tracking-widest text-cloverGreen mb-3">Infraestructura & Herramientas</h2>
+            <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4">Nuestro Stack Tecnológico</h3>
+            <p class="text-slate-400 mb-16 max-w-xl mx-auto text-sm font-light">Combinamos tecnologías modernas y estables para asegurar un rendimiento superior y máxima seguridad.</p>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
+                <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-cloverGreen transition">
+                    <i class="fa-brands fa-html5 text-4xl text-orange-500"></i>
+                    <span class="text-xs font-semibold text-slate-300">HTML5 & CSS3</span>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-cloverGreen transition">
+                    <i class="fa-brands fa-js text-4xl text-yellow-400"></i>
+                    <span class="text-xs font-semibold text-slate-300">JavaScript</span>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-cloverGreen transition">
+                    <i class="fa-brands fa-php text-4xl text-indigo-400"></i>
+                    <span class="text-xs font-semibold text-slate-300">PHP & SQL</span>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-cloverGreen transition">
+                    <i class="fa-brands fa-python text-4xl text-blue-400"></i>
+                    <span class="text-xs font-semibold text-slate-300">Python & IA</span>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-cloverGreen transition">
+                    <i class="fa-solid fa-server text-4xl text-emerald-400"></i>
+                    <span class="text-xs font-semibold text-slate-300">Bases de Datos</span>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-cloverGreen transition">
+                    <i class="fa-solid fa-network-wired text-4xl text-cyan-400"></i>
+                    <span class="text-xs font-semibold text-slate-300">APIs & Chatbots</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto Avanzada con WhatsApp -->
+    <section id="contacto" class="py-24 px-6 relative">
+        <div class="max-w-4xl mx-auto glass-panel p-6 sm:p-10 md:p-14 rounded-3xl shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-center mb-10">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-cloverGreen flex items-center justify-center text-xl mx-auto mb-4">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2">Configura tu Requerimiento</h2>
+                <p class="text-slate-400 text-sm font-light">Completa los campos detallados para estructurar tu cotización y enviarla directamente a nuestro WhatsApp oficial.</p>
+            </div>
+
+            <form id="whatsapp-form" class="space-y-6" onsubmit="sendToWhatsApp(event)">
+                <!-- Fila 1: Nombre y Teléfono/Contacto -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Tu Nombre o Empresa *</label>
+                        <input type="text" id="name" required class="w-full bg-cloverDark border border-cloverBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-cloverGreen transition" placeholder="Ej. Juan Pérez">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Teléfono / Correo de Contacto *</label>
+                        <input type="text" id="contact-info" required class="w-full bg-cloverDark border border-cloverBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-cloverGreen transition" placeholder="Ej. 0991234567 / correo@empresa.com">
+                    </div>
+                </div>
+
+                <!-- Fila 2: Servicio Principal y Rango de Presupuesto -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Servicio Principal Requerido *</label>
+                        <select id="service" class="w-full bg-cloverDark border border-cloverBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-cloverGreen transition">
+                            <option>Desarrollo Web FullStack (A medida)</option>
+                            <option>Creación de Micro App´s a Medida</option>
+                            <option>Consultoría y Auditoría Técnica</option>
+                            <option>Chatbots con IA y Automatización WhatsApp</option>
+                            <option>Sistema POS / Ecosistema Educativo</option>
+                            <option>Otro Proyecto Integral</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Presupuesto Estimado (USD)</label>
+                        <select id="budget" class="w-full bg-cloverDark border border-cloverBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-cloverGreen transition">
+                            <option>Menos de $500</option>
+                            <option>$500 - $1,500</option>
+                            <option>$1,500 - $3,000</option>
+                            <option>Más de $3,000 (Proyecto Enterprise)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Fila 3: Plazo de ejecución y Dominio/Hosting -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Plazo Deseado de Entrega</label>
+                        <select id="timeline" class="w-full bg-cloverDark border border-cloverBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-cloverGreen transition">
+                            <option>Lo antes posible (Urgente)</option>
+                            <option>Entre 2 a 4 semanas</option>
+                            <option>1 a 2 meses</option>
+                            <option>Planificación a largo plazo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-400 mb-2">¿Ya cuenta con Dominio y Hosting?</label>
+                        <select id="hosting" class="w-full bg-cloverDark border border-cloverBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-cloverGreen transition">
+                            <option>Sí, ya dispongo de ambos</option>
+                            <option>Tengo dominio pero necesito asesoría en hosting</option>
+                            <option>No tengo nada, requiero solución completa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Campo de Mensaje / Detalles -->
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Descripción Detallada del Proyecto o Funcionalidades IA *</label>
+                    <textarea id="message" rows="4" required class="w-full bg-cloverDark border border-cloverBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-cloverGreen transition" placeholder="Describe brevemente qué objetivos buscas lograr, qué micro app necesitas o qué procesos deseas automatizar..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-cloverGreen hover:bg-emerald-600 text-slate-950 font-bold py-4 rounded-xl transition shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-3 text-base">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i> Enviar Configuración a WhatsApp
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Mejorado con Modales CRUD de Términos y Privacidad -->
+    <footer class="bg-cloverCard border-t border-cloverBorder pt-16 pb-10 px-6 relative overflow-hidden">
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-cloverBorder">
+            
+            <!-- Columna de Identificación de Marca y Descripción -->
+            <div class="md:col-span-4 space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl overflow-hidden bg-cloverDark border border-cloverBorder flex items-center justify-center shadow-md">
+                        <img src="icono.jpeg" alt="Clover Technology Logo" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xl font-extrabold text-white tracking-tight">Clover <span class="text-cloverGreen">Technology</span></span>
+                </div>
+                <p class="text-slate-400 text-sm leading-relaxed font-light">
+                    Soluciones avanzadas en desarrollo web full-stack, creación de micro apps a medida, consultoría técnica y automatización de procesos con Inteligencia Artificial.
+                </p>
+                <div class="flex items-center gap-3 pt-2">
+                    <a href="https://wa.me/593967879068" target="_blank" class="w-10 h-10 rounded-xl bg-cloverDark border border-cloverBorder flex items-center justify-center text-slate-300 hover:text-cloverGreen hover:border-cloverGreen transition" title="WhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                    <a href="https://www.tiktok.com" target="_blank" class="w-10 h-10 rounded-xl bg-cloverDark border border-cloverBorder flex items-center justify-center text-slate-300 hover:text-cloverGreen hover:border-cloverGreen transition" title="TikTok">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                    <a href="mailto:contacto@clovertech.com" class="w-10 h-10 rounded-xl bg-cloverDark border border-cloverBorder flex items-center justify-center text-slate-300 hover:text-cloverGreen hover:border-cloverGreen transition" title="Correo">
+                        <i class="fa-solid fa-envelope"></i>
+                    </a>
+                    <a href="#contacto" class="w-10 h-10 rounded-xl bg-cloverDark border border-cloverBorder flex items-center justify-center text-slate-300 hover:text-cloverGreen hover:border-cloverGreen transition" title="Sitio Web">
+                        <i class="fa-solid fa-globe"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Columna de Enlaces Rápidos -->
+            <div class="md:col-span-3 space-y-4">
+                <h4 class="text-white font-bold text-sm uppercase tracking-wider">Navegación</h4>
+                <ul class="space-y-2.5 text-sm text-slate-400">
+                    <li><a href="#servicios" class="hover:text-cloverGreen transition">Servicios Profesionales</a></li>
+                    <li><a href="#ia" class="hover:text-cloverGreen transition">Chatbots & Inteligencia Artificial</a></li>
+                    <li><a href="#sobre-mi" class="hover:text-cloverGreen transition">Ing. Teddy Valencia (Desarrollador)</a></li>
+                    <li><a href="#stack" class="hover:text-cloverGreen transition">Stack Tecnológico</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna de Servicios Clave -->
+            <div class="md:col-span-2 space-y-4">
+                <h4 class="text-white font-bold text-sm uppercase tracking-wider">Especialidades</h4>
+                <ul class="space-y-2.5 text-sm text-slate-400">
+                    <li><span class="hover:text-slate-200 transition">Micro App´s a Medida</span></li>
+                    <li><span class="hover:text-slate-200 transition">Sistemas Escolares</span></li>
+                    <li><span class="hover:text-slate-200 transition">Desarrollo Web POS</span></li>
+                    <li><span class="hover:text-slate-200 transition">Automatización IA</span></li>
+                </ul>
+            </div>
+
+            <!-- Columna de Datos de Contacto y Ubicación -->
+            <div class="md:col-span-3 space-y-4">
+                <h4 class="text-white font-bold text-sm uppercase tracking-wider">Ubicación & Contacto</h4>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li class="flex items-start gap-2.5">
+                        <i class="fa-solid fa-location-dot text-cloverGreen mt-1"></i>
+                        <span>Chone, Manabí, Ecuador</span>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <i class="fa-brands fa-whatsapp text-cloverGreen"></i>
+                        <span>+593 96 787 9068</span>
+                    </li>
+                    <li class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-code text-cloverGreen"></i>
+                        <span>Liderado por Ing. Teddy Valencia</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Sub-footer con Modales CRUD -->
+        <div class="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <p>&copy; 2026 Clover Technology. Todos los derechos reservados.</p>
+            <div class="flex items-center gap-6">
+                <button onclick="openModal('modal-terms')" class="hover:text-cloverGreen transition focus:outline-none">Términos de Servicio</button>
+                <button onclick="openModal('modal-privacy')" class="hover:text-cloverGreen transition focus:outline-none">Política de Privacidad</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ventana Modal CRUD (Solo Lectura) - Términos de Servicio -->
+    <div id="modal-terms" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-cloverCard border border-cloverBorder max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between pb-4 border-b border-cloverBorder mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-cloverGreen flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-file-contract"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Términos de Servicio</h3>
+                </div>
+                <button onclick="closeModal('modal-terms')" class="text-slate-400 hover:text-white p-2 rounded-xl bg-cloverDark border border-cloverBorder transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto space-y-4 text-sm text-slate-300 font-light pr-2">
+                <p><strong>1. Aceptación de los Términos:</strong> Al acceder y contratar los servicios de Clover Technology, usted acepta cumplir con estos términos de servicio y todas las normativas aplicables.</p>
+                <p><strong>2. Servicios de Desarrollo y Micro Apps:</strong> Proveemos soluciones a la medida, micro apps hiper-focalizadas, software educativo y consultoría técnica. Los alcances de cada proyecto se definen formalmente previo inicio del desarrollo.</p>
+                <p><strong>3. Propiedad Intelectual:</strong> El código base, estructuras y algoritmos desarrollados por Clover Technology están protegidos. Una vez entregado el proyecto y liquidado el pago total, el cliente adquiere los derechos de uso comercial estipulados en contrato.</p>
+                <p><strong>4. Garantía y Soporte:</strong> Ofrecemos periodos de garantía acordados para corregir incidencias técnicas derivadas del desarrollo inicial.</p>
+            </div>
+            <div class="pt-6 border-t border-cloverBorder mt-6 flex justify-end">
+                <button onclick="closeModal('modal-terms')" class="bg-cloverDark hover:bg-slate-800 text-slate-200 border border-cloverBorder font-semibold px-6 py-2.5 rounded-xl transition text-xs">Cerrar Ventana</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ventana Modal CRUD (Solo Lectura) - Política de Privacidad -->
+    <div id="modal-privacy" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-cloverCard border border-cloverBorder max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between pb-4 border-b border-cloverBorder mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-cloverGreen flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Política de Privacidad</h3>
+                </div>
+                <button onclick="closeModal('modal-privacy')" class="text-slate-400 hover:text-white p-2 rounded-xl bg-cloverDark border border-cloverBorder transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto space-y-4 text-sm text-slate-300 font-light pr-2">
+                <p><strong>1. Recopilación de Datos:</strong> Clover Technology recopila información básica proporcionada voluntariamente a través de nuestros formularios de contacto y cotización (nombre, teléfono, correo y requerimientos del proyecto).</p>
+                <p><strong>2. Uso de la Información:</strong> Los datos proporcionados son utilizados exclusivamente para establecer comunicación directa vía WhatsApp o correo electrónico con el fin de gestionar presupuestos y propuestas técnicas.</p>
+                <p><strong>3. Protección de Datos:</strong> Implementamos estrictas medidas de seguridad y cifrado para proteger su información contra accesos no autorizados.</p>
+                <p><strong>4. Confidencialidad:</strong> No compartimos, vendemos ni cedemos datos personales o empresariales a terceros bajo ninguna circunstancia.</p>
+            </div>
+            <div class="pt-6 border-t border-cloverBorder mt-6 flex justify-end">
+                <button onclick="closeModal('modal-privacy')" class="bg-cloverDark hover:bg-slate-800 text-slate-200 border border-cloverBorder font-semibold px-6 py-2.5 rounded-xl transition text-xs">Cerrar Ventana</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón Flotante para Compartir con TikTok integrado -->
+    <div class="fixed bottom-6 left-6 z-40 flex flex-col items-start gap-2.5">
+        <!-- Opciones desplegables del menú compartir -->
+        <div id="share-menu" class="hidden flex-col gap-2 bg-cloverCard/95 backdrop-blur-xl border border-cloverBorder p-3 rounded-2xl shadow-2xl transition-all duration-300">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-2 pb-1 border-b border-cloverBorder">Compartir sitio</span>
+            
+            <!-- WhatsApp -->
+            <a id="share-whatsapp" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-emerald-500/20 hover:text-cloverGreen transition">
+                <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i> WhatsApp
+            </a>
+            <!-- TikTok -->
+            <a id="share-tiktok" href="https://www.tiktok.com" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-pink-500/20 hover:text-pink-400 transition">
+                <i class="fa-brands fa-tiktok text-pink-400 text-base"></i> TikTok Profile
+            </a>
+            <!-- Facebook -->
+            <a id="share-facebook" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-blue-500/20 hover:text-blue-400 transition">
+                <i class="fa-brands fa-facebook text-blue-500 text-base"></i> Facebook
+            </a>
+            <!-- X / Twitter -->
+            <a id="share-twitter" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-sky-500/20 hover:text-sky-400 transition">
+                <i class="fa-brands fa-x-twitter text-slate-200 text-base"></i> X (Twitter)
+            </a>
+            <!-- LinkedIn -->
+            <a id="share-linkedin" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-blue-600/20 hover:text-blue-300 transition">
+                <i class="fa-brands fa-linkedin text-blue-400 text-base"></i> LinkedIn
+            </a>
+            <!-- Copiar Enlace -->
+            <button onclick="copyURL()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 transition text-left">
+                <i class="fa-solid fa-link text-cloverGreen text-base"></i> Copiar Link
+            </button>
+        </div>
+
+        <!-- Botón Principal Flotante -->
+        <button id="share-btn" onclick="toggleShareMenu()" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-slate-950 font-bold flex items-center justify-center text-xl shadow-xl shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none" title="Compartir Sitio">
+            <i class="fa-solid fa-share-nodes"></i>
+        </button>
+    </div>
+
+    <!-- Notificación emergente al copiar link -->
+    <div id="copy-toast" class="fixed bottom-24 left-6 z-50 bg-cloverGreen text-slate-950 text-xs font-bold px-4 py-2.5 rounded-xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300">
+        ¡En enlace copiado al portapapeles!
+    </div>
+
+    <!-- Script General, Modales CRUD y Compartir -->
+    <script>
+        // Toggle menú móvil
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Funciones para el manejo de Ventanas Modales CRUD (Solo Lectura)
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Evita scroll de fondo
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto'; // Restaura scroll
+        }
+
+        // Cerrar modal al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            if (event.target.classList.contains('fixed') && event.target.id.startsWith('modal-')) {
+                event.target.classList.add('hidden');
+                event.target.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Configuración de Enlaces para el Menú Compartir Redes Sociales
+        const currentUrl = encodeURIComponent(window.location.href);
+        const shareTitle = encodeURIComponent("Clover Technology | Desarrollo Web, Consultoría & Inteligencia Artificial");
+        
+        document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${shareTitle}%20-%20${currentUrl}`;
+        document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+        document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${currentUrl}`;
+        document.getElementById('share-linkedin').href = `https://www.linkedin.com/sharing/share-offsite/?url=${currentUrl}`;
+
+        // Toggle del menú desplegable de compartir
+        function toggleShareMenu() {
+            const menu = document.getElementById('share-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menu.classList.add('flex');
+            } else {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+            }
+        }
+
+        // Función para copiar URL al portapapeles
+        function copyURL() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const toast = document.getElementById('copy-toast');
+                toast.classList.remove('opacity-0', 'pointer-events-none');
+                toast.classList.add('opacity-100');
+                
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0', 'pointer-events-none');
+                }, 2500);
+
+                toggleShareMenu();
+            });
+        }
+
+        // Función para compilar el formulario y enviarlo a WhatsApp +593967879068
+        function sendToWhatsApp(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const contact = document.getElementById('contact-info').value.trim();
+            const service = document.getElementById('service').value;
+            const budget = document.getElementById('budget').value;
+            const timeline = document.getElementById('timeline').value;
+            const hosting = document.getElementById('hosting').value;
+            const message = document.getElementById('message').value.trim();
+            
+            const phoneNumber = "593967879068";
+            
+            const text = `Hola *Clover Technology*, deseo cotizar un proyecto con los siguientes datos:\n\n` +
+                         `👤 *Nombre/Empresa:* ${name}\n` +
+                         `📞 *Contacto:* ${contact}\n` +
+                         `🛠️ *Servicio:* ${service}\n` +
+                         `💰 *Presupuesto:* ${budget}\n` +
+                         `⏱️ *Plazo:* ${timeline}\n` +
+                         `🌐 *Dominio/Hosting:* ${hosting}\n\n` +
+                         `📝 *Detalles del Proyecto:*\n${message}`;
+            
+            const encodedText = encodeURIComponent(text);
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+            
+            window.open(whatsappURL, '_blank');
+        }
+    </script>
+</body>
+</html>
