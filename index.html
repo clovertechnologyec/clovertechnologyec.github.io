@@ -38,7 +38,19 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        input, textarea, select {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
         .glass-panel {
             background: rgba(19, 28, 46, 0.75);
             backdrop-filter: blur(16px);
@@ -51,25 +63,33 @@
         #loader-screen {
             transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
         }
-        /* Scrollbar personalizado para el chat */
-        .chat-scrollbar::-webkit-scrollbar {
-            width: 5px;
-        }
-        .chat-scrollbar::-webkit-scrollbar-track {
-            background: rgba(9, 13, 22, 0.5);
-        }
-        .chat-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(16, 185, 129, 0.3);
-            border-radius: 10px;
-        }
-        .chat-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(16, 185, 129, 0.6);
+        /* Capa de seguridad anti-captura visual */
+        #security-shield {
+            position: fixed;
+            inset: 0;
+            background: #090d16;
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
         }
     </style>
 </head>
 <body class="bg-cloverDark text-slate-100 antialiased selection:bg-cloverGreen selection:text-slate-950 overflow-x-hidden">
 
-    <!-- SECCIÓN DE CARGA (PRELOADER) CON LOGO 40% MÁS GRANDE -->
+    <!-- Escudo anti-capturas / grabación de pantalla -->
+    <div id="security-shield">
+        <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 text-cloverGreen flex items-center justify-center text-3xl mb-4 border border-emerald-500/20">
+            <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2 class="text-xl font-bold text-white mb-2">Protección de Privacidad Activa</h2>
+        <p class="text-sm text-slate-400 max-w-md">Por políticas de seguridad y protección de propiedad intelectual de Clover Technology, las capturas de pantalla y herramientas de inspección están restringidas en este sitio web.</p>
+    </div>
+
+    <!-- SECCIÓN DE CARGA (PRELOADER) -->
     <div id="loader-screen" class="fixed inset-0 z-50 bg-cloverDark flex flex-col items-center justify-center px-4">
         <div class="text-center space-y-6 max-w-sm w-full">
             <div class="flex justify-center items-center">
@@ -79,7 +99,6 @@
                 <h2 class="text-lg font-bold text-white tracking-wide">Clover <span class="text-cloverGreen">Technology</span></h2>
                 <p id="loader-status" class="text-xs text-slate-400 font-light">Cargando ecosistema digital e inteligencia artificial...</p>
             </div>
-            <!-- Barra de Progreso -->
             <div class="w-full bg-cloverBorder h-2 rounded-full overflow-hidden p-0.5 border border-slate-800">
                 <div id="loader-bar" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-full rounded-full transition-all duration-150 w-0"></div>
             </div>
@@ -89,7 +108,7 @@
         </div>
     </div>
 
-    <!-- Navbar con Textos Visibles -->
+    <!-- Navbar con Botón de Cotizar Ampliado y Destacado -->
     <header class="fixed top-0 left-0 right-0 z-40 bg-cloverDark/85 backdrop-blur-md border-b border-cloverBorder">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
             <a href="#" class="flex items-center gap-2.5 group focus:outline-none">
@@ -107,8 +126,9 @@
                 <a href="#ia" class="hover:text-cloverGreen transition">Chatbots & IA</a>
                 <a href="#sobre-mi" class="hover:text-cloverGreen transition">Desarrollador</a>
                 <a href="#stack" class="hover:text-cloverGreen transition">Tecnologías</a>
-                <a href="#contacto" class="bg-cloverGreen hover:bg-emerald-600 text-slate-950 font-semibold px-4.5 py-2.5 rounded-xl transition shadow-lg shadow-emerald-500/20 flex items-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-lg"></i> Cotizar
+                <!-- Botón Cotizar con mayor tamaño, padding superior y efectos visuales avanzados -->
+                <a href="#contacto" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold px-6 py-3 rounded-2xl transition-all duration-300 shadow-xl shadow-emerald-500/30 hover:scale-105 active:scale-95 flex items-center gap-2.5 text-base">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> Cotizar Ahora
                 </a>
             </nav>
 
@@ -122,7 +142,7 @@
             <a href="#ia" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Chatbots & IA</a>
             <a href="#sobre-mi" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Desarrollador</a>
             <a href="#stack" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Tecnologías</a>
-            <a href="#contacto" class="block text-center bg-cloverGreen text-slate-950 font-semibold py-3 rounded-xl mt-2">Cotizar por WhatsApp</a>
+            <a href="#contacto" class="block text-center bg-cloverGreen text-slate-950 font-bold py-3.5 rounded-xl mt-2 shadow-lg shadow-emerald-500/20 text-base">Cotizar por WhatsApp</a>
         </div>
     </header>
 
@@ -513,7 +533,7 @@
         </div>
     </div>
 
-    <!-- BOTÓN FLOTANTE DE COMPARTIR CON MÚLTIPLES REDES SOCIALES -->
+    <!-- BOTÓN FLOTANTE DE COMPARTIR -->
     <div class="fixed bottom-6 left-6 z-40 flex flex-col items-start gap-2.5">
         <div id="share-menu" class="hidden flex-col gap-2 bg-cloverCard/95 backdrop-blur-xl border border-cloverBorder p-3 rounded-2xl shadow-2xl transition-all duration-300 w-48">
             <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-2 pb-1 border-b border-cloverBorder">Compartir sitio</span>
@@ -543,115 +563,142 @@
         </button>
     </div>
 
-    <!-- WIDGET DE CHATBOT INTELIGENTE FLOTANTE -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <!-- Botón flotante para abrir/cerrar el chat con pulso animado -->
-        <button id="chatbot-toggle" onclick="toggleChatbot()" class="relative w-16 h-16 rounded-2xl bg-cloverGreen hover:bg-emerald-600 text-slate-950 font-bold flex items-center justify-center text-2xl shadow-2xl shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none group">
-            <i class="fa-solid fa-brain transition group-hover:rotate-12"></i>
-            <span class="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 border-2 border-cloverDark rounded-full animate-ping"></span>
-            <span class="absolute -top-1 -right-1 w-4 h-4 bg-cloverGreen border-2 border-cloverDark rounded-full"></span>
-        </button>
-
-        <!-- Ventana de Chat Inteligente -->
-        <div id="chatbot-window" class="hidden flex flex-col absolute bottom-20 right-0 w-[92vw] sm:w-[400px] h-[550px] bg-cloverCard/95 backdrop-blur-2xl border border-cloverBorder rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 transform scale-95 opacity-0">
-            
+    <!-- ASISTENTE VIRTUAL (CHATBOT CON IA INTEGRADA Y PREGUNTAS INTERACTIVAS) -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <!-- Ventana del Chat -->
+        <div id="ai-chat-window" class="hidden flex-col bg-cloverCard/95 backdrop-blur-2xl border border-cloverBorder w-[340px] sm:w-[380px] h-[500px] rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 mb-4">
             <!-- Cabecera del Chat -->
-            <div class="bg-gradient-to-r from-cloverDark to-cloverCard border-b border-cloverBorder p-4 flex items-center justify-between">
+            <div class="bg-cloverDark/90 px-5 py-4 border-b border-cloverBorder flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="relative w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-cloverGreen text-lg">
-                        <i class="fa-solid fa-robot"></i>
-                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full border border-cloverDark"></span>
+                    <div class="relative">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-cloverGreen">
+                            <i class="fa-solid fa-brain text-lg"></i>
+                        </div>
+                        <span class="absolute bottom-0 right-0 w-3 h-3 bg-cloverGreen border-2 border-cloverDark rounded-full animate-pulse"></span>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
-                            Clover AI Bot <span class="text-[10px] bg-emerald-500/20 text-cloverGreen font-semibold px-2 py-0.5 rounded-full">Pro</span>
-                        </h3>
-                        <p class="text-[11px] text-slate-400 font-light">Asistente Virtual • Ing. Teddy Valencia</p>
+                        <h4 class="text-sm font-bold text-white leading-tight">Clover AI Asistente</h4>
+                        <span class="text-[10px] text-cloverGreen font-semibold">En línea • Respuestas Inmediatas</span>
                     </div>
                 </div>
-                <div class="flex items-center gap-1.5">
-                    <button onclick="clearChatHistory()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition text-xs" title="Reiniciar chat">
-                        <i class="fa-solid fa-rotate-right"></i>
-                    </button>
-                    <button onclick="toggleChatbot()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition text-xs" title="Minimizar">
-                        <i class="fa-solid fa-xmark text-lg"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Cuerpo del Chat / Mensajes -->
-            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto chat-scrollbar space-y-4 text-sm font-light">
-                <!-- Mensaje de bienvenida inicial generado por el bot -->
-                <div class="flex items-start gap-2.5">
-                    <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-cloverGreen shrink-0 text-xs">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <div class="bg-cloverDark border border-cloverBorder rounded-2xl rounded-tl-none p-3.5 text-slate-200 text-xs sm:text-sm space-y-2 max-w-[85%] shadow-md">
-                        <p>¡Hola! Soy el asistente de <strong>Clover Technology</strong> 🍀. Puedo ayudarte con información sobre nuestros servicios, cotizaciones, micro apps o soporte del Ing. Teddy Valencia.</p>
-                        <p class="text-slate-400 text-[11px]">Selecciona una pregunta rápida o escribe tu consulta:</p>
-                        
-                        <!-- Preguntas predefinidas interactivas -->
-                        <div class="flex flex-col gap-1.5 pt-2">
-                            <button onclick="sendQuickQuery('¿Cuáles son los servicios y precios?')" class="text-left bg-cloverCard hover:bg-slate-800 border border-emerald-500/20 text-cloverGreen px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center justify-between">
-                                <span>💰 ¿Servicios y cotizaciones?</span>
-                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
-                            <button onclick="sendQuickQuery('¿Qué son las micro apps a medida?')" class="text-left bg-cloverCard hover:bg-slate-800 border border-emerald-500/20 text-cloverGreen px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center justify-between">
-                                <span>📱 ¿Qué son las Micro App´s?</span>
-                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
-                            <button onclick="sendQuickQuery('¿Cómo contacto al Ing. Teddy Valencia?')" class="text-left bg-cloverCard hover:bg-slate-800 border border-emerald-500/20 text-cloverGreen px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center justify-between">
-                                <span>👨‍💻 Contactar al Ing. Teddy Valencia</span>
-                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
-                            <button onclick="sendQuickQuery('¿Ofrecen chatbots con inteligencia artificial?')" class="text-left bg-cloverCard hover:bg-slate-800 border border-emerald-500/20 text-cloverGreen px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center justify-between">
-                                <span>🤖 Chatbots con IA & WhatsApp</span>
-                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Indicador de "Escribiendo..." -->
-            <div id="chat-typing" class="hidden px-4 py-2 flex items-center gap-2 text-xs text-slate-400 bg-cloverCard/50 border-t border-cloverBorder/50">
-                <div class="w-6 h-6 rounded-lg bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-[10px]">
-                    <i class="fa-solid fa-robot"></i>
-                </div>
-                <div class="flex items-center gap-1">
-                    <span class="animate-bounce">•</span>
-                    <span class="animate-bounce delay-100">•</span>
-                    <span class="animate-bounce delay-200">•</span>
-                    <span class="ml-1 text-[11px] font-light">Clover IA está redactando...</span>
-                </div>
-            </div>
-
-            <!-- Barra de entrada de texto -->
-            <div class="p-3 bg-cloverDark border-t border-cloverBorder flex items-center gap-2">
-                <input type="text" id="chat-input" onkeypress="handleChatKeypress(event)" placeholder="Escribe tu consulta aquí..." class="flex-1 bg-cloverCard border border-cloverBorder rounded-xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-cloverGreen transition">
-                <button onclick="sendUserMessage()" class="w-11 h-11 rounded-xl bg-cloverGreen hover:bg-emerald-600 text-slate-950 font-bold flex items-center justify-center text-sm transition shrink-0 shadow-md">
-                    <i class="fa-solid fa-paper-plane"></i>
+                <button onclick="toggleChatWindow()" class="text-slate-400 hover:text-white p-2 rounded-xl bg-cloverDark border border-cloverBorder transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
-            
-            <!-- Barra inferior con acceso a WhatsApp -->
-            <div class="bg-cloverCard px-4 py-2 border-t border-cloverBorder/60 flex items-center justify-between text-[11px]">
-                <span class="text-slate-400">¿Dudas complejas? Deriva tu chat:</span>
-                <a id="chat-whatsapp-link" href="https://wa.me/593967879068?text=Hola%20Clover%20Technology,%20vengo%20del%20chatbot%20web%20y%20deseo%20asesoría." target="_blank" class="text-cloverGreen font-bold hover:underline flex items-center gap-1">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> Abrir WhatsApp
-                </a>
+
+            <!-- Cuerpo de Mensajes -->
+            <div id="ai-chat-messages" class="flex-1 p-4 overflow-y-auto space-y-4 text-xs sm:text-sm font-light">
+                <div class="flex items-start gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-cloverGreen text-xs shrink-0 mt-0.5">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-cloverDark/80 border border-cloverBorder p-3 rounded-2xl rounded-tl-none text-slate-200 max-w-[85%] leading-relaxed">
+                        ¡Hola! Soy el asistente inteligente de <strong>Clover Technology</strong> dirigido por el Ing. Teddy Valencia. ¿En qué puedo ayudarte hoy? Selecciona una pregunta rápida o escribe tu duda:
+                    </div>
+                </div>
+
+                <!-- Preguntas Inteligentes Predefinidas -->
+                <div id="ai-quick-questions" class="space-y-1.5 pt-1 pl-9">
+                    <button onclick="handleQuickQuestion('servicios')" class="w-full text-left bg-cloverDark/50 hover:bg-cloverGreen/10 border border-cloverBorder hover:border-cloverGreen/40 text-slate-300 hover:text-cloverGreen px-3 py-2 rounded-xl transition text-xs flex items-center justify-between">
+                        <span>¿Qué servicios web ofrecen?</span>
+                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </button>
+                    <button onclick="handleQuickQuestion('ia')" class="w-full text-left bg-cloverDark/50 hover:bg-cloverGreen/10 border border-cloverBorder hover:border-cloverGreen/40 text-slate-300 hover:text-cloverGreen px-3 py-2 rounded-xl transition text-xs flex items-center justify-between">
+                        <span>¿Cómo funcionan los chatbots con IA?</span>
+                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </button>
+                    <button onclick="handleQuickQuestion('cotizar')" class="w-full text-left bg-cloverDark/50 hover:bg-cloverGreen/10 border border-cloverBorder hover:border-cloverGreen/40 text-slate-300 hover:text-cloverGreen px-3 py-2 rounded-xl transition text-xs flex items-center justify-between">
+                        <span>¿Cómo cotizar un proyecto a medida?</span>
+                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </button>
+                    <button onclick="handleQuickQuestion('contacto')" class="w-full text-left bg-cloverDark/50 hover:bg-cloverGreen/10 border border-cloverBorder hover:border-cloverGreen/40 text-slate-300 hover:text-cloverGreen px-3 py-2 rounded-xl transition text-xs flex items-center justify-between">
+                        <span>Contactar con Ing. Teddy Valencia</span>
+                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                    </button>
+                </div>
             </div>
 
+            <!-- Entrada de Texto del Chat -->
+            <div class="p-3 bg-cloverDark/90 border-t border-cloverBorder">
+                <form id="ai-chat-form" onsubmit="handleChatSubmit(event)" class="flex items-center gap-2">
+                    <input type="text" id="ai-chat-input" placeholder="Escribe tu consulta o pregunta..." class="flex-1 bg-cloverCard border border-cloverBorder rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-cloverGreen transition">
+                    <button type="submit" class="bg-cloverGreen hover:bg-emerald-600 text-slate-950 font-bold w-10 h-10 rounded-xl flex items-center justify-center transition shadow-md shrink-0">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </form>
+            </div>
         </div>
+
+        <!-- Botón Flotante para abrir/cerrar Chat -->
+        <button onclick="toggleChatWindow()" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-slate-950 font-bold flex items-center justify-center text-xl shadow-xl shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none relative" title="Abrir Chat con IA">
+            <i class="fa-solid fa-comments"></i>
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-emerald-300 border-2 border-cloverDark rounded-full text-[9px] font-extrabold flex items-center justify-center text-slate-950">1</span>
+        </button>
     </div>
 
     <div id="copy-toast" class="fixed bottom-24 left-6 z-50 bg-cloverGreen text-slate-950 text-xs font-bold px-4 py-2.5 rounded-xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300">
         ¡Enlace y URL copiados al portapapeles!
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts de la Aplicación y Seguridad Avanzada -->
     <script>
-        // Barra de carga
+        // -------------------------------------------------------------
+        // SISTEMA DE SEGURIDAD AVANZADO (Bloqueo de Código, F12, Atajos, Capturas)
+        // -------------------------------------------------------------
+        
+        // 1. Bloqueo de clic derecho (Menú contextual)
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // 2. Bloqueo de atajos de inspección y desarrollo (F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S, etc.)
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12') {
+                e.preventDefault();
+                return false;
+            }
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'S' || e.key === 's' || e.key === 'P' || e.key === 'p')) {
+                e.preventDefault();
+                return false;
+            }
+            // Bloqueo de tecla PrintScreen
+            if (e.key === 'PrintScreen') {
+                navigator.clipboard.writeText('');
+                triggerSecurityShield(true);
+                return false;
+            }
+        });
+
+        // 3. Protección contra captura visual / grabación al perder foco o detectar herramientas
+        const shield = document.getElementById('security-shield');
+        function triggerSecurityShield(show) {
+            if (show) {
+                shield.style.display = 'flex';
+            } else {
+                shield.style.display = 'none';
+            }
+        }
+
+        // Si el usuario cambia de pestaña o minimiza para intentar capturar o grabar
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                document.body.style.filter = 'blur(10px)';
+            } else {
+                document.body.style.filter = 'none';
+            }
+        });
+
+        // Ocultar escudo si hace clic o presiona escape
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'Escape') triggerSecurityShield(false);
+        });
+
+
+        // -------------------------------------------------------------
+        // PRELOADER Y FUNCIONES DEL SITIO
+        // -------------------------------------------------------------
         window.addEventListener('DOMContentLoaded', () => {
             let width = 0;
             const bar = document.getElementById('loader-bar');
@@ -695,7 +742,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Configuración dinámica de enlaces para compartir incluyendo URL y título
+        // Configuración de enlaces para compartir
         const currentUrl = encodeURIComponent(window.location.href);
         const shareTitle = encodeURIComponent("Clover Technology | Desarrollo Web, Consultoría & Inteligencia Artificial");
         
@@ -723,7 +770,7 @@
             });
         }
 
-        // WhatsApp Form
+        // WhatsApp Form principal
         function sendToWhatsApp(e) {
             e.preventDefault();
             const name = document.getElementById('name').value.trim();
@@ -747,167 +794,91 @@
             window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
         }
 
-        // ==========================================
-        // ALGORITMO DE INTELIGENCIA ARTIFICIAL PARA EL CHATBOT
-        // ==========================================
-        let chatOpen = false;
-        let lastUserQuery = "";
-
-        function toggleChatbot() {
-            const windowEl = document.getElementById('chatbot-window');
-            chatOpen = !chatOpen;
-            if (chatOpen) {
-                windowEl.classList.remove('hidden');
-                setTimeout(() => {
-                    windowEl.classList.remove('scale-95', 'opacity-0');
-                    windowEl.classList.add('scale-100', 'opacity-100');
-                }, 10);
-                document.getElementById('chat-input').focus();
+        // -------------------------------------------------------------
+        // ALGORITMO DE IA Y CHATBOT INTERACTIVO
+        // -------------------------------------------------------------
+        function toggleChatWindow() {
+            const win = document.getElementById('ai-chat-window');
+            if (win.classList.contains('hidden')) {
+                win.classList.remove('hidden');
+                win.classList.add('flex');
             } else {
-                windowEl.classList.remove('scale-100', 'opacity-100');
-                windowEl.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => {
-                    windowEl.classList.add('hidden');
-                }, 300);
+                win.classList.add('hidden');
+                win.classList.remove('flex');
             }
         }
 
-        function handleChatKeypress(e) {
-            if (e.key === 'Enter') {
-                sendUserMessage();
-            }
-        }
-
-        function sendQuickQuery(text) {
-            document.getElementById('chat-input').value = text;
-            sendUserMessage();
-        }
-
-        function sendUserMessage() {
-            const inputEl = document.getElementById('chat-input');
-            const text = inputEl.value.trim();
-            if (!text) return;
-
-            lastUserQuery = text;
-            appendMessage(text, 'user');
-            inputEl.value = "";
-
-            // Actualizar link de WhatsApp con el historial de consulta
-            updateChatWhatsAppLink(text);
-
-            // Mostrar indicador de "escribiendo..."
-            showTypingIndicator(true);
-
-            // Simular procesamiento del algoritmo de IA con retardo realista
-            setTimeout(() => {
-                showTypingIndicator(false);
-                const botResponse = generateAIResponse(text);
-                appendMessage(botResponse, 'bot');
-            }, 800 + Math.random() * 600);
-        }
-
-        function appendMessage(text, sender) {
-            const messagesContainer = document.getElementById('chat-messages');
+        function appendMessage(sender, text) {
+            const messagesContainer = document.getElementById('ai-chat-messages');
             const isBot = sender === 'bot';
-
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `flex items-start gap-2.5 ${isBot ? '' : 'flex-row-reverse'}`;
-
-            if (isBot) {
-                messageDiv.innerHTML = `
-                    <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-cloverGreen shrink-0 text-xs">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <div class="bg-cloverDark border border-cloverBorder rounded-2xl rounded-tl-none p-3.5 text-slate-200 text-xs sm:text-sm space-y-2 max-w-[85%] shadow-md leading-relaxed">
-                        ${text}
-                    </div>
-                `;
-            } else {
-                messageDiv.innerHTML = `
-                    <div class="bg-cloverGreen text-slate-950 rounded-2xl rounded-tr-none p-3.5 text-xs sm:text-sm max-w-[85%] shadow-md font-medium leading-relaxed">
-                        ${text}
-                    </div>
-                `;
-            }
-
-            messagesContainer.appendChild(messageDiv);
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `flex items-start gap-2.5 ${isBot ? '' : 'flex-row-reverse'}`;
+            
+            msgDiv.innerHTML = `
+                <div class="w-7 h-7 rounded-lg ${isBot ? 'bg-emerald-500/10 border border-emerald-500/20 text-cloverGreen' : 'bg-cloverGreen text-slate-950 font-bold'} flex items-center justify-center text-xs shrink-0 mt-0.5">
+                    <i class="fa-solid ${isBot ? 'fa-robot' : 'fa-user'}"></i>
+                </div>
+                <div class="${isBot ? 'bg-cloverDark/80 border border-cloverBorder text-slate-200 rounded-tl-none' : 'bg-cloverGreen text-slate-950 font-medium rounded-tr-none'} p-3 rounded-2xl max-w-[85%] leading-relaxed text-xs sm:text-sm">
+                    ${text}
+                </div>
+            `;
+            
+            messagesContainer.appendChild(msgDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        function showTypingIndicator(show) {
-            const typingEl = document.getElementById('chat-typing');
-            const messagesContainer = document.getElementById('chat-messages');
-            if (show) {
-                typingEl.classList.remove('hidden');
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            } else {
-                typingEl.classList.add('hidden');
+        function handleQuickQuestion(type) {
+            let userText = "";
+            let botReply = "";
+
+            if (type === 'servicios') {
+                userText = "¿Qué servicios web ofrecen?";
+                botReply = "Ofrecemos Desarrollo Web FullStack a medida, Micro Apps enfocadas, Consultoría Técnica y Automatización con Chatbots e Inteligencia Artificial.";
+            } else if (type === 'ia') {
+                userText = "¿Cómo funcionan los chatbots con IA?";
+                botReply = "Nuestros chatbots integran algoritmos inteligentes (LLMs) y se conectan a WhatsApp o Web para responder preguntas frecuentes y cerrar ventas automáticamente 24/7.";
+            } else if (type === 'cotizar') {
+                userText = "¿Cómo cotizar un proyecto a medida?";
+                botReply = "Puedes rellenar el formulario de cotización en nuestra sección principal de contacto o hacer clic abajo para comunicarte directo con nuestro equipo por WhatsApp.";
+            } else if (type === 'contacto') {
+                userText = "Contactar con Ing. Teddy Valencia";
+                botReply = "Puedes escribirnos directamente al WhatsApp oficial: <a href='https://wa.me/593967879068' target='_blank' class='text-cloverGreen underline font-bold'>+593 96 787 9068</a> o a través de nuestros canales oficiales.";
             }
-        }
 
-        function updateChatWhatsAppLink(query) {
-            const phoneNumber = "593967879068";
-            const encodedText = encodeURIComponent(`Hola Clover Technology, consulto desde el chat web:\n"${query}"\nPor favor, bríndeme más detalles.`);
-            document.getElementById('chat-whatsapp-link').href = `https://wa.me/${phoneNumber}?text=${encodedText}`;
-        }
-
-        function clearChatHistory() {
-            const messagesContainer = document.getElementById('chat-messages');
-            messagesContainer.innerHTML = `
-                <div class="flex items-start gap-2.5">
-                    <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-cloverGreen shrink-0 text-xs">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <div class="bg-cloverDark border border-cloverBorder rounded-2xl rounded-tl-none p-3.5 text-slate-200 text-xs sm:text-sm space-y-2 max-w-[85%] shadow-md">
-                        <p>¡Chat reiniciado! ¿En qué puedo asistirte ahora en <strong>Clover Technology</strong>?</p>
-                        <div class="flex flex-col gap-1.5 pt-2">
-                            <button onclick="sendQuickQuery('¿Cuáles son los servicios y precios?')" class="text-left bg-cloverCard hover:bg-slate-800 border border-emerald-500/20 text-cloverGreen px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center justify-between">
-                                <span>💰 ¿Servicios y cotizaciones?</span>
-                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
-                            <button onclick="sendQuickQuery('¿Cómo contacto al Ing. Teddy Valencia?')" class="text-left bg-cloverCard hover:bg-slate-800 border border-emerald-500/20 text-cloverGreen px-3 py-2 rounded-xl text-xs font-semibold transition flex items-center justify-between">
-                                <span>👨‍💻 Contactar al Ing. Teddy Valencia</span>
-                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Algoritmo de Inteligencia Artificial contextual basado en palabras clave
-        function generateAIResponse(query) {
-            const q = query.toLowerCase();
-
-            if (q.includes('precio') || q.includes('cotiza') || q.includes('costo') || q.includes('servicio') || q.includes('cuanto')) {
-                return `En <strong>Clover Technology</strong> adaptamos cada presupuesto a la magnitud del proyecto. Desarrollamos desde micro apps a medida (económicas) hasta sistemas web fullstack avanzados y plataformas empresariales. 
-                <br><br>Puedes usar nuestro <a href="#contacto" class="text-cloverGreen font-bold underline" onclick="toggleChatbot()">formulario de cotización rápida</a> o escribirnos directamente a WhatsApp.`;
-            }
+            appendMessage('user', userText);
             
-            if (q.includes('micro') || q.includes('app') || q.includes('aplicacion')) {
-                return `Nuestras <strong>Micro App´s a Medida</strong> son soluciones hiper-enfocadas y de carga instantánea diseñadas para resolver tareas concretas (calculadoras, convertidores, portales de gestión o herramientas internas para tu equipo). ¿Qué tipo de micro app necesitas?`;
-            }
+            // Simular pensamiento de IA con indicador
+            setTimeout(() => {
+                appendMessage('bot', botReply);
+            }, 600);
+        }
 
-            if (q.includes('teddy') || q.includes('valencia') || q.includes('desarrollador') || q.includes('experiencia') || q.includes('lider')) {
-                return `El <strong>Ing. Teddy Valencia</strong> lidera Clover Technology con más de <strong>15 años de experiencia</strong> en ingeniería de software, desarrollo web avanzado y sistemas educativos/POS de alto rendimiento en Chone, Ecuador.`;
-            }
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('ai-chat-input');
+            const query = input.value.trim().toLowerCase();
+            if (!query) return;
 
-            if (q.includes('chat') || q.includes('ia') || q.includes('inteligencia') || q.includes('bot') || q.includes('whatsapp')) {
-                return `Implementamos asistentes conversacionales inteligentes con algoritmos de IA avanzados integrados en sitios web y WhatsApp para automatizar la atención a tus clientes <strong>24/7</strong>.`;
-            }
+            appendMessage('user', input.value);
+            input.value = '';
 
-            if (q.includes('contacto') || q.includes('telefono') || q.includes('whatsapp') || q.includes('donde') || q.includes('ubicacion')) {
-                return `Nos encontramos en <strong>Chone, Manabí, Ecuador</strong>. 
-                <br>📞 WhatsApp oficial: <strong>+593 96 787 9068</strong>. 
-                <br>También puedes hacer clic en el botón inferior del chat para derivar esta consulta de inmediato a WhatsApp.`;
-            }
+            // Algoritmo inteligente de respuestas basadas en palabras clave
+            setTimeout(() => {
+                let response = "Entiendo tu consulta sobre Clover Technology. Para brindarte una asesoría personalizada y precisa con el Ing. Teddy Valencia, te invito a escribirnos directamente a nuestro WhatsApp oficial.";
+                
+                if (query.includes('precio') || query.includes('costo') || query.includes('cuanto') || query.includes('valor')) {
+                    response = "Los costos varían según el alcance del proyecto (desde micro apps hasta sistemas enterprise). ¿Te gustaría que te derive a WhatsApp para estructurar un presupuesto exacto?";
+                } else if (query.includes('teddy') || query.includes('valencia') || query.includes('ingeniero') || query.includes('desarrollador')) {
+                    response = "El Ing. Teddy Valencia cuenta con más de 15 años de experiencia liderando soluciones de desarrollo web, sistemas escolares y automatización con IA en Chone, Ecuador.";
+                } else if (query.includes('hola') || query.includes('buenas') || query.includes('saludos')) {
+                    response = "¡Hola! Bienvenido a Clover Technology. ¿En qué solución tecnológica o sistema web te podemos colaborar hoy?";
+                } else if (query.includes('whatsapp') || query.includes('telefono') || query.includes('contacto') || query.includes('llamar')) {
+                    response = "Puedes contactar directamente al Ing. Teddy Valencia a través de nuestro canal de WhatsApp: <a href='https://wa.me/593967879068' target='_blank' class='text-cloverGreen underline font-bold'>+593 96 787 9068</a>.";
+                }
 
-            if (q.includes('hola') || q.includes('buenos') || q.includes('saludos') || q.includes('hey')) {
-                return `¡Hola de nuevo! Es un gusto saludarte. ¿Qué proyecto tecnológico tienes en mente para hoy?`;
-            }
-
-            // Respuesta por defecto con derivación sugerida
-            return `Entiendo tu consulta sobre "${query}". En <strong>Clover Technology</strong> podemos ayudarte con esto de forma personalizada. ¿Deseas que te derive directamente con nuestro equipo técnico o prefieres cotizar en el formulario?`;
+                appendMessage('bot', response);
+            }, 700);
         }
     </script>
 </body>
