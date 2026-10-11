@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clover Technology | Desarrollo Web, Consultoría & Inteligencia Artificial</title>
+    
+    <!-- Metaetiquetas Open Graph (OG) para compartir con logo y URL en redes sociales -->
+    <meta property="og:title" content="Clover Technology | Desarrollo Web, Consultoría & IA">
+    <meta property="og:description" content="Soluciones avanzadas en desarrollo web full-stack, micro apps a medida, consultoría técnica y automatización con IA.">
+    <meta property="og:image" content="logo.png">
+    <meta property="og:url" content="">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Clover Technology | Desarrollo Web, Consultoría & IA">
+    <meta name="twitter:description" content="Soluciones avanzadas en desarrollo web full-stack, micro apps a medida y automatización con IA.">
+    <meta name="twitter:image" content="logo.png">
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="logo.png">
     <!-- Tailwind CSS CDN -->
@@ -37,7 +48,6 @@
         .glow-effect {
             box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.15);
         }
-        /* Estilos para la Pantalla de Carga */
         #loader-screen {
             transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
         }
@@ -45,12 +55,12 @@
 </head>
 <body class="bg-cloverDark text-slate-100 antialiased selection:bg-cloverGreen selection:text-slate-950 overflow-x-hidden">
 
-    <!-- SECCIÓN DE CARGA (PRELOADER) CON LOGO AMPLIADO 40% Y BARRA DE CARGA -->
+    <!-- SECCIÓN DE CARGA (PRELOADER) CON LOGO 40% MÁS GRANDE -->
     <div id="loader-screen" class="fixed inset-0 z-50 bg-cloverDark flex flex-col items-center justify-center px-4">
         <div class="text-center space-y-6 max-w-sm w-full">
-            <!-- Logo ampliado un 40% (h-16 w-auto o similar proporcionalmente mayor) -->
             <div class="flex justify-center items-center">
-                <img src="logo.png" alt="Clover Technology Logo" class="h-16 md:h-20 w-auto animate-pulse object-contain">
+                <!-- Logo ampliado un 40% (h-24 md:h-28) -->
+                <img src="logo.png" alt="Clover Technology Logo" class="h-24 md:h-28 w-auto animate-pulse object-contain drop-shadow-[0_0_20px_rgba(16,185,129,0.4)]">
             </div>
             <div class="space-y-2">
                 <h2 class="text-lg font-bold text-white tracking-wide">Clover <span class="text-cloverGreen">Technology</span></h2>
@@ -66,10 +76,9 @@
         </div>
     </div>
 
-    <!-- Navbar con Logotipo e ítems visibles -->
+    <!-- Navbar con Textos Visibles -->
     <header class="fixed top-0 left-0 right-0 z-40 bg-cloverDark/85 backdrop-blur-md border-b border-cloverBorder">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-            <!-- Logotipo -->
             <a href="#" class="flex items-center gap-2.5 group focus:outline-none">
                 <img src="logo.png" alt="Clover Technology" class="h-9 sm:h-10 w-auto object-contain">
                 <div class="flex flex-col">
@@ -80,7 +89,6 @@
                 </div>
             </a>
             
-            <!-- Navegación de Escritorio optimizada y visible -->
             <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium text-slate-200">
                 <a href="#servicios" class="hover:text-cloverGreen transition">Servicios</a>
                 <a href="#ia" class="hover:text-cloverGreen transition">Chatbots & IA</a>
@@ -91,13 +99,11 @@
                 </a>
             </nav>
 
-            <!-- Botón Menú Móvil -->
             <button id="menu-btn" class="lg:hidden text-2xl text-slate-300 focus:outline-none p-2">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
 
-        <!-- Menú Móvil Desplegable -->
         <div id="mobile-menu" class="hidden lg:hidden bg-cloverCard border-b border-cloverBorder px-6 py-5 space-y-4 shadow-2xl">
             <a href="#servicios" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Servicios</a>
             <a href="#ia" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Chatbots & IA</a>
@@ -131,7 +137,6 @@
                 </a>
             </div>
 
-            <!-- Estadísticas -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-20 pt-12 border-t border-slate-800/80 max-w-3xl mx-auto">
                 <div>
                     <h4 class="text-3xl font-bold text-white mb-1">+15</h4>
@@ -158,7 +163,6 @@
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Tarjeta 1 -->
                 <div class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between">
                     <div>
                         <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-2xl mb-6 group-hover:scale-110 group-hover:bg-cloverGreen group-hover:text-slate-950 transition duration-300">
@@ -171,7 +175,6 @@
                     </div>
                 </div>
 
-                <!-- Tarjeta 2: Micro Apps -->
                 <div class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between border-cloverGreen/30 relative">
                     <div class="absolute -top-3 right-6 bg-cloverGreen text-slate-950 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full shadow-md">
                         Alta Demanda
@@ -182,12 +185,11 @@
                         </div>
                         <h4 class="text-xl font-bold text-white mb-3">Micro App´s a Medida</h4>
                         <p class="text-slate-400 text-sm leading-relaxed font-light">
-                            Desarrollo ágil de mini aplicaciones hiper-enfocadas para resolver tareas específicas: calculadoras de precios, herramientas de conversión, catálogos interactivos y simuladores.
+                            Desarrollo ágil de mini aplicaciones hiper-enfocadas para resolver tareas específicas: calculadoras, convertidores y simuladores web.
                         </p>
                     </div>
                 </div>
 
-                <!-- Tarjeta 3 -->
                 <div class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between">
                     <div>
                         <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-2xl mb-6 group-hover:scale-110 group-hover:bg-cloverGreen group-hover:text-slate-950 transition duration-300">
@@ -195,12 +197,11 @@
                         </div>
                         <h4 class="text-xl font-bold text-white mb-3">Consultoría Tecnológica</h4>
                         <p class="text-slate-400 text-sm leading-relaxed font-light">
-                            Asesoría experta en arquitectura de software, optimización de bases de datos, auditoría de código y selección del stack ideal para tu empresa.
+                            Asesoría experta en arquitectura de software, optimización de bases de datos, auditoría de código y selección del stack ideal.
                         </p>
                     </div>
                 </div>
 
-                <!-- Tarjeta 4 -->
                 <div id="ia" class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between">
                     <div>
                         <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-2xl mb-6 group-hover:scale-110 group-hover:bg-cloverGreen group-hover:text-slate-950 transition duration-300">
@@ -208,7 +209,7 @@
                         </div>
                         <h4 class="text-xl font-bold text-white mb-3">Chatbots & Algoritmos IA</h4>
                         <p class="text-slate-400 text-sm leading-relaxed font-light">
-                            Implementación de asistentes conversacionales inteligentes conectados a WhatsApp y Web, integrados con modelos de lenguaje avanzados (LLMs).
+                            Implementación de asistentes conversacionales inteligentes conectados a WhatsApp y Web con modelos avanzados (LLMs).
                         </p>
                     </div>
                 </div>
@@ -223,8 +224,6 @@
                 <div class="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
                 
                 <div class="grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
-                    
-                    <!-- Imagen del Desarrollador -->
                     <div class="md:col-span-5 flex flex-col items-center">
                         <div class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-3xl p-1.5 bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 shadow-2xl shadow-emerald-500/20 group">
                             <div class="w-full h-full rounded-[22px] overflow-hidden bg-cloverDark flex items-center justify-center relative">
@@ -240,7 +239,6 @@
                         </div>
                     </div>
 
-                    <!-- Biografía -->
                     <div class="md:col-span-7 space-y-6 text-center md:text-left">
                         <div>
                             <span class="inline-block text-xs font-bold uppercase tracking-widest text-cloverGreen mb-2">Liderazgo Técnico</span>
@@ -250,7 +248,6 @@
                             </p>
                         </div>
 
-                        <!-- Proyectos Destacados -->
                         <div class="grid sm:grid-cols-2 gap-4 pt-2 text-left">
                             <div class="bg-cloverDark/70 p-4 rounded-2xl border border-cloverBorder hover:border-cloverGreen/40 transition">
                                 <div class="flex items-center gap-2.5 mb-2 text-cloverGreen text-base">
@@ -273,7 +270,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -315,7 +311,7 @@
         </div>
     </section>
 
-    <!-- Sección de Contacto Avanzada con WhatsApp -->
+    <!-- Sección de Contacto -->
     <section id="contacto" class="py-24 px-6 relative">
         <div class="max-w-4xl mx-auto glass-panel p-6 sm:p-10 md:p-14 rounded-3xl shadow-2xl relative overflow-hidden">
             <div class="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -385,7 +381,7 @@
 
                 <div>
                     <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Descripción Detallada del Proyecto o Funcionalidades IA *</label>
-                    <textarea id="message" rows="4" required class="w-full bg-cloverDark border border-cloverBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-cloverGreen transition" placeholder="Describe brevemente qué objetivos buscas lograr, qué micro app necesitas o qué procesos deseas automatizar..."></textarea>
+                    <textarea id="message" rows="4" required class="w-full bg-cloverDark border border-cloverBorder rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-cloverGreen transition" placeholder="Describe brevemente qué objetivos buscas lograr..."></textarea>
                 </div>
 
                 <button type="submit" class="w-full bg-cloverGreen hover:bg-emerald-600 text-slate-950 font-bold py-4 rounded-xl transition shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-3 text-base">
@@ -408,7 +404,7 @@
                     <span class="text-xl font-extrabold text-white tracking-tight">Clover <span class="text-cloverGreen">Technology</span></span>
                 </div>
                 <p class="text-slate-400 text-sm leading-relaxed font-light">
-                    Soluciones avanzadas en desarrollo web full-stack, creación de micro apps a medida, consultoría técnica y automatización de procesos con Inteligencia Artificial.
+                    Soluciones avanzadas en desarrollo web full-stack, micro apps a medida, consultoría técnica y automatización con Inteligencia Artificial.
                 </p>
                 <div class="flex items-center gap-3 pt-2">
                     <a href="https://wa.me/593967879068" target="_blank" class="w-10 h-10 rounded-xl bg-cloverDark border border-cloverBorder flex items-center justify-center text-slate-300 hover:text-cloverGreen hover:border-cloverGreen transition" title="WhatsApp">
@@ -472,7 +468,7 @@
         </div>
     </footer>
 
-    <!-- Modales CRUD (Términos y Privacidad) -->
+    <!-- Modales -->
     <div id="modal-terms" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
         <div class="bg-cloverCard border border-cloverBorder max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl max-h-[85vh] flex flex-col">
             <div class="flex items-center justify-between pb-4 border-b border-cloverBorder mb-4">
@@ -504,26 +500,43 @@
         </div>
     </div>
 
-    <!-- Botón Flotante de Compartir -->
+    <!-- BOTÓN FLOTANTE DE COMPARTIR CON MÚLTIPLES REDES SOCIALES -->
     <div class="fixed bottom-6 left-6 z-40 flex flex-col items-start gap-2.5">
-        <div id="share-menu" class="hidden flex-col gap-2 bg-cloverCard/95 backdrop-blur-xl border border-cloverBorder p-3 rounded-2xl shadow-2xl transition-all duration-300">
+        <div id="share-menu" class="hidden flex-col gap-2 bg-cloverCard/95 backdrop-blur-xl border border-cloverBorder p-3 rounded-2xl shadow-2xl transition-all duration-300 w-48">
             <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-2 pb-1 border-b border-cloverBorder">Compartir sitio</span>
-            <a id="share-whatsapp" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-emerald-500/20 hover:text-cloverGreen transition"><i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i> WhatsApp</a>
-            <a id="share-tiktok" href="https://www.tiktok.com" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-pink-500/20 hover:text-pink-400 transition"><i class="fa-brands fa-tiktok text-pink-400 text-base"></i> TikTok</a>
-            <button onclick="copyURL()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 transition text-left"><i class="fa-solid fa-link text-cloverGreen text-base"></i> Copiar Link</button>
+            
+            <a id="share-whatsapp" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-emerald-500/20 hover:text-cloverGreen transition">
+                <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i> WhatsApp
+            </a>
+            <a id="share-facebook" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-blue-500/20 hover:text-blue-400 transition">
+                <i class="fa-brands fa-facebook text-blue-500 text-base"></i> Facebook
+            </a>
+            <a id="share-twitter" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-sky-500/20 hover:text-sky-400 transition">
+                <i class="fa-brands fa-x-twitter text-slate-200 text-base"></i> X (Twitter)
+            </a>
+            <a id="share-linkedin" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-blue-600/20 hover:text-blue-300 transition">
+                <i class="fa-brands fa-linkedin text-blue-400 text-base"></i> LinkedIn
+            </a>
+            <a id="share-tiktok" href="https://www.tiktok.com" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-pink-500/20 hover:text-pink-400 transition">
+                <i class="fa-brands fa-tiktok text-pink-400 text-base"></i> TikTok
+            </a>
+            <button onclick="copyURL()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 transition text-left">
+                <i class="fa-solid fa-link text-cloverGreen text-base"></i> Copiar Link
+            </button>
         </div>
+
         <button id="share-btn" onclick="toggleShareMenu()" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-slate-950 font-bold flex items-center justify-center text-xl shadow-xl shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none" title="Compartir Sitio">
             <i class="fa-solid fa-share-nodes"></i>
         </button>
     </div>
 
     <div id="copy-toast" class="fixed bottom-24 left-6 z-50 bg-cloverGreen text-slate-950 text-xs font-bold px-4 py-2.5 rounded-xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300">
-        ¡Enlace copiado al portapapeles!
+        ¡Enlace y URL copiados al portapapeles!
     </div>
 
-    <!-- Scripts de Funcionalidad -->
+    <!-- Scripts -->
     <script>
-        // Simulación de barra de carga con porcentaje y transición fluida
+        // Barra de carga
         window.addEventListener('DOMContentLoaded', () => {
             let width = 0;
             const bar = document.getElementById('loader-bar');
@@ -545,7 +558,7 @@
                     bar.style.width = width + '%';
                     percentage.textContent = width + '%';
                 }
-            }, 100);
+            }, 90);
         });
 
         // Menú móvil
@@ -555,7 +568,7 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Modales CRUD
+        // Modales
         function openModal(id) {
             document.getElementById(id).classList.remove('hidden');
             document.getElementById(id).classList.add('flex');
@@ -567,10 +580,14 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Compartir y Redes
+        // Configuración dinámica de enlaces para compartir incluyendo URL y título
         const currentUrl = encodeURIComponent(window.location.href);
         const shareTitle = encodeURIComponent("Clover Technology | Desarrollo Web, Consultoría & Inteligencia Artificial");
+        
         document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${shareTitle}%20-%20${currentUrl}`;
+        document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+        document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${currentUrl}`;
+        document.getElementById('share-linkedin').href = `https://www.linkedin.com/sharing/share-offsite/?url=${currentUrl}`;
 
         function toggleShareMenu() {
             const menu = document.getElementById('share-menu');
@@ -591,7 +608,7 @@
             });
         }
 
-        // Enviar a WhatsApp
+        // WhatsApp Form
         function sendToWhatsApp(e) {
             e.preventDefault();
             const name = document.getElementById('name').value.trim();
