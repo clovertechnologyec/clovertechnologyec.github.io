@@ -37,71 +37,68 @@
         .glow-effect {
             box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.15);
         }
-        #preloader {
-            transition: opacity 0.7s ease-out, visibility 0.7s ease-out;
+        /* Estilos para la Pantalla de Carga */
+        #loader-screen {
+            transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
         }
     </style>
 </head>
-<body class="bg-cloverDark text-slate-100 antialiased selection:bg-cloverGreen selection:text-slate-950 overflow-hidden">
+<body class="bg-cloverDark text-slate-100 antialiased selection:bg-cloverGreen selection:text-slate-950 overflow-x-hidden">
 
-    <!-- Pantalla de Carga (Preloader) inicial con Logo 40% más grande -->
-    <div id="preloader" class="fixed inset-0 z-[100] bg-cloverDark flex flex-col items-center justify-center px-6">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.15)_0%,transparent_70%)] pointer-events-none"></div>
-        <div class="relative z-10 flex flex-col items-center max-w-sm w-full text-center">
-            
-            <!-- Contenedor del Logo con 40% más de tamaño (w-40 h-40 en lugar de w-28 h-28) -->
-            <div class="relative w-40 h-40 mb-6 flex items-center justify-center p-4 rounded-3xl bg-cloverCard border border-cloverBorder glow-effect animate-pulse">
-                <img src="logo.png" alt="Clover Technology Logo" class="w-full h-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="absolute inset-0 hidden items-center justify-center text-cloverGreen text-5xl font-bold">
-                    <i class="fa-solid fa-clover"></i>
-                </div>
+    <!-- SECCIÓN DE CARGA (PRELOADER) CON LOGO AMPLIADO 40% Y BARRA DE CARGA -->
+    <div id="loader-screen" class="fixed inset-0 z-50 bg-cloverDark flex flex-col items-center justify-center px-4">
+        <div class="text-center space-y-6 max-w-sm w-full">
+            <!-- Logo ampliado un 40% (h-16 w-auto o similar proporcionalmente mayor) -->
+            <div class="flex justify-center items-center">
+                <img src="logo.png" alt="Clover Technology Logo" class="h-16 md:h-20 w-auto animate-pulse object-contain">
             </div>
-
-            <!-- Título e Indicador de Estado -->
-            <h2 class="text-2xl font-extrabold text-white tracking-tight mb-1">
-                Clover <span class="text-cloverGreen">Technology</span>
-            </h2>
-            <p id="preloader-status" class="text-xs text-slate-400 font-medium mb-8 tracking-wide">
-                Cargando módulos de IA y sistemas web...
-            </p>
-
-            <!-- Barra de Carga Animada -->
-            <div class="w-full bg-cloverBorder/60 rounded-full h-3.5 p-0.5 overflow-hidden border border-cloverBorder/80 mb-4 shadow-inner">
-                <div id="progress-bar" class="bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 h-full rounded-full transition-all duration-150 ease-out" style="width: 0%"></div>
+            <div class="space-y-2">
+                <h2 class="text-lg font-bold text-white tracking-wide">Clover <span class="text-cloverGreen">Technology</span></h2>
+                <p id="loader-status" class="text-xs text-slate-400 font-light">Cargando ecosistema digital e inteligencia artificial...</p>
             </div>
-
-            <!-- Porcentaje Numérico -->
-            <div class="flex justify-between w-full text-xs font-bold text-slate-400 px-1">
-                <span>Progreso de inicialización</span>
-                <span id="progress-percentage" class="text-cloverGreen">0%</span>
+            <!-- Barra de Progreso -->
+            <div class="w-full bg-cloverBorder h-2 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                <div id="loader-bar" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-full rounded-full transition-all duration-150 w-0"></div>
+            </div>
+            <div class="text-right">
+                <span id="loader-percentage" class="text-xs font-mono text-cloverGreen font-semibold">0%</span>
             </div>
         </div>
     </div>
 
-    <!-- Navegación Superior Fija -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-cloverDark/80 backdrop-blur-md border-b border-cloverBorder">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <!-- Navbar con Logotipo e ítems visibles -->
+    <header class="fixed top-0 left-0 right-0 z-40 bg-cloverDark/85 backdrop-blur-md border-b border-cloverBorder">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+            <!-- Logotipo -->
             <a href="#" class="flex items-center gap-2.5 group focus:outline-none">
-                <img src="logo.png" alt="Clover Technology Logo" class="h-9 sm:h-10 w-auto object-contain">
+                <img src="logo.png" alt="Clover Technology" class="h-9 sm:h-10 w-auto object-contain">
+                <div class="flex flex-col">
+                    <span class="text-lg sm:text-xl font-extrabold text-white tracking-tight leading-tight">
+                        Clover <span class="text-cloverGreen">Technology</span>
+                    </span>
+                    <span class="text-[8px] uppercase tracking-[2.5px] font-semibold text-slate-400">WEB &amp; AI SOLUTIONS</span>
+                </div>
             </a>
             
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+            <!-- Navegación de Escritorio optimizada y visible -->
+            <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium text-slate-200">
                 <a href="#servicios" class="hover:text-cloverGreen transition">Servicios</a>
                 <a href="#ia" class="hover:text-cloverGreen transition">Chatbots & IA</a>
                 <a href="#sobre-mi" class="hover:text-cloverGreen transition">Desarrollador</a>
                 <a href="#stack" class="hover:text-cloverGreen transition">Tecnologías</a>
-                <a href="#contacto" class="bg-cloverGreen hover:bg-emerald-600 text-slate-950 font-semibold px-5 py-2.5 rounded-xl transition shadow-lg shadow-emerald-500/20 flex items-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-lg"></i> Cotizar Proyecto
+                <a href="#contacto" class="bg-cloverGreen hover:bg-emerald-600 text-slate-950 font-semibold px-4.5 py-2.5 rounded-xl transition shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Cotizar
                 </a>
             </nav>
 
-            <button id="menu-btn" class="md:hidden text-2xl text-slate-300 focus:outline-none p-2">
+            <!-- Botón Menú Móvil -->
+            <button id="menu-btn" class="lg:hidden text-2xl text-slate-300 focus:outline-none p-2">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
 
-        <!-- Menú Móvil -->
-        <div id="mobile-menu" class="hidden md:hidden bg-cloverCard border-b border-cloverBorder px-6 py-5 space-y-4 shadow-2xl">
+        <!-- Menú Móvil Desplegable -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-cloverCard border-b border-cloverBorder px-6 py-5 space-y-4 shadow-2xl">
             <a href="#servicios" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Servicios</a>
             <a href="#ia" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Chatbots & IA</a>
             <a href="#sobre-mi" class="block text-slate-300 hover:text-cloverGreen font-medium py-1">Desarrollador</a>
@@ -110,7 +107,7 @@
         </div>
     </header>
 
-    <!-- Sección Hero -->
+    <!-- Hero Section -->
     <section class="pt-36 pb-24 md:pt-48 md:pb-36 px-6 relative">
         <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-emerald-500/10 rounded-full blur-[100px] sm:blur-[120px] pointer-events-none"></div>
         <div class="absolute top-1/3 right-10 w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] bg-cyan-500/10 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none"></div>
@@ -152,7 +149,7 @@
         </div>
     </section>
 
-    <!-- Sección de Servicios -->
+    <!-- Servicios Section -->
     <section id="servicios" class="py-24 px-6 relative bg-cloverCard/40 border-y border-cloverBorder">
         <div class="max-w-7xl mx-auto">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -161,7 +158,7 @@
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Servicio 1 -->
+                <!-- Tarjeta 1 -->
                 <div class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between">
                     <div>
                         <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-2xl mb-6 group-hover:scale-110 group-hover:bg-cloverGreen group-hover:text-slate-950 transition duration-300">
@@ -174,7 +171,7 @@
                     </div>
                 </div>
 
-                <!-- Servicio 2: Micro Apps -->
+                <!-- Tarjeta 2: Micro Apps -->
                 <div class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between border-cloverGreen/30 relative">
                     <div class="absolute -top-3 right-6 bg-cloverGreen text-slate-950 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full shadow-md">
                         Alta Demanda
@@ -185,12 +182,12 @@
                         </div>
                         <h4 class="text-xl font-bold text-white mb-3">Micro App´s a Medida</h4>
                         <p class="text-slate-400 text-sm leading-relaxed font-light">
-                            Desarrollo ágil de mini aplicaciones hiper-enfocadas para resolver tareas específicas: calculadoras de precios, herramientas de conversión, catálogos y utilidades web ultrarrápidas.
+                            Desarrollo ágil de mini aplicaciones hiper-enfocadas para resolver tareas específicas: calculadoras de precios, herramientas de conversión, catálogos interactivos y simuladores.
                         </p>
                     </div>
                 </div>
 
-                <!-- Servicio 3 -->
+                <!-- Tarjeta 3 -->
                 <div class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between">
                     <div>
                         <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-2xl mb-6 group-hover:scale-110 group-hover:bg-cloverGreen group-hover:text-slate-950 transition duration-300">
@@ -203,7 +200,7 @@
                     </div>
                 </div>
 
-                <!-- Servicio 4 -->
+                <!-- Tarjeta 4 -->
                 <div id="ia" class="glass-panel p-8 rounded-3xl hover:border-cloverGreen/50 transition duration-300 group glow-effect flex flex-col justify-between">
                     <div>
                         <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-cloverGreen text-2xl mb-6 group-hover:scale-110 group-hover:bg-cloverGreen group-hover:text-slate-950 transition duration-300">
@@ -219,7 +216,7 @@
         </div>
     </section>
 
-    <!-- Sección del Desarrollador -->
+    <!-- Sobre el Desarrollador Section -->
     <section id="sobre-mi" class="py-24 px-6 relative">
         <div class="max-w-5xl mx-auto">
             <div class="glass-panel p-8 md:p-12 rounded-3xl border border-cloverBorder glow-effect relative overflow-hidden">
@@ -227,6 +224,7 @@
                 
                 <div class="grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
                     
+                    <!-- Imagen del Desarrollador -->
                     <div class="md:col-span-5 flex flex-col items-center">
                         <div class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-3xl p-1.5 bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 shadow-2xl shadow-emerald-500/20 group">
                             <div class="w-full h-full rounded-[22px] overflow-hidden bg-cloverDark flex items-center justify-center relative">
@@ -242,15 +240,17 @@
                         </div>
                     </div>
 
+                    <!-- Biografía -->
                     <div class="md:col-span-7 space-y-6 text-center md:text-left">
                         <div>
                             <span class="inline-block text-xs font-bold uppercase tracking-widest text-cloverGreen mb-2">Liderazgo Técnico</span>
                             <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ing. Teddy Valencia</h2>
                             <p class="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
-                                Con más de <strong class="text-white font-semibold">15 años de experiencia</strong> desarrollando sistemas web avanzados, lidero soluciones de alta ingeniería para optimizar los procesos digitales de instituciones y empresas en Chone y todo el Ecuador.
+                                Con más de <strong class="text-white font-semibold">15 años de experiencia</strong> desarrollando sistemas web avanzados, lidero soluciones de alta ingeniería para optimizar los procesos digitales de instituciones y empresas con un rendimiento superior.
                             </p>
                         </div>
 
+                        <!-- Proyectos Destacados -->
                         <div class="grid sm:grid-cols-2 gap-4 pt-2 text-left">
                             <div class="bg-cloverDark/70 p-4 rounded-2xl border border-cloverBorder hover:border-cloverGreen/40 transition">
                                 <div class="flex items-center gap-2.5 mb-2 text-cloverGreen text-base">
@@ -315,7 +315,7 @@
         </div>
     </section>
 
-    <!-- Sección de Contacto -->
+    <!-- Sección de Contacto Avanzada con WhatsApp -->
     <section id="contacto" class="py-24 px-6 relative">
         <div class="max-w-4xl mx-auto glass-panel p-6 sm:p-10 md:p-14 rounded-3xl shadow-2xl relative overflow-hidden">
             <div class="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -403,7 +403,7 @@
             <div class="md:col-span-4 space-y-4">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl overflow-hidden bg-cloverDark border border-cloverBorder flex items-center justify-center shadow-md">
-                        <img src="logo.png" alt="Clover Technology Logo" class="w-full h-full object-contain">
+                        <img src="logo.png" alt="Logo" class="w-full h-full object-cover">
                     </div>
                     <span class="text-xl font-extrabold text-white tracking-tight">Clover <span class="text-cloverGreen">Technology</span></span>
                 </div>
@@ -419,9 +419,6 @@
                     </a>
                     <a href="mailto:contacto@clovertech.com" class="w-10 h-10 rounded-xl bg-cloverDark border border-cloverBorder flex items-center justify-center text-slate-300 hover:text-cloverGreen hover:border-cloverGreen transition" title="Correo">
                         <i class="fa-solid fa-envelope"></i>
-                    </a>
-                    <a href="#contacto" class="w-10 h-10 rounded-xl bg-cloverDark border border-cloverBorder flex items-center justify-center text-slate-300 hover:text-cloverGreen hover:border-cloverGreen transition" title="Sitio Web">
-                        <i class="fa-solid fa-globe"></i>
                     </a>
                 </div>
             </div>
@@ -475,28 +472,19 @@
         </div>
     </footer>
 
-    <!-- Ventanas Modales CRUD -->
+    <!-- Modales CRUD (Términos y Privacidad) -->
     <div id="modal-terms" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
         <div class="bg-cloverCard border border-cloverBorder max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl max-h-[85vh] flex flex-col">
             <div class="flex items-center justify-between pb-4 border-b border-cloverBorder mb-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-cloverGreen flex items-center justify-center text-sm font-bold">
-                        <i class="fa-solid fa-file-contract"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white">Términos de Servicio</h3>
-                </div>
-                <button onclick="closeModal('modal-terms')" class="text-slate-400 hover:text-white p-2 rounded-xl bg-cloverDark border border-cloverBorder transition">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                <h3 class="text-lg font-bold text-white">Términos de Servicio</h3>
+                <button onclick="closeModal('modal-terms')" class="text-slate-400 hover:text-white p-2 rounded-xl bg-cloverDark border border-cloverBorder transition"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="overflow-y-auto space-y-4 text-sm text-slate-300 font-light pr-2">
-                <p><strong>1. Aceptación de los Términos:</strong> Al acceder y contratar los servicios de Clover Technology, usted acepta cumplir con estos términos de servicio.</p>
-                <p><strong>2. Servicios de Desarrollo y Micro Apps:</strong> Proveemos soluciones a la medida, micro apps hiper-focalizadas y consultoría técnica acordada formalmente.</p>
-                <p><strong>3. Propiedad Intelectual:</strong> El código base y estructuras desarrolladas están protegidos. El cliente adquiere derechos de uso comercial según contrato.</p>
-                <p><strong>4. Garantía y Soporte:</strong> Ofrecemos periodos de garantía acordados para corrección de incidencias técnicas.</p>
+                <p><strong>1. Aceptación:</strong> Al contratar los servicios de Clover Technology, acepta cumplir con los términos estipulados.</p>
+                <p><strong>2. Servicios:</strong> Proveemos desarrollo web, micro apps y automatización con IA.</p>
             </div>
             <div class="pt-6 border-t border-cloverBorder mt-6 flex justify-end">
-                <button onclick="closeModal('modal-terms')" class="bg-cloverDark hover:bg-slate-800 text-slate-200 border border-cloverBorder font-semibold px-6 py-2.5 rounded-xl transition text-xs">Cerrar Ventana</button>
+                <button onclick="closeModal('modal-terms')" class="bg-cloverDark hover:bg-slate-800 text-slate-200 border border-cloverBorder font-semibold px-6 py-2.5 rounded-xl transition text-xs">Cerrar</button>
             </div>
         </div>
     </div>
@@ -504,53 +492,26 @@
     <div id="modal-privacy" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
         <div class="bg-cloverCard border border-cloverBorder max-w-2xl w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl max-h-[85vh] flex flex-col">
             <div class="flex items-center justify-between pb-4 border-b border-cloverBorder mb-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-cloverGreen flex items-center justify-center text-sm font-bold">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white">Política de Privacidad</h3>
-                </div>
-                <button onclick="closeModal('modal-privacy')" class="text-slate-400 hover:text-white p-2 rounded-xl bg-cloverDark border border-cloverBorder transition">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                <h3 class="text-lg font-bold text-white">Política de Privacidad</h3>
+                <button onclick="closeModal('modal-privacy')" class="text-slate-400 hover:text-white p-2 rounded-xl bg-cloverDark border border-cloverBorder transition"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="overflow-y-auto space-y-4 text-sm text-slate-300 font-light pr-2">
-                <p><strong>1. Recopilación de Datos:</strong> Recopilamos información básica voluntaria en nuestros formularios de cotización (nombre, teléfono, correo).</p>
-                <p><strong>2. Uso de la Información:</strong> Los datos se usan exclusivamente para establecer comunicación directa vía WhatsApp o correo electrónico.</p>
-                <p><strong>3. Protección de Datos:</strong> Implementamos medidas de seguridad para proteger su información contra accesos no autorizados.</p>
-                <p><strong>4. Confidencialidad:</strong> No compartimos ni vendemos datos personales o empresariales a terceros.</p>
+                <p><strong>1. Datos:</strong> La información provista se usa exclusivamente para fines de contacto y presupuestos.</p>
             </div>
             <div class="pt-6 border-t border-cloverBorder mt-6 flex justify-end">
-                <button onclick="closeModal('modal-privacy')" class="bg-cloverDark hover:bg-slate-800 text-slate-200 border border-cloverBorder font-semibold px-6 py-2.5 rounded-xl transition text-xs">Cerrar Ventana</button>
+                <button onclick="closeModal('modal-privacy')" class="bg-cloverDark hover:bg-slate-800 text-slate-200 border border-cloverBorder font-semibold px-6 py-2.5 rounded-xl transition text-xs">Cerrar</button>
             </div>
         </div>
     </div>
 
-    <!-- Botón Flotante para Compartir con TikTok -->
+    <!-- Botón Flotante de Compartir -->
     <div class="fixed bottom-6 left-6 z-40 flex flex-col items-start gap-2.5">
         <div id="share-menu" class="hidden flex-col gap-2 bg-cloverCard/95 backdrop-blur-xl border border-cloverBorder p-3 rounded-2xl shadow-2xl transition-all duration-300">
             <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 px-2 pb-1 border-b border-cloverBorder">Compartir sitio</span>
-            
-            <a id="share-whatsapp" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-emerald-500/20 hover:text-cloverGreen transition">
-                <i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i> WhatsApp
-            </a>
-            <a id="share-tiktok" href="https://www.tiktok.com" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-pink-500/20 hover:text-pink-400 transition">
-                <i class="fa-brands fa-tiktok text-pink-400 text-base"></i> TikTok Profile
-            </a>
-            <a id="share-facebook" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-blue-500/20 hover:text-blue-400 transition">
-                <i class="fa-brands fa-facebook text-blue-500 text-base"></i> Facebook
-            </a>
-            <a id="share-twitter" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-sky-500/20 hover:text-sky-400 transition">
-                <i class="fa-brands fa-x-twitter text-slate-200 text-base"></i> X (Twitter)
-            </a>
-            <a id="share-linkedin" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-blue-600/20 hover:text-blue-300 transition">
-                <i class="fa-brands fa-linkedin text-blue-400 text-base"></i> LinkedIn
-            </a>
-            <button onclick="copyURL()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 transition text-left">
-                <i class="fa-solid fa-link text-cloverGreen text-base"></i> Copiar Link
-            </button>
+            <a id="share-whatsapp" href="#" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-emerald-500/20 hover:text-cloverGreen transition"><i class="fa-brands fa-whatsapp text-emerald-400 text-base"></i> WhatsApp</a>
+            <a id="share-tiktok" href="https://www.tiktok.com" target="_blank" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-pink-500/20 hover:text-pink-400 transition"><i class="fa-brands fa-tiktok text-pink-400 text-base"></i> TikTok</a>
+            <button onclick="copyURL()" class="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:bg-slate-800 transition text-left"><i class="fa-solid fa-link text-cloverGreen text-base"></i> Copiar Link</button>
         </div>
-
         <button id="share-btn" onclick="toggleShareMenu()" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-slate-950 font-bold flex items-center justify-center text-xl shadow-xl shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none" title="Compartir Sitio">
             <i class="fa-solid fa-share-nodes"></i>
         </button>
@@ -560,102 +521,61 @@
         ¡Enlace copiado al portapapeles!
     </div>
 
-    <!-- Script General y Preloader -->
+    <!-- Scripts de Funcionalidad -->
     <script>
-        // Lógica de la Pantalla de Carga (Preloader)
-        window.addEventListener('load', () => {
-            const progressBar = document.getElementById('progress-bar');
-            const progressPercentage = document.getElementById('progress-percentage');
-            const preloaderStatus = document.getElementById('preloader-status');
-            const preloader = document.getElementById('preloader');
-
-            let currentProgress = 0;
-            
-            const statuses = [
-                "Cargando módulos de IA y sistemas web...",
-                "Optimizando arquitectura de micro apps...",
-                "Conectando pasarela de servicios seguros...",
-                "¡Todo listo! Bienvenido a Clover Technology..."
-            ];
+        // Simulación de barra de carga con porcentaje y transición fluida
+        window.addEventListener('DOMContentLoaded', () => {
+            let width = 0;
+            const bar = document.getElementById('loader-bar');
+            const percentage = document.getElementById('loader-percentage');
+            const loaderScreen = document.getElementById('loader-screen');
+            const statusText = document.getElementById('loader-status');
 
             const interval = setInterval(() => {
-                currentProgress += Math.floor(Math.random() * 8) + 5;
-                
-                if (currentProgress >= 100) {
-                    currentProgress = 100;
+                if (width >= 100) {
                     clearInterval(interval);
-                    
-                    progressBar.style.width = '100%';
-                    progressPercentage.textContent = '100%';
-                    preloaderStatus.textContent = statuses[3];
-
+                    statusText.textContent = "¡Bienvenido a Clover Technology!";
                     setTimeout(() => {
-                        preloader.style.opacity = '0';
-                        preloader.style.visibility = 'hidden';
-                        document.body.style.overflow = 'auto'; // Restaurar scroll
-                    }, 500);
+                        loaderScreen.style.opacity = '0';
+                        loaderScreen.style.visibility = 'hidden';
+                    }, 400);
                 } else {
-                    progressBar.style.width = currentProgress + '%';
-                    progressPercentage.textContent = currentProgress + '%';
-                    
-                    if (currentProgress > 75) {
-                        preloaderStatus.textContent = statuses[2];
-                    } else if (currentProgress > 40) {
-                        preloaderStatus.textContent = statuses[1];
-                    }
+                    width += Math.floor(Math.random() * 12) + 5;
+                    if (width > 100) width = 100;
+                    bar.style.width = width + '%';
+                    percentage.textContent = width + '%';
                 }
-            }, 30);
+            }, 100);
         });
 
-        // Toggle menú móvil
+        // Menú móvil
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
         // Modales CRUD
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.getElementById(id).classList.add('flex');
             document.body.style.overflow = 'hidden';
         }
-
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
             document.body.style.overflow = 'auto';
         }
 
-        window.onclick = function(event) {
-            if (event.target.classList.contains('fixed') && event.target.id.startsWith('modal-')) {
-                event.target.classList.add('hidden');
-                event.target.classList.remove('flex');
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        // Redes Sociales & Compartir
+        // Compartir y Redes
         const currentUrl = encodeURIComponent(window.location.href);
         const shareTitle = encodeURIComponent("Clover Technology | Desarrollo Web, Consultoría & Inteligencia Artificial");
-        
         document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${shareTitle}%20-%20${currentUrl}`;
-        document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
-        document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${currentUrl}`;
-        document.getElementById('share-linkedin').href = `https://www.linkedin.com/sharing/share-offsite/?url=${currentUrl}`;
 
         function toggleShareMenu() {
             const menu = document.getElementById('share-menu');
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                menu.classList.add('flex');
-            } else {
-                menu.classList.add('hidden');
-                menu.classList.remove('flex');
-            }
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
         }
 
         function copyURL() {
@@ -663,20 +583,17 @@
                 const toast = document.getElementById('copy-toast');
                 toast.classList.remove('opacity-0', 'pointer-events-none');
                 toast.classList.add('opacity-100');
-                
                 setTimeout(() => {
                     toast.classList.remove('opacity-100');
                     toast.classList.add('opacity-0', 'pointer-events-none');
                 }, 2500);
-
                 toggleShareMenu();
             });
         }
 
-        // Formulario a WhatsApp
+        // Enviar a WhatsApp
         function sendToWhatsApp(e) {
             e.preventDefault();
-            
             const name = document.getElementById('name').value.trim();
             const contact = document.getElementById('contact-info').value.trim();
             const service = document.getElementById('service').value;
@@ -686,20 +603,16 @@
             const message = document.getElementById('message').value.trim();
             
             const phoneNumber = "593967879068";
-            
-            const text = `Hola *Clover Technology*, deseo cotizar un proyecto con los siguientes datos:\n\n` +
-                         `👤 *Nombre/Empresa:* ${name}\n` +
+            const text = `Hola *Clover Technology*, deseo cotizar un proyecto:\n\n` +
+                         `👤 *Nombre:* ${name}\n` +
                          `📞 *Contacto:* ${contact}\n` +
                          `🛠️ *Servicio:* ${service}\n` +
                          `💰 *Presupuesto:* ${budget}\n` +
                          `⏱️ *Plazo:* ${timeline}\n` +
-                         `🌐 *Dominio/Hosting:* ${hosting}\n\n` +
-                         `📝 *Detalles del Proyecto:*\n${message}`;
+                         `🌐 *Hosting:* ${hosting}\n\n` +
+                         `📝 *Detalles:* ${message}`;
             
-            const encodedText = encodeURIComponent(text);
-            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedText}`;
-            
-            window.open(whatsappURL, '_blank');
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
         }
     </script>
 </body>
