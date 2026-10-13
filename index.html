@@ -251,7 +251,7 @@
         </div>
     </section>
 
-    <!-- SECCIÓN DE VIDEO HORIZONTAL (VOLUMEN 25% AMBIENTE) -->
+    <!-- SECCIÓN DE VIDEO HORIZONTAL (VOLUMEN 25% AMBIENTE DIRECTO) -->
     <section id="tiktok-section" class="py-24 px-6 relative bg-cloverDark">
         <div class="max-w-5xl mx-auto">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -277,7 +277,7 @@
                         </div>
                         <div>
                             <h4 class="text-white font-bold text-base">@clovertechnologyec</h4>
-                            <span class="text-xs text-cloverGreen font-medium">Creador de Contenido Verificado</span>
+                            <span class="text-xs text-cloverGreen font-medium">Liderado por Ing. Teddy Valencia</span>
                         </div>
                     </div>
                     <a href="https://www.tiktok.com/@clovertechnologyec" target="_blank" class="w-full sm:w-auto bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold px-6 py-3 rounded-xl transition shadow-lg shadow-pink-500/25 flex items-center justify-center gap-2 text-xs">
@@ -723,12 +723,28 @@
         ¡Enlace y URL copiados al portapapeles!
     </div>
 
-    <!-- Scripts de la Aplicación y Control de Chatbot / Video (Volumen al 25%) -->
+    <!-- Scripts de la Aplicación y Autorización Automática de Audio -->
     <script>
-        // -------------------------------------------------------------
-        // CONTROL DE REPRODUCCIÓN MULTIMEDIA (Volumen inicial al 25%)
-        // -------------------------------------------------------------
         const videoElement = document.getElementById('clover-video');
+        let audioInitialized = false;
+
+        // Autorización automática de audio en la primera interacción global con el documento
+        function triggerAudioAuthorization() {
+            if (audioInitialized) return;
+            if (videoElement) {
+                videoElement.muted = false;
+                videoElement.volume = 0.25; // 25% de volumen ambiente
+                videoElement.play().then(() => {
+                    audioInitialized = true;
+                }).catch(err => {
+                    console.log("Esperando interacción para habilitar audio completo:", err);
+                });
+            }
+        }
+
+        // Escucha cualquier clic o toque en cualquier parte de la página para autorizar el audio de forma transparente
+        document.addEventListener('click', triggerAudioAuthorization, { once: true });
+        document.addEventListener('touchstart', triggerAudioAuthorization, { once: true });
 
         function playVideo() {
             if (videoElement) {
@@ -749,7 +765,7 @@
             
             if (videoElement.muted) {
                 videoElement.muted = false;
-                videoElement.volume = 0.25; // Establecido exactamente al 25%
+                videoElement.volume = 0.25; // 25% de volumen ambiente
                 audioIcon.className = "fa-solid fa-volume-high text-cloverGreen";
                 audioText.textContent = "Silenciar";
             } else {
@@ -759,16 +775,14 @@
             }
         }
 
-        // Configuración inicial al cargar la página (Volumen 25% de ambiente)
+        // Carga de la barra de preloader e intento de reproducción automática
         window.addEventListener('DOMContentLoaded', () => {
             if (videoElement) {
-                videoElement.volume = 0.25; // 25% de volumen
-                videoElement.muted = false; // Permitir audio directamente
-                videoElement.play().catch(error => {
-                    // Si el navegador bloquea el audio autoplay por políticas, inicia silenciado al 25%
+                videoElement.volume = 0.25;
+                videoElement.play().catch(() => {
+                    // Si el navegador bloquea el sonido de entrada, inicia silenciado al 25% hasta la primera interacción
                     videoElement.muted = true;
                     videoElement.play();
-                    console.log("Autoplay con audio bloqueado, iniciando en modo ambiente:", error);
                 });
             }
 
@@ -926,7 +940,6 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        // Función para reiniciar el chat por completo al estado inicial
         function resetChatSession() {
             const messagesContainer = document.getElementById('ai-chat-messages');
             messagesContainer.innerHTML = `
@@ -997,7 +1010,6 @@
                 let response = "Entiendo tu consulta sobre Clover Technology. Para brindarte una asesoría personalizada y precisa con el Ing. Teddy Valencia, te invito a escribirnos directamente a nuestro WhatsApp oficial.";
                 let isConclusion = false;
                 
-                // Detección automática de conclusión de conversación / derivación a WhatsApp
                 if (query.includes('precio') || query.includes('costo') || query.includes('cuanto') || query.includes('valor')) {
                     response = "Los costos varían según el alcance del proyecto. ¿Te gustaría que te derive a WhatsApp con el Ing. Teddy Valencia para estructurar tu cotización?";
                 } else if (query.includes('si') || query.includes('cotizar') || query.includes('conversar') || query.includes('enviar') || query.includes('tratar') || query.includes('whatsapp') || query.includes('ok') || query.includes('perfecto')) {
@@ -1015,13 +1027,11 @@
 
                 appendMessage('bot', response);
 
-                // Si la conversación concluyó y se envió al WhatsApp, se abre la pestaña y se reinicia el chat
                 if (isConclusion) {
                     const phoneNumber = "593967879068";
                     const chatWhatsAppText = `Hola *Clover Technology*, vengo desde el chat web asistido. Mi consulta es: "${userMsg}". Deseo asesoría directa con el Ing. Teddy Valencia.`;
                     window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(chatWhatsAppText)}`, '_blank');
                     
-                    // Reiniciar el chat después de 3.5 segundos para una experiencia fluida
                     setTimeout(() => {
                         resetChatSession();
                     }, 3500);
