@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convenio Privado de Transacción y Reconocimiento de Adeudo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsPDF Library para generación directa de PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    },
+                    colors: {
+                        corporate: {
+                            50: '#f4f6f8',
+                            100: '#e1e6eb',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            accent: '#c5a059', /* Tono dorado elegante */
+                            accentHover: '#b08d46'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media print {
+            body { background: white !important; color: black !important; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .legal-box { box-shadow: none !important; border: 1px solid #cbd5e1 !important; max-height: none !important; overflow: visible !important; }
+        }
+        .legal-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        .legal-box::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .legal-box::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .legal-box::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-corporate-50 text-slate-800 h-full flex flex-col justify-between font-sans antialiased selection:bg-corporate-accent selection:text-white">
+
+    <!-- Header Institucional -->
+    <header class="bg-corporate-900 border-b border-corporate-accent/30 text-white py-4 px-6 shadow-md no-print">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-corporate-accent/20 border border-corporate-accent flex items-center justify-center text-corporate-accent">
+                    <i class="fa-solid fa-scale-balanced text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-serif font-bold text-lg tracking-wide">SISTEMA LEGAL ECUATORIANO</h1>
+                    <p class="text-xs text-slate-400 tracking-wider uppercase">Plataforma de Notificación y Aceptación Contractual</p>
+                </div>
+            </div>
+            <div class="text-xs text-slate-400 flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
+                <i class="fa-solid fa-shield-halved text-corporate-accent"></i>
+                <span>Documento Protegido &bull; República del Ecuador</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 flex flex-col justify-center">
+        
+        <!-- Tarjeta del Convenio -->
+        <div class="bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden flex flex-col transition-all duration-300">
+            
+            <!-- Título del Documento -->
+            <div class="bg-gradient-to-r from-corporate-900 to-slate-800 text-white p-6 sm:p-8 border-b-4 border-corporate-accent text-center relative">
+                <span class="inline-block px-3 py-1 bg-corporate-accent/20 border border-corporate-accent text-corporate-accent text-xs font-semibold rounded-full mb-3 uppercase tracking-widest">
+                    Instrumento Jurídico de Transacción
+                </span>
+                <h2 class="font-serif text-xl sm:text-2xl font-bold tracking-wide leading-snug">
+                    CONVENIO PRIVADO DE RECONOCIMIENTO DE ADEUDO, TRANSACCIÓN ECONÓMICA, SALVAGUARDA DE DERECHOS INTELECTUALES Y APERCIBIMIENTO COACTIVO-ACADÉMICO
+                </h2>
+                <p class="text-xs text-slate-300 mt-2">Jurisdicción: República del Ecuador</p>
+            </div>
+
+            <!-- Cuerpo del Convenio con Scroll -->
+            <div id="legal-document-content" class="legal-box p-6 sm:p-10 max-h-[500px] overflow-y-auto space-y-6 text-justify text-slate-700 text-sm sm:text-base leading-relaxed bg-white">
+                
+                <p class="font-medium text-slate-900">
+                    Con la comparecencia libre, voluntaria y en pleno ejercicio de sus capacidades civiles, por una parte, el señor <strong>T.V.C.</strong>, por sus propios y personales derechos, a quien en adelante se le denominará el <strong>ACREEDOR</strong> o el <strong>BENEFICIARIO</strong>; y, por otra parte, la señora <strong>BUENO CEDEÑO LADY ZOILA</strong>, con cédula de ciudadanía número <strong>0955337530</strong>, de nacionalidad ecuatoriana, a quien en adelante se le denominará la <strong>DEUDORA</strong> o la <strong>COMPARECIENTE</strong>, celebran el presente instrumento al tenor de las siguientes cláusulas:
+                </p>
+
+                <div>
+                    <h3 class="font-bold text-corporate-900 mb-1">PRIMERA: ANTECEDENTES Y CRÉDITO INSOLUTO</h3>
+                    <p><strong>1.1.</strong> Durante el periodo en el cual las partes mantuvieron un vínculo de índole personal, el <strong>ACREEDOR</strong> prestó asistencia técnica, metodológica, redacción integral y culminación científica y académica del trabajo de titulación (Tesis) de la señora <strong>BUENO CEDEÑO LADY ZOILA</strong>, requisito indispensable para la obtención de su título de tercer nivel técnico-tecnológico superior.</p>
+                    <p class="mt-2"><strong>1.2.</strong> Asimismo, el <strong>ACREEDOR</strong> efectuó diversas daciones dinerarias a título de mutuo (préstamos) a favor de la <strong>DEUDORA</strong>, con la finalidad de solventar pasivos y liquidar obligaciones líquidas y exigibles de esta última.</p>
+                    <p class="mt-2"><strong>1.3.</strong> La liquidación contable definitiva de los honorarios profesionales por la elaboración del trabajo de titulación ($950,00 USD) más los capitales mutuados para la liquidación de sus deudas personales, arroja un saldo total líquido, plazo vencido, determinado e insoluto de <strong>MIL CUATROCIENTOS DÓLARES DE LOS ESTADOS UNIDOS DE AMÉRICA (USD $1,400.00)</strong> a favor del <strong>BENEFICIARIO</strong>.</p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-corporate-900 mb-1">SEGUNDA: RECONOCIMIENTO EXPRESO DE OBLIGACIÓN</h3>
+                    <p>La señora <strong>BUENO CEDEÑO LADY ZOILA</strong> reconoce de manera pura, simple, expresa e irrevocable ser deudora del señor <strong>T.V.C.</strong> por la cantidad total de <strong>USD $1,400.00 (UN MIL CUATROCIENTOS DÓLARES DE LOS ESTADOS UNIDOS DE AMÉRICA)</strong>.</p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-corporate-900 mb-1">TERCERA: SUBSISTENCIA E INMUTABILIDAD DE LA OBLIGACIÓN ANTE VÍNCULOS AFECTIVOS</h3>
+                    <p>Las partes estipulan solemnemente que la presente obligación económica posee carácter principal, autónomo e irrevocable. En consecuencia, <strong>cualquier acercamiento, reconciliación, establecimiento de relación sentimental, conyugal, de hecho o de cualquier otra naturaleza que llegare a gestarse o reanudarse en el futuro entre los comparecientes, no extinguirá, novará, condonará, suspenderá ni eximirá, parcial ni totalmente, el cumplimiento de la obligación de pago</strong> detallada en las cláusulas precedentes. Cualquier vínculo afectivo futuro es jurídicamente independiente de esta acreencia mercantil-civil, la cual subsistirá incólume hasta su cancelación total.</p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-corporate-900 mb-1">CUARTA: TITULARIDAD DE DERECHOS INTELECTUALES Y PROPIEDAD ACADÉMICA</h3>
+                    <p><strong>4.1.</strong> El <strong>ACREEDOR</strong> declara y ratifica ostentar la titularidad originaria y de facto de los derechos morales y patrimoniales de autoría intelectual, diseño de investigación, estructuración de esquemas y generación de contenidos del trabajo de titulación que sirvió de base para la obtención del título de <strong>DISEÑADOR/A DE MODAS CON NIVEL EQUIVALENTE A TECNOLOGO/A SUPERIOR</strong>, registrado bajo el número de registro <strong>2371-2025-3238088</strong>, de fecha <strong>2025-11-12</strong>, emitido por el <strong>INSTITUTO SUPERIOR TECNOLÓGICO VICENTE ROCAFUERTE</strong>, conforme consta en los archivos oficiales del Sistema Nacional de Información de Educación Superior del Ecuador (SNIESE).</p>
+                    <p class="mt-2"><strong>4.2.</strong> La utilización, defensa y comercialización de dicha obra académica se encuentra sujeta a la contraprestación económica y al cumplimiento estricto de este instrumento.</p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-corporate-900 mb-1">QUINTA: DE LA POTESTAD DE REQUERIMIENTO PERSONAL Y OBLIGACIÓN DE CUMPLIMIENTO INMEDIATO</h3>
+                    <p>Se estipula de manera expresa, irrevocable y de tracto sucesivo que el <strong>BENEFICIARIO</strong> (señor <strong>T.V.C.</strong>) se encuentra plenamente facultado para exigir a la señora <strong>BUENO CEDEÑO LADY ZOILA</strong> la ejecución, prestación o cumplimiento de cualquier requerimiento, favor o actuación de índole personal que el Acreedor estime pertinente, en cualquier tiempo y lugar. La compareciente queda constreñida a acatar y satisfacer dichas solicitudes con absoluta diligencia, premura y subordinación a la voluntad del Beneficiario, constituyendo la negativa u oposición a cualquiera de estas peticiones un incumplimiento grave y directo a las estipulaciones de este pacto transaccional.</p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-corporate-900 mb-1">SEXTA: DEL APERCIBIMIENTO DE NULIDAD Y ACCIÓN DE REVOCATORIA DE GRADO ACADÉMICO POR FRAUDE</h3>
+                    <p><strong>6.1.</strong> Las partes convienen solemnemente que, en el hipotético e inejecutable caso de que la señora <strong>BUENO CEDEÑO LADY ZOILA</strong> se oponga, desobedezca, cuestione o muestre renuencia ante cualquier requerimiento personal emanado del <strong>BENEFICIARIO</strong>, o bien incurra en mora respecto al pago de la obligación económica principal, se activará de pleno derecho y sin necesidad de declaración judicial previa el apercibimiento sancionador.</p>
+                    <p class="mt-2"><strong>6.2.</strong> En virtud de lo anterior, el <strong>BENEFICIARIO</strong> queda investido de la potestad legal imprescriptible para incoar formalmente la <strong>DENUNCIA POR FRAUDE ACADÉMICO, SIMULACIÓN DE AUTORÍA Y FALSEDAD IDEOLÓGICA</strong> ante el <strong>INSTITUTO SUPERIOR TECNOLÓGICO VICENTE ROCAFUERTE</strong>, la Secretaría de Educación Superior, Ciencia, Tecnología e Innovación (SENESCYT) y los órganos de la Jurisdicción Penal Ordinaria que fueren competentes.</p>
+                    <p class="mt-2"><strong>6.3.</strong> Dicha acción estará orientada a solicitar y obtener de manera imperativa la <strong>baja definitiva, anulación, revocatoria e invalidación del registro del título tecnológico superior</strong> número <strong>2371-2025-3238088</strong>, correspondiente al título de <strong>DISEÑADOR/A DE MODAS CON NIVEL EQUIVALENTE A TECNOLOGO/A SUPERIOR</strong>, por haberse estructurado y obtenido mediante simulación y vicios de autoría intelectual ajena, asumiendo la deudora todas las costas procesales, daños, perjuicios y responsabilidades administrativas y penales derivadas de dicha declaratoria de nulidad.</p>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-corporate-900 mb-1">SÉPTIMA: ACEPTACIÓN</h3>
+                    <p>Las partes declaran aceptar íntegramente y a cabalidad cada una de las cláusulas y estipulaciones precedentes por convenir fielmente a sus legítimos intereses, comprometiéndose a su fiel cumplimiento sin tergiversación alguna, para lo cual suscriben el presente instrumento en la ciudad de Chone, República del Ecuador.</p>
+                </div>
+
+            </div>
+
+            <!-- Panel de Estado y Respuestas (Oculto inicialmente) -->
+            <div id="response-banner" class="hidden p-6 border-t border-slate-200 transition-all duration-300">
+                <div id="response-content" class="rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <!-- Dinámico por JS -->
+                </div>
+            </div>
+
+            <!-- Panel de Acciones y Botones -->
+            <div id="action-panel" class="bg-slate-50 p-6 sm:p-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 no-print">
+                <div class="text-xs text-slate-500 text-center sm:text-left">
+                    <p><i class="fa-solid fa-circle-info text-corporate-accent mr-1"></i> Seleccione una opción para registrar su respuesta legal.</p>
+                    <p class="mt-0.5">La acción quedará sellada con fecha y hora exacta.</p>
+                </div>
+                <div class="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
+                    <button id="btn-reject" onclick="handleDecision('reject')" class="flex-1 sm:flex-none px-6 py-3 rounded-lg border-2 border-red-500 text-red-600 font-semibold hover:bg-red-50 transition duration-200 flex items-center justify-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-xmark"></i> Rechazar Condiciones
+                    </button>
+                    <button id="btn-accept" onclick="handleDecision('accept')" class="flex-1 sm:flex-none px-6 py-3 rounded-lg bg-corporate-900 text-white font-semibold hover:bg-corporate-800 transition duration-200 flex items-center justify-center gap-2 shadow-md border border-corporate-900">
+                        <i class="fa-solid fa-check"></i> Aceptar Condiciones
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenedor del Botón de Descarga PDF (Aparece tras responder) -->
+            <div id="download-panel" class="hidden bg-slate-900 p-6 text-white text-center flex flex-col sm:flex-row items-center justify-between gap-4 no-print">
+                <div class="text-left">
+                    <h4 class="font-bold text-corporate-accent"><i class="fa-solid fa-file-pdf mr-2"></i> Registro de Decisión Guardado</h4>
+                    <p id="decision-timestamp" class="text-xs text-slate-300 mt-0.5">Fecha y hora de registro: --</p>
+                </div>
+                <button onclick="generatePDF()" class="w-full sm:w-auto px-6 py-3 rounded-lg bg-corporate-accent text-corporate-900 font-bold hover:bg-corporate-accentHover transition duration-200 flex items-center justify-center gap-2 shadow-lg">
+                    <i class="fa-solid fa-download"></i> Descargar Convenio en PDF
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer Corporativo -->
+    <footer class="bg-corporate-900 border-t border-slate-800 text-slate-400 py-4 px-6 text-xs text-center no-print">
+        <p>&copy; 2026 Estudio Jurídico Ecuador. Todos los derechos reservados. Convenio Privado Vinculante.</p>
+    </footer>
+
+    <!-- Script de Interacción y Generación de PDF -->
+    <script>
+        let currentDecision = null;
+        let decisionTimestampStr = '';
+        let exactDateObj = null;
+
+        function handleDecision(decision) {
+            currentDecision = decision;
+            exactDateObj = new Date();
+            
+            // Formatear fecha y hora exacta
+            const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
+            const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const dateStr = exactDateObj.toLocaleDateString('es-EC', optionsDate);
+            const timeStr = exactDateObj.toLocaleTimeString('es-EC', optionsTime);
+            decisionTimestampStr = `${dateStr}, a las ${timeStr}`;
+
+            // Actualizar botones de selección
+            const btnAccept = document.getElementById('btn-accept');
+            const btnReject = document.getElementById('btn-reject');
+            
+            btnAccept.classList.remove('ring-4', 'ring-corporate-accent/50');
+            btnReject.classList.remove('ring-4', 'ring-red-300');
+
+            if (decision === 'accept') {
+                btnAccept.classList.add('ring-4', 'ring-corporate-accent/50');
+            } else {
+                btnReject.classList.add('ring-4', 'ring-red-300');
+            }
+
+            // Mostrar Banner de Respuesta
+            const banner = document.getElementById('response-banner');
+            const content = document.getElementById('response-content');
+            banner.classList.remove('hidden');
+
+            if (decision === 'accept') {
+                content.className = "rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 bg-emerald-50 border border-emerald-200 text-emerald-900";
+                content.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-check text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm sm:text-base">Condiciones Aceptadas Oficialmente</h4>
+                            <p class="text-xs text-emerald-700">La compareciente Bueno Cedeño Lady Zoila ha manifestado su aceptación íntegra al convenio de adeudo y salvaguarda intelectual.</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-semibold px-3 py-1 bg-emerald-200 text-emerald-800 rounded-full whitespace-nowrap">ESTADO: ACEPTADO</span>
+                `;
+            } else {
+                content.className = "rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 bg-red-50 border border-red-200 text-red-900";
+                content.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-xmark text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm sm:text-base">Condiciones Rechazadas</h4>
+                            <p class="text-xs text-red-700">La compareciente ha manifestado el rechazo al convenio, activando de pleno derecho los apercibimientos legales y acciones coactivas.</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-semibold px-3 py-1 bg-red-200 text-red-800 rounded-full whitespace-nowrap">ESTADO: RECHAZADO</span>
+                `;
+            }
+
+            // Mostrar Panel de Descarga PDF
+            document.getElementById('download-panel').classList.remove('hidden');
+            document.getElementById('decision-timestamp').innerText = `Fecha y hora de registro: ${decisionTimestampStr}`;
+
+            // Desplazarse suavemente al panel de descarga
+            document.getElementById('download-panel').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            // Configuración de márgenes y colores
+            const margin = 20;
+            const pageWidth = 210;
+            const contentWidth = pageWidth - (margin * 2);
+            let y = 20;
+
+            // Encabezado del PDF
+            doc.setFillColor(15, 23, 42); // corporate-900
+            doc.rect(0, 0, pageWidth, 25, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+            doc.text("SISTEMA LEGAL ECUATORIANO - CONVENIO PRIVADO", margin, 16);
+
+            y = 35;
+
+            // Título del Documento
+            doc.setTextColor(15, 23, 42);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(11);
+            doc.text("CONVENIO PRIVADO DE RECONOCIMIENTO DE ADEUDO, TRANSACCIÓN ECONÓMICA,", margin, y);
+            y += 6;
+            doc.text("SALVAGUARDA DE DERECHOS INTELECTUALES Y APERCIBIMIENTO COACTIVO-ACADÉMICO", margin, y);
+            
+            y += 10;
+            doc.setDrawColor(197, 160, 89); // Accent gold
+            doc.setLineWidth(0.5);
+            doc.line(margin, y, pageWidth - margin, y);
+
+            y += 8;
+
+            // Texto legal resumido y estructurado para PDF
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(9.5);
+            
+            const legalText = `Con la comparecencia libre y voluntaria, el señor T.V.C. (ACREEDOR / BENEFICIARIO) y la señora BUENO CEDEÑO LADY ZOILA (C.I. 0955337530, DEUDORA), celebran el presente instrumento al tenor de las siguientes cláusulas:
+
+PRIMERA: ANTECEDENTES Y CRÉDITO INSOLUTO. El Acreedor prestó asistencia y culminación científica del trabajo de titulación de la deudora y efectuó mutuos dinerarios, arrojando un saldo insoluto total de USD $1,400.00 a favor del Beneficiario.
+
+SEGUNDA: RECONOCIMIENTO EXPRESO DE OBLIGACIÓN. La señora Bueno Cedeño Lady Zoila reconoce puramente ser deudora del señor T.V.C. por la cantidad de USD $1,400.00.
+
+TERCERA: INMUTABILIDAD ANTE VÍNCULOS AFECTIVOS. Cualquier acercamiento, reconciliación o relación futura entre los comparecientes no extinguirá ni eximirá el cumplimiento de la obligación de pago, la cual subsiste incólume.
+
+CUARTA: TITULARIDAD DE DERECHOS INTELECTUALES. El Acreedor ratifica la titularidad originaria de la autoría intelectual del trabajo de titulación para el grado de DISEÑADOR/A DE MODAS (Reg. 2371-2025-3238088, Instituto Superior Tecnológico Vicente Rocafuerte).
+
+QUINTA: POTESTAD DE REQUERIMIENTO PERSONAL. El Beneficiario está facultado para exigir cualquier requerimiento o actuación personal, debiendo la deudora acatarlo con absoluta subordinación.
+
+SEXTA: APERCIBIMIENTO DE NULIDAD Y FRAUDE ACADÉMICO. En caso de mora u oposición a los requerimientos del Beneficiario, este queda investido para iniciar denuncia por fraude académico y solicitar la baja definitiva y revocatoria del título superior número 2371-2025-3238088 ante el Instituto, SENESCYT y vía penal.`;
+
+            const splitText = doc.splitTextToSize(legalText, contentWidth);
+            
+            for (let i = 0; i < splitText.length; i++) {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.text(splitText[i], margin, y);
+                y += 5;
+            }
+
+            y += 10;
+            if (y > 250) {
+                doc.addPage();
+                y = 20;
+            }
+
+            // Recuadro de Auditoría de Decisión
+            doc.setFillColor(241, 245, 249);
+            doc.setDrawColor(203, 213, 225);
+            doc.roundedRect(margin, y, contentWidth, 30, 3, 3, 'FD');
+
+            y += 7;
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(10);
+            doc.setTextColor(15, 23, 42);
+            doc.text("REGISTRO DE AUDITORÍA Y VALIDACIÓN DIGITAL", margin + 5, y);
+
+            y += 6;
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(9);
+            doc.text(`Estado de la Decisión: ${currentDecision === 'accept' ? 'APROBADO Y ACEPTADO' : 'RECHAZADO'}`, margin + 5, y);
+            
+            y += 5;
+            doc.text(`Fecha y Hora Exacta de Registro: ${decisionTimestampStr}`, margin + 5, y);
+
+            y += 5;
+            doc.text("Sello de Integridad Legal y Trazabilidad Telemática - República del Ecuador", margin + 5, y);
+
+            // Pie de página del PDF
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFont("helvetica", "italic");
+                doc.setFontSize(8);
+                doc.setTextColor(100, 100, 100);
+                doc.text(`Página ${i} de ${pageCount} - Documento Legal Confidencial`, pageWidth / 2, 290, { align: 'center' });
+            }
+
+            // Descargar Archivo PDF
+            doc.save(`Convenio_Legal_TVC_Lady_Zoila_${new Date().toISOString().slice(0,10)}.pdf`);
+        }
+    </script>
+
+</body>
+</html>
