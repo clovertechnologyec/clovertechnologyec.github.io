@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grupo CLOVER - Sistema Contable y Gestión Integral</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,87 +12,67 @@
                 extend: {
                     colors: {
                         clover: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
-                            900: '#14532d',
-                            950: '#052e16'
+                            50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d', 950: '#052e16'
                         }
                     }
                 }
             }
         }
     </script>
-    <!-- Chart.js for Dashboards -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- SheetJS (xlsx) for Excel Export -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        @media print {
+            body * { visibility: hidden; }
+            #printable-report, #printable-report *, #receipt-print-area, #receipt-print-area * { visibility: visible; }
+            #printable-report, #receipt-print-area { position: absolute; left: 0; top: 0; width: 100%; background: white; color: black; }
+            .no-print { display: none; }
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 antialiased min-h-screen flex flex-col">
 
-    <!-- MODAL DE NOTIFICACIONES / MENSAJES -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
-    <!-- PANTALLA DE LOGIN -->
-    <div id="login-screen" class="fixed inset-0 z-50 bg-slate-950 flex items-center justify-center p-4 transition-opacity duration-300">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-clover-900/20 via-slate-950/80 to-slate-950 pointer-events-none"></div>
+    <!-- LOGIN CON CONTRASTE Y VISIBILIDAD PERMANENTE -->
+    <div id="login-screen" class="fixed inset-0 z-50 bg-slate-950 flex items-center justify-center p-4">
         <div class="relative w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-8 backdrop-blur-xl">
             <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-clover-500/10 text-clover-500 border border-clover-500/20 mb-4 text-2xl font-bold shadow-lg shadow-clover-500/10">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-clover-500/10 text-clover-500 border border-clover-500/20 mb-4 text-2xl font-bold shadow-lg">
                     <i class="fa-solid fa-clover"></i>
                 </div>
-                <h1 class="text-2xl font-bold tracking-tight text-white">Grupo CLOVER</h1>
-                <p class="text-sm text-slate-400 mt-1">Sistema Contable y de Gestión Integral</p>
+                <h1 class="text-2xl font-bold text-white">Grupo CLOVER</h1>
+                <p class="text-sm text-slate-400 mt-1">Sistema Contable y Gestión Integral v3.7</p>
             </div>
-            
-            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-5">
+            <form onsubmit="handleLogin(event)" class="space-y-5">
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Contraseña de Administrador</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                            <i class="fa-solid fa-lock"></i>
-                        </span>
-                        <input type="password" id="login-password" required placeholder="Ingrese contraseña (admin2026)" 
-                            class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 pl-10 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-clover-500 focus:ring-1 focus:ring-clover-500 transition">
+                        <input type="password" id="login-password" required placeholder="admin2026" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 pr-12 text-slate-100 focus:outline-none focus:border-clover-500">
+                        <button type="button" onclick="togglePasswordVisibility('login-password', 'peek-icon-login')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white px-2 py-1">
+                            <i id="peek-icon-login" class="fa-solid fa-eye"></i>
+                        </button>
                     </div>
                 </div>
-                <div id="login-error" class="hidden text-rose-400 text-xs bg-rose-500/10 border border-rose-500/20 rounded-lg p-3 text-center">
-                    Contraseña incorrecta. Utilice: <span class="font-mono font-bold">admin2026</span>
-                </div>
-                <button type="submit" class="w-full bg-clover-600 hover:bg-clover-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-clover-600/30 transition transform active:scale-95">
-                    Ingresar al Sistema
-                </button>
+                <div id="login-error" class="hidden text-rose-400 text-xs bg-rose-500/10 border border-rose-500/20 rounded-lg p-3 text-center">Contraseña incorrecta (admin2026)</div>
+                <button type="submit" class="w-full bg-clover-600 hover:bg-clover-500 text-white font-semibold py-3 rounded-xl shadow-lg transition">Ingresar al Sistema</button>
             </form>
-            <div class="mt-6 text-center text-xs text-slate-500">
-                Acceso restringido · Sincronizado con GitHub v2.6
-            </div>
         </div>
     </div>
 
-    <!-- APLICACIÓN PRINCIPAL -->
+    <!-- APP CONTAINER -->
     <div id="app-container" class="hidden flex-1 flex flex-col lg:flex-row">
         
-        <!-- SIDEBAR DE NAVEGACIÓN -->
         <aside class="w-full lg:w-72 bg-slate-900 border-r border-slate-800 flex flex-col z-30 shrink-0">
             <div class="p-6 border-b border-slate-800 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-clover-500/10 text-clover-500 border border-clover-500/20 flex items-center justify-center font-bold">
-                        <i class="fa-solid fa-clover"></i>
-                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-clover-500/10 text-clover-500 border border-clover-500/20 flex items-center justify-center font-bold"><i class="fa-solid fa-clover"></i></div>
                     <div>
                         <h2 class="font-bold text-white text-base">Grupo CLOVER</h2>
                         <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-clover-500/10 text-clover-400 border border-clover-500/20">
@@ -101,106 +80,75 @@
                         </span>
                     </div>
                 </div>
-                <button onclick="toggleMobileMenu()" class="lg:hidden text-slate-400 hover:text-white p-2">
-                    <i class="fa-solid fa-bars text-xl"></i>
-                </button>
+                <button onclick="toggleMobileMenu()" class="lg:hidden text-slate-400 hover:text-white p-2"><i class="fa-solid fa-bars text-xl"></i></button>
             </div>
 
-            <!-- Menú de Enlaces -->
-            <nav id="sidebar-nav" class="flex-1 overflow-y-auto p-4 space-y-1.5">
-                <button onclick="switchTab('dashboard')" data-tab="dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-clover-600 text-white shadow-lg shadow-clover-600/20">
-                    <i class="fa-solid fa-chart-pie w-5 text-center"></i> Dashboard Consolidado
-                </button>
-
+            <nav class="flex-1 overflow-y-auto p-4 space-y-1.5">
+                <button onclick="switchTab('dashboard')" data-tab="dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-clover-600 text-white shadow-lg"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Dashboard Consolidado</button>
+                
                 <div class="pt-3 pb-1 px-3 text-[11px] font-bold uppercase tracking-wider text-slate-500">Empresas / Unidades</div>
-                
-                <button onclick="switchTab('ceta')" data-tab="ceta" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
-                    <i class="fa-solid fa-graduation-cap w-5 text-center text-amber-400"></i> CETA PreUniversitario
-                </button>
-                <button onclick="switchTab('hub')" data-tab="hub" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
-                    <i class="fa-solid fa-book-bookmark w-5 text-center text-blue-400"></i> Hub Publications
-                </button>
-                <button onclick="switchTab('dle')" data-tab="dle" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
-                    <i class="fa-solid fa-earth-americas w-5 text-center text-purple-400"></i> Daily Life English
-                </button>
-                <button onclick="switchTab('echo')" data-tab="echo" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
-                    <i class="fa-solid fa-microchip w-5 text-center text-teal-400"></i> Echo Technology
-                </button>
+                <button onclick="switchTab('ceta')" data-tab="ceta" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition"><i class="fa-solid fa-graduation-cap w-5 text-center text-amber-400"></i> CETA PreUniversitario</button>
+                <button onclick="switchTab('hub')" data-tab="hub" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition"><i class="fa-solid fa-book-bookmark w-5 text-center text-blue-400"></i> Hub Publications</button>
+                <button onclick="switchTab('dle')" data-tab="dle" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition"><i class="fa-solid fa-earth-americas w-5 text-center text-purple-400"></i> Daily Life English</button>
+                <button onclick="switchTab('echo')" data-tab="echo" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition"><i class="fa-solid fa-microchip w-5 text-center text-teal-400"></i> Echo Technology</button>
 
-                <div class="pt-3 pb-1 px-3 text-[11px] font-bold uppercase tracking-wider text-slate-500">Finanzas y Auditoría</div>
-                
-                <button onclick="switchTab('contabilidad')" data-tab="contabilidad" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
-                    <i class="fa-solid fa-book w-5 text-center text-emerald-400"></i> Libro Diario General
-                </button>
-                <button onclick="switchTab('reportes')" data-tab="reportes" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
-                    <i class="fa-solid fa-file-excel w-5 text-center text-emerald-500"></i> Reportes y Exportación
-                </button>
-                <button onclick="switchTab('respaldos')" data-tab="respaldos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
-                    <i class="fa-solid fa-cloud-arrow-down w-5 text-center text-sky-400"></i> Respaldos GitHub (24h)
-                </button>
+                <div class="pt-3 pb-1 px-3 text-[11px] font-bold uppercase tracking-wider text-slate-500">Gestión y Finanzas</div>
+                <button onclick="switchTab('servicios')" data-tab="servicios" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition"><i class="fa-solid fa-bolt w-5 text-center text-rose-400"></i> Pagos de Servicios</button>
+                <button onclick="switchTab('contabilidad')" data-tab="contabilidad" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition"><i class="fa-solid fa-book w-5 text-center text-emerald-400"></i> Libro Diario General</button>
+                <button onclick="switchTab('reportes')" data-tab="reportes" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition"><i class="fa-solid fa-file-excel w-5 text-center text-emerald-500"></i> Reportes Financieros</button>
+                <button onclick="switchTab('recibos')" data-tab="recibos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition"><i class="fa-solid fa-receipt w-5 text-center text-amber-400"></i> Historial de Recibos</button>
+                <button onclick="switchTab('respaldos')" data-tab="respaldos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition"><i class="fa-solid fa-cloud-arrow-down w-5 text-center text-sky-400"></i> Respaldos GitHub (24h)</button>
             </nav>
 
-            <!-- Footer Sidebar con Logout -->
             <div class="p-4 border-t border-slate-800 space-y-2">
-                <a href="https://github.com/clovertechnologyec/clovertechnologyec.github.io" target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
-                    <i class="fa-brands fa-github"></i> Ver Repositorio
-                </a>
+                <button onclick="resetDemoData()" class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-amber-400 border border-slate-700 hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-rotate-right"></i> Cargar Datos de Ejemplo
+                </button>
                 <button onclick="handleLogout()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 transition">
                     <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
                 </button>
             </div>
         </aside>
 
-        <!-- CONTENIDO PRINCIPAL -->
         <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
-            
-            <!-- Barra Superior -->
             <header class="bg-slate-900/80 backdrop-blur border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-20">
-                <div class="flex items-center gap-4">
-                    <h1 id="page-title" class="text-lg font-bold text-white">Dashboard Consolidado</h1>
-                </div>
+                <h1 id="page-title" class="text-lg font-bold text-white">Dashboard Consolidado</h1>
                 <div class="flex items-center gap-3">
-                    <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs text-slate-300">
-                        <i class="fa-solid fa-clock text-clover-400"></i>
-                        <span id="current-date-time">--/--/---- --:--</span>
-                    </div>
-                    <button onclick="triggerAutoBackup()" title="Generar Respaldo Manual con Fecha y Hora" class="bg-clover-600 hover:bg-clover-500 text-white text-xs px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-lg shadow-clover-600/20">
-                        <i class="fa-solid fa-download"></i> <span class="hidden md:inline">Respaldo 24h</span>
-                    </button>
+                    <span id="current-date-time" class="text-xs text-slate-400">--/--/---- --:--</span>
+                    <button onclick="triggerAutoBackup()" class="bg-clover-600 hover:bg-clover-500 text-white text-xs px-3 py-2 rounded-lg font-semibold"><i class="fa-solid fa-download mr-1"></i> Respaldo 24h</button>
                 </div>
             </header>
 
-            <!-- CONTENEDOR DE TABS -->
             <div class="p-6 max-w-7xl w-full mx-auto flex-1 space-y-6">
 
                 <!-- 1. DASHBOARD -->
                 <div id="tab-dashboard" class="tab-content space-y-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Ingresos Totales</span>
-                            <h3 id="dash-total-ingresos" class="text-2xl font-bold text-white mt-4">$0.00</h3>
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Ingresos Totales</span>
+                            <h3 id="dash-total-ingresos" class="text-2xl font-bold text-white mt-2">$0.00</h3>
                         </div>
                         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Egresos Totales</span>
-                            <h3 id="dash-total-egresos" class="text-2xl font-bold text-white mt-4">$0.00</h3>
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Egresos Totales</span>
+                            <h3 id="dash-total-egresos" class="text-2xl font-bold text-white mt-2">$0.00</h3>
                         </div>
                         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Utilidad Neta Grupo</span>
-                            <h3 id="dash-utilidad-neta" class="text-2xl font-bold text-white mt-4">$0.00</h3>
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Utilidad Neta</span>
+                            <h3 id="dash-utilidad-neta" class="text-2xl font-bold text-white mt-2">$0.00</h3>
                         </div>
                         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Transacciones</span>
-                            <h3 id="dash-total-transacciones" class="text-2xl font-bold text-white mt-4">0</h3>
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Transacciones</span>
+                            <h3 id="dash-total-transacciones" class="text-2xl font-bold text-white mt-2">0</h3>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
-                            <h3 class="text-base font-bold text-white mb-4"><i class="fa-solid fa-chart-bar text-clover-500"></i> Ingresos por Empresa</h3>
+                            <h3 class="text-base font-bold text-white mb-4"><i class="fa-solid fa-chart-bar text-clover-500 mr-2"></i> Ingresos por Empresa / Unidad</h3>
                             <div class="relative h-72"><canvas id="chartIngresosEmpresa"></canvas></div>
                         </div>
                         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
-                            <h3 class="text-base font-bold text-white mb-4"><i class="fa-solid fa-chart-pie text-clover-500"></i> Distribución de Egresos</h3>
+                            <h3 class="text-base font-bold text-white mb-4"><i class="fa-solid fa-chart-pie text-clover-500 mr-2"></i> Distribución Global de Egresos</h3>
                             <div class="relative h-72 flex items-center justify-center"><canvas id="chartEgresosGlobal"></canvas></div>
                         </div>
                     </div>
@@ -208,79 +156,86 @@
 
                 <!-- 2. CETA -->
                 <div id="tab-ceta" class="tab-content hidden space-y-6">
-                    <div class="flex justify-between items-center bg-slate-900 border border-slate-800 p-6 rounded-2xl">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl">
                         <div>
-                            <span class="text-xs text-amber-400 font-bold uppercase">CETA PreUniversitario</span>
-                            <h2 class="text-xl font-bold text-white">Gestión de Estudiantes y Docentes</h2>
+                            <span class="text-xs text-amber-400 font-bold uppercase">Unidad Educativa</span>
+                            <h2 class="text-xl font-bold text-white mt-1">CETA PreUniversitario</h2>
                         </div>
                         <div class="flex gap-2">
-                            <button onclick="openModal('modal-ceta-estudiante')" class="bg-amber-600 text-white text-xs px-4 py-2.5 rounded-xl font-semibold"><i class="fa-solid fa-user-plus"></i> Estudiante</button>
-                            <button onclick="openModal('modal-ceta-docente')" class="bg-slate-800 text-slate-200 text-xs px-4 py-2.5 rounded-xl border border-slate-700"><i class="fa-solid fa-chalkboard-user"></i> Docente</button>
+                            <button onclick="openModal('modal-ceta-estudiante')" class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-user-plus mr-1"></i> Registrar Estudiante</button>
+                            <button onclick="openModal('modal-ceta-docente')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-4 py-2.5 rounded-xl border border-slate-700"><i class="fa-solid fa-chalkboard-user mr-1"></i> Registrar Docente</button>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                            <h3 class="font-bold text-white mb-3">Estudiantes y Cobros</h3>
-                            <div class="overflow-x-auto max-h-80"><table class="w-full text-xs text-left"><tbody id="table-ceta-estudiantes" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+                            <h3 class="font-bold text-white mb-4">Estudiantes y Abonos Acumulados</h3>
+                            <div class="overflow-x-auto max-h-96"><table class="w-full text-xs text-left"><tbody id="table-ceta-estudiantes" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
                         </div>
-                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                            <h3 class="font-bold text-white mb-3">Nómina Docentes</h3>
-                            <div class="overflow-x-auto max-h-80"><table class="w-full text-xs text-left"><tbody id="table-ceta-docentes" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+                            <h3 class="font-bold text-white mb-4">Docentes y Pagos Acumulados</h3>
+                            <div class="overflow-x-auto max-h-96"><table class="w-full text-xs text-left"><tbody id="table-ceta-docentes" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 3. HUB PUBLICATIONS -->
                 <div id="tab-hub" class="tab-content hidden space-y-6">
-                    <div class="flex justify-between items-center bg-slate-900 border border-slate-800 p-6 rounded-2xl">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl">
                         <div>
-                            <span class="text-xs text-blue-400 font-bold uppercase">Hub Publications</span>
-                            <h2 class="text-xl font-bold text-white">Proyectos y Artículos Científicos</h2>
+                            <span class="text-xs text-blue-400 font-bold uppercase">Editorial e Investigación</span>
+                            <h2 class="text-xl font-bold text-white mt-1">Hub Publications</h2>
                         </div>
-                        <button onclick="openModal('modal-hub-pub')" class="bg-blue-600 text-white text-xs px-4 py-2.5 rounded-xl font-semibold"><i class="fa-solid fa-folder-plus"></i> Nueva Publicación</button>
+                        <button onclick="openModal('modal-hub-pub')" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-folder-plus mr-1"></i> Nuevo Proyecto / Publicación</button>
                     </div>
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+                        <h3 class="font-bold text-white mb-4">Proyectos y Abonos por Momentos</h3>
                         <div class="overflow-x-auto"><table class="w-full text-xs text-left"><tbody id="table-hub-pub" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
                     </div>
                 </div>
 
-                <!-- 4. DAILY LIFE ENGLISH -->
+                <!-- 4. DLE -->
                 <div id="tab-dle" class="tab-content hidden space-y-6">
-                    <div class="flex justify-between items-center bg-slate-900 border border-slate-800 p-6 rounded-2xl">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl">
                         <div>
-                            <span class="text-xs text-purple-400 font-bold uppercase">Daily Life English</span>
-                            <h2 class="text-xl font-bold text-white">Centro de Idiomas</h2>
+                            <span class="text-xs text-purple-400 font-bold uppercase">Centro de Idiomas</span>
+                            <h2 class="text-xl font-bold text-white mt-1">Daily Life English</h2>
                         </div>
                         <div class="flex gap-2">
-                            <button onclick="openModal('modal-dle-estudiante')" class="bg-purple-600 text-white text-xs px-4 py-2.5 rounded-xl font-semibold">Estudiante</button>
-                            <button onclick="openModal('modal-dle-docente')" class="bg-slate-800 text-slate-200 text-xs px-4 py-2.5 rounded-xl border border-slate-700">Docente</button>
+                            <button onclick="openModal('modal-dle-estudiante')" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl">Registrar Estudiante</button>
+                            <button onclick="openModal('modal-dle-docente')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-4 py-2.5 rounded-xl border border-slate-700">Registrar Docente</button>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6"><table class="w-full text-xs"><tbody id="table-dle-estudiantes" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
-                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6"><table class="w-full text-xs"><tbody id="table-dle-docentes" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg"><h3 class="font-bold text-white mb-4">Estudiantes DLE y Abonos</h3><div class="overflow-x-auto"><table class="w-full text-xs"><tbody id="table-dle-estudiantes" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div></div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg"><h3 class="font-bold text-white mb-4">Docentes DLE y Pagos</h3><div class="overflow-x-auto"><table class="w-full text-xs"><tbody id="table-dle-docentes" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div></div>
                     </div>
                 </div>
 
-                <!-- 5. ECHO TECHNOLOGY -->
+                <!-- 5. ECHO -->
                 <div id="tab-echo" class="tab-content hidden space-y-6">
-                    <div class="flex justify-between items-center bg-slate-900 border border-slate-800 p-6 rounded-2xl">
-                        <div>
-                            <span class="text-xs text-teal-400 font-bold uppercase">Echo Technology</span>
-                            <h2 class="text-xl font-bold text-white">Servicios y Egresos Operativos</h2>
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="openModal('modal-echo-ingreso')" class="bg-teal-600 text-white text-xs px-4 py-2.5 rounded-xl font-semibold">Ingreso Multi-Empresa</button>
-                            <button onclick="openModal('modal-echo-egreso')" class="bg-rose-600 text-white text-xs px-4 py-2.5 rounded-xl font-semibold">Egreso Fijo</button>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6"><table class="w-full text-xs"><tbody id="table-echo-ingresos" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
-                        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6"><table class="w-full text-xs"><tbody id="table-echo-egresos" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
+                    <div class="bg-slate-900 border border-slate-800 p-12 rounded-2xl text-center space-y-4">
+                        <div class="w-16 h-16 rounded-2xl bg-teal-500/10 text-teal-400 border border-teal-500/20 flex items-center justify-center mx-auto text-2xl"><i class="fa-solid fa-microchip"></i></div>
+                        <h2 class="text-xl font-bold text-white">Echo Technology</h2>
+                        <p class="text-xs text-slate-400 max-w-md mx-auto">Módulo en blanco reservado para futuras implementaciones.</p>
                     </div>
                 </div>
 
-                <!-- 6. LIBRO DIARIO -->
+                <!-- 6. SERVICIOS -->
+                <div id="tab-servicios" class="tab-content hidden space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl">
+                        <div>
+                            <span class="text-xs text-rose-400 font-bold uppercase">Gastos Operativos</span>
+                            <h2 class="text-xl font-bold text-white mt-1">Control de Pagos de Servicios</h2>
+                        </div>
+                        <button onclick="openModal('modal-servicio')" class="bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-plus mr-1"></i> Registrar Pago de Servicio</button>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+                        <h3 class="font-bold text-white mb-4">Historial de Servicios (Luz, Agua, Internet, MEET, Varios)</h3>
+                        <div class="overflow-x-auto"><table class="w-full text-xs text-left"><tbody id="table-servicios" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
+                    </div>
+                </div>
+
+                <!-- 7. LIBRO DIARIO -->
                 <div id="tab-contabilidad" class="tab-content hidden space-y-6">
                     <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
                         <div class="flex justify-between items-center">
@@ -291,49 +246,107 @@
                     </div>
                 </div>
 
-                <!-- 7. REPORTES -->
+                <!-- 8. REPORTES FINANCIEROS COMPLETOS CON GRÁFICOS Y EXCEL DISEÑADO -->
                 <div id="tab-reportes" class="tab-content hidden space-y-6">
-                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
-                        <h2 class="text-xl font-bold text-white">Centro de Reportes Financieros</h2>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-                            <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white p-5 rounded-2xl font-bold text-sm"><i class="fa-solid fa-file-excel text-2xl mb-1"></i><br>Exportar a Excel (XLSX)</button>
-                            <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-white p-5 rounded-2xl border border-slate-700 font-bold text-sm"><i class="fa-solid fa-file-pdf text-2xl text-rose-400 mb-1"></i><br>Imprimir / Guardar PDF</button>
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-6">
+                        <div class="flex justify-between items-center no-print">
+                            <div>
+                                <span class="text-xs text-emerald-400 font-bold uppercase">Reporte Ejecutivo</span>
+                                <h2 class="text-xl font-bold text-white mt-1">Centro de Reportes Financieros</h2>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="exportFullReportExcel()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl"><i class="fa-solid fa-file-excel mr-1"></i> Descargar Excel Ejecutivo</button>
+                                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl border border-slate-700"><i class="fa-solid fa-file-pdf mr-1 text-rose-400"></i> Imprimir Reporte PDF</button>
+                            </div>
+                        </div>
+
+                        <!-- ZONA IMPRIMIBLE CON TODO EL REPORTE Y VALORES -->
+                        <div id="printable-report" class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-6">
+                            <div class="text-center border-b border-slate-800 pb-4">
+                                <h2 class="text-lg font-bold text-white">GRUPO CLOVER S.A. - REPORTE FINANCIERO CONSOLIDADO</h2>
+                                <p class="text-xs text-slate-400" id="report-date-print">Fecha de emisión: --/--/----</p>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                                    <span class="text-xs text-slate-400 block">Total Ingresos</span>
+                                    <span id="rep-total-ingresos" class="text-lg font-bold text-emerald-400">$0.00</span>
+                                </div>
+                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                                    <span class="text-xs text-slate-400 block">Total Egresos</span>
+                                    <span id="rep-total-egresos" class="text-lg font-bold text-rose-400">$0.00</span>
+                                </div>
+                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                                    <span class="text-xs text-slate-400 block">Utilidad Neta del Grupo</span>
+                                    <span id="rep-utilidad-neta" class="text-lg font-bold text-clover-400">$0.00</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
+                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                                    <h4 class="font-bold text-white text-xs mb-3">Gráfico: Ingresos por Empresa</h4>
+                                    <div class="relative h-60"><canvas id="reportChartIngresos"></canvas></div>
+                                </div>
+                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                                    <h4 class="font-bold text-white text-xs mb-3">Gráfico: Distribución de Egresos</h4>
+                                    <div class="relative h-60 flex items-center justify-center"><canvas id="reportChartEgresos"></canvas></div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3 pt-4">
+                                <h4 class="font-bold text-white text-xs uppercase tracking-wider">Desglose de Transacciones del Libro Diario</h4>
+                                <div class="overflow-x-auto"><table class="w-full text-xs text-left"><tbody id="table-report-diario" class="divide-y divide-slate-800 text-slate-300"></tbody></table></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 8. NUEVA PESTAÑA: RESPALDOS GITHUB (CADA 24 HORAS CON VERSIÓN) -->
+                <!-- 9. HISTORIAL DE RECIBOS EMITIDOS CON ACCIÓN DE DESCARGA / IMPRESIÓN INDIVIDUAL -->
+                <div id="tab-recibos" class="tab-content hidden space-y-6">
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-xs text-amber-400 font-bold uppercase">Auditoría de Comprobantes</span>
+                                <h2 class="text-xl font-bold text-white mt-1">Historial Ordenado de Recibos Emitidos</h2>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs text-left">
+                                <thead class="bg-slate-950 text-slate-400 uppercase tracking-wider">
+                                    <tr>
+                                        <th class="p-3"># Comprobante</th>
+                                        <th class="p-3">Fecha y Hora</th>
+                                        <th class="p-3">Tipo de Recibo</th>
+                                        <th class="p-3">Detalle / Beneficiario</th>
+                                        <th class="p-3 text-right">Monto</th>
+                                        <th class="p-3 text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-recibos-emitidos" class="divide-y divide-slate-800 text-slate-300"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. RESPALDOS GITHUB -->
                 <div id="tab-respaldos" class="tab-content hidden space-y-6">
                     <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-6">
                         <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl">
-                                <i class="fa-solid fa-cloud-arrow-down"></i>
-                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center text-xl"><i class="fa-solid fa-cloud-arrow-down"></i></div>
                             <div>
-                                <h2 class="text-xl font-bold text-white">Centro de Respaldos e Historial (GitHub Sync)</h2>
-                                <p class="text-xs text-slate-400">Guarda un respaldo automático con fecha y hora exactas para subirlo al repositorio <span class="font-mono text-sky-400">clovertechnologyec.github.io</span>.</p>
+                                <h2 class="text-xl font-bold text-white">Respaldos e Historial (GitHub Sync)</h2>
+                                <p class="text-xs text-slate-400">Guarda respaldos automáticos con fecha y hora para <span class="font-mono text-sky-400">clovertechnologyec.github.io</span>[cite: 1].</p>
                             </div>
                         </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="bg-slate-950 border border-slate-800 p-5 rounded-xl space-y-4">
-                                <h3 class="font-bold text-white text-sm"><i class="fa-solid fa-clock-rotate-left text-sky-400 mr-2"></i> Crear Respaldo Versionado (24h)</h3>
-                                <p class="text-xs text-slate-400">Genera un archivo JSON con todos los registros contables actuales y su estampa temporal.</p>
-                                <button onclick="triggerAutoBackup()" class="w-full bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold py-3 rounded-xl transition shadow-lg shadow-sky-600/20">
-                                    <i class="fa-solid fa-download mr-1"></i> Descargar Respaldo con Fecha/Hora
-                                </button>
+                                <h3 class="font-bold text-white text-sm">Crear Respaldo (24h)</h3>
+                                <button onclick="triggerAutoBackup()" class="w-full bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold py-3 rounded-xl">Descargar Respaldo JSON</button>
                             </div>
-
                             <div class="bg-slate-950 border border-slate-800 p-5 rounded-xl space-y-4">
-                                <h3 class="font-bold text-white text-sm"><i class="fa-solid fa-upload text-emerald-400 mr-2"></i> Restaurar Versión Anterior</h3>
-                                <p class="text-xs text-slate-400">Sube un archivo de respaldo previo guardado en tu equipo o repositorio para restaurar el sistema.</p>
-                                <input type="file" id="restore-file-input" accept=".json" onchange="restoreBackup(event)" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-white hover:file:bg-slate-700 cursor-pointer">
+                                <h3 class="font-bold text-white text-sm">Restaurar Versión</h3>
+                                <input type="file" id="restore-file-input" accept=".json" onchange="restoreBackup(event)" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-white">
                             </div>
-                        </div>
-
-                        <div class="bg-slate-950/50 border border-slate-800/80 p-4 rounded-xl text-xs text-slate-400 space-y-2">
-                            <strong class="text-slate-200 block"><i class="fa-solid fa-circle-info text-clover-400 mr-1"></i> Instrucciones para GitHub Pages:</strong>
-                            <p>Cada vez que descargues el respaldo, guárdalo en la carpeta <span class="font-mono text-slate-300">/backups/</span> de tu repositorio <a href="https://github.com/clovertechnologyec/clovertechnologyec.github.io" target="_blank" class="text-sky-400 underline">clovertechnologyec.github.io</a>. Esto garantizará versiones históricas cada 24 horas accesibles de forma limpia.</p>
                         </div>
                     </div>
                 </div>
@@ -342,39 +355,74 @@
         </main>
     </div>
 
-    <!-- MODALES -->
+    <!-- MODAL CONFIRMACIÓN ELIMINACIÓN CON CONTRASEÑA VISIBLE -->
+    <div id="modal-delete-confirm" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-6 space-y-4">
+            <h3 class="font-bold text-rose-400 text-sm"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Confirmar Eliminación</h3>
+            <p class="text-xs text-slate-300">Ingrese la contraseña de administrador:</p>
+            <div class="relative">
+                <input type="password" id="delete-admin-pass" placeholder="Contraseña (admin2026)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 pr-10 text-xs text-white focus:outline-none focus:border-rose-500">
+                <button type="button" onclick="togglePasswordVisibility('delete-admin-pass', 'peek-icon-del')" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white px-2 py-1">
+                    <i id="peek-icon-del" class="fa-solid fa-eye"></i>
+                </button>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" onclick="closeModal('modal-delete-confirm')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button>
+                <button type="button" onclick="executeDelete()" class="px-3 py-2 bg-rose-600 hover:bg-rose-500 text-xs text-white rounded-xl font-semibold">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALES DE REGISTRO -->
     <div id="modal-ceta-estudiante" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
-            <h3 class="font-bold text-white">Registrar Estudiante CETA</h3>
+            <h3 class="font-bold text-white">Registrar Nuevo Estudiante CETA</h3>
             <form onsubmit="submitCetaEstudiante(event)" class="space-y-4">
-                <input type="text" id="ceta-est-nombre" required placeholder="Nombre estudiante" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <input type="number" step="0.01" id="ceta-est-monto" required placeholder="Monto ($)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-ceta-estudiante')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-amber-600 text-xs text-white rounded-xl">Guardar</button></div>
+                <input type="text" id="ceta-est-nombre" required placeholder="Nombre del Estudiante" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                <select id="ceta-est-modulo" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                    <option value="Todos">Todos</option><option value="Razonamiento Lógico">Razonamiento Lógico</option><option value="Razonamiento Verbal">Razonamiento Verbal</option><option value="Razonamiento Matemático">Razonamiento Matemático</option><option value="Razonamiento Científico">Razonamiento Científico</option><option value="Razonamiento Abstracto">Razonamiento Abstracto</option>
+                </select>
+                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-ceta-estudiante')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-amber-600 text-xs text-white rounded-xl">Registrar</button></div>
             </form>
         </div>
     </div>
 
     <div id="modal-ceta-docente" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
-            <h3 class="font-bold text-white">Registrar Docente CETA</h3>
+            <h3 class="font-bold text-white">Registrar Nuevo Docente CETA</h3>
             <form onsubmit="submitCetaDocente(event)" class="space-y-4">
-                <input type="text" id="ceta-doc-nombre" required placeholder="Nombre docente" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <input type="text" id="ceta-doc-modulo" required placeholder="Módulo" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <input type="number" step="0.01" id="ceta-doc-monto" required placeholder="Monto ($)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-ceta-docente')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-amber-600 text-xs text-white rounded-xl">Guardar</button></div>
+                <input type="text" id="ceta-doc-nombre" required placeholder="Nombre del Docente" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                <select id="ceta-doc-modulo" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                    <option value="Todos">Todos</option><option value="Razonamiento Lógico">Razonamiento Lógico</option><option value="Razonamiento Verbal">Razonamiento Verbal</option><option value="Razonamiento Matemático">Razonamiento Matemático</option><option value="Razonamiento Científico">Razonamiento Científico</option><option value="Razonamiento Abstracto">Razonamiento Abstracto</option>
+                </select>
+                <select id="ceta-doc-tipo" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"><option value="Por Clase">Por Clase</option><option value="Mensual">Mensual</option></select>
+                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-ceta-docente')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-amber-600 text-xs text-white rounded-xl">Registrar</button></div>
             </form>
         </div>
     </div>
 
     <div id="modal-hub-pub" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
-            <h3 class="font-bold text-white">Nueva Publicación Hub</h3>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 space-y-4">
+            <h3 class="font-bold text-white">Nuevo Proyecto / Publicación - Hub</h3>
             <form onsubmit="submitHubPub(event)" class="space-y-4">
-                <input type="text" id="hub-univ" required placeholder="Universidad" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                <select id="hub-tipo" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                    <option value="Publicación de libros">Publicación de libros</option>
+                    <option value="Publicación de artículos científicos">Publicación de artículos científicos</option>
+                    <option value="Elaboración de artículos científicos">Elaboración de artículos científicos</option>
+                    <option value="Elaboración de proyectos">Elaboración de proyectos</option>
+                </select>
                 <input type="text" id="hub-tema" required placeholder="Tema" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
                 <input type="text" id="hub-integrantes" required placeholder="Integrantes" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <select id="hub-tipo" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"><option value="Libro">Libro</option><option value="Artículo Científico (Pub)">Artículo Científico</option></select>
-                <input type="number" step="0.01" id="hub-valor" required placeholder="Valor ($)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                <input type="text" id="hub-univ" required placeholder="Universidad o Establecimiento" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                <input type="text" id="hub-tutor" placeholder="Tutor (Opcional)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                <div class="grid grid-cols-2 gap-3">
+                    <select id="hub-momento" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                        <option value="Principio (Reserva de Cupo)">1. Principio (Reserva)</option>
+                        <option value="Antes de los Lectores">2. Antes de Lectores</option>
+                        <option value="Antes de la Sustentación Final">3. Sustentación Final</option>
+                    </select>
+                    <input type="number" step="0.01" id="hub-valor" required placeholder="Monto Abono ($)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                </div>
                 <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-hub-pub')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-blue-600 text-xs text-white rounded-xl">Guardar</button></div>
             </form>
         </div>
@@ -382,89 +430,132 @@
 
     <div id="modal-dle-estudiante" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
-            <h3 class="font-bold text-white">Estudiante Daily Life English</h3>
+            <h3 class="font-bold text-white">Registrar Estudiante DLE</h3>
             <form onsubmit="submitDleEstudiante(event)" class="space-y-4">
-                <input type="text" id="dle-est-nombre" required placeholder="Nombre" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <input type="number" step="0.01" id="dle-est-monto" required placeholder="Monto ($)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-dle-estudiante')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-purple-600 text-xs text-white rounded-xl">Guardar</button></div>
+                <input type="text" id="dle-est-nombre" required placeholder="Nombre del Estudiante" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                <select id="dle-est-nivel" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"><option value="Todos">Todos</option><option value="A1">A1</option><option value="A2">A2</option><option value="B1">B1</option><option value="B2">B2</option></select>
+                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-dle-estudiante')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-purple-600 text-xs text-white rounded-xl">Registrar</button></div>
             </form>
         </div>
     </div>
 
     <div id="modal-dle-docente" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
-            <h3 class="font-bold text-white">Docente Daily Life English</h3>
+            <h3 class="font-bold text-white">Registrar Docente DLE</h3>
             <form onsubmit="submitDleDocente(event)" class="space-y-4">
-                <input type="text" id="dle-doc-nombre" required placeholder="Nombre" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <input type="number" step="0.01" id="dle-doc-monto" required placeholder="Monto ($)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-dle-docente')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-purple-600 text-xs text-white rounded-xl">Guardar</button></div>
+                <input type="text" id="dle-doc-nombre" required placeholder="Nombre del Docente" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                <select id="dle-doc-nivel" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"><option value="Todos">Todos</option><option value="A1">A1</option><option value="A2">A2</option><option value="B1">B1</option><option value="B2">B2</option></select>
+                <select id="dle-doc-tipo" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"><option value="Por Clase">Por Clase</option><option value="Mensual">Mensual</option></select>
+                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-dle-docente')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-purple-600 text-xs text-white rounded-xl">Registrar</button></div>
             </form>
         </div>
     </div>
 
-    <div id="modal-echo-ingreso" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
+    <!-- MODAL AGREGAR ABONO / PAGO -->
+    <div id="modal-add-payment" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-6 space-y-4">
+            <h3 id="pay-modal-title" class="font-bold text-white text-sm">Agregar Abono</h3>
+            <form onsubmit="submitPayment(event)" class="space-y-4">
+                <input type="number" step="0.01" id="pay-amount" required placeholder="Monto a pagar ($)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-clover-500">
+                <div id="hub-moment-container" class="hidden">
+                    <select id="pay-hub-moment" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                        <option value="Principio (Reserva de Cupo)">1. Principio (Reserva)</option>
+                        <option value="Antes de los Lectores">2. Antes de Lectores</option>
+                        <option value="Antes de la Sustentación Final">3. Sustentación Final</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-add-payment')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button>
+                    <button type="submit" class="px-3 py-2 bg-clover-600 hover:bg-clover-500 text-xs text-white rounded-xl font-semibold">Guardar y Recibo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-servicio" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
-            <h3 class="font-bold text-white">Ingreso Echo Technology</h3>
-            <form onsubmit="submitEchoIngreso(event)" class="space-y-4">
-                <select id="echo-ing-empresa" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"><option value="Echo Technology">Echo Technology</option><option value="CETA PreUniversitario">CETA PreUniversitario</option><option value="Hub Publications">Hub Publications</option><option value="Daily Life English">Daily Life English</option></select>
-                <input type="text" id="echo-ing-concepto" required placeholder="Concepto" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <input type="number" step="0.01" id="echo-ing-monto" required placeholder="Monto ($)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-echo-ingreso')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-teal-600 text-xs text-white rounded-xl">Guardar</button></div>
+            <h3 class="font-bold text-white">Registrar Pago de Servicio</h3>
+            <form onsubmit="submitServicio(event)" class="space-y-4">
+                <select id="serv-tipo" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"><option value="Luz">Luz</option><option value="Agua">Agua</option><option value="Internet">Internet</option><option value="Meet">Meet</option><option value="Varios">Varios</option></select>
+                <input type="text" id="serv-detalle" required placeholder="Detalle o Proveedor" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                <input type="number" step="0.01" id="serv-monto" required placeholder="Monto ($)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
+                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-servicio')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-rose-600 text-xs text-white rounded-xl">Guardar</button></div>
             </form>
         </div>
     </div>
 
-    <div id="modal-echo-egreso" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4">
-            <h3 class="font-bold text-white">Egreso Echo Technology</h3>
-            <form onsubmit="submitEchoEgreso(event)" class="space-y-4">
-                <select id="echo-egr-cat" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"><option value="Luz">Luz</option><option value="Internet">Internet</option><option value="Pago Docentes">Pago Docentes</option><option value="Pago MEET">Pago MEET</option><option value="Varios">Varios</option></select>
-                <input type="text" id="echo-egr-detalle" required placeholder="Detalle" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <input type="number" step="0.01" id="echo-egr-monto" required placeholder="Monto ($)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white">
-                <div class="flex justify-end gap-2"><button type="button" onclick="closeModal('modal-echo-egreso')" class="px-3 py-2 bg-slate-800 text-xs text-slate-300 rounded-xl">Cancelar</button><button type="submit" class="px-3 py-2 bg-rose-600 text-xs text-white rounded-xl">Guardar</button></div>
-            </form>
+    <!-- RECIBO MODAL GENERAL -->
+    <div id="modal-receipt" class="fixed inset-0 z-50 bg-slate-950/80 hidden flex items-center justify-center p-4">
+        <div class="bg-white text-slate-900 rounded-2xl w-full max-w-md p-8 space-y-4 shadow-2xl relative" id="receipt-print-area">
+            <div class="text-center border-b pb-4">
+                <h2 class="text-lg font-bold">GRUPO CLOVER S.A.</h2>
+                <p class="text-xs text-slate-500">Comprobante Oficial de Pago</p>
+            </div>
+            <div id="receipt-content" class="text-xs space-y-2 font-mono"></div>
+            <div class="flex justify-end gap-2 pt-4 border-t no-print">
+                <button type="button" onclick="closeModal('modal-receipt')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold">Cerrar</button>
+                <button type="button" onclick="window.print()" class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-semibold">Imprimir / PDF</button>
+            </div>
         </div>
     </div>
 
-    <!-- SCRIPT -->
     <script>
         let appState = {
             loggedIn: false,
-            cetaEstudiantes: [],
-            cetaDocentes: [],
-            hubPubs: [],
-            dleEstudiantes: [],
-            dleDocentes: [],
-            echoIngresos: [],
-            echoEgresos: [],
-            libroDiario: []
+            cetaEstudiantes: {},
+            cetaDocentes: {},
+            hubPubs: {},
+            dleEstudiantes: {},
+            dleDocentes: {},
+            servicios: [],
+            libroDiario: [],
+            recibosEmitidos: []
         };
 
         let chartIngresosInstance = null;
         let chartEgresosInstance = null;
+        let reportChartIngresosInst = null;
+        let reportChartEgresosInst = null;
+        let deleteTarget = null;
+        let activePaymentTarget = null;
 
         window.onload = function() {
             loadState();
             updateDateTime();
             setInterval(updateDateTime, 1000);
+            if (Object.keys(appState.cetaEstudiantes).length === 0) {
+                loadDemoData();
+            }
             if (appState.loggedIn) showApp();
         };
 
         function updateDateTime() {
-            const now = new Date();
-            const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            const el = document.getElementById('current-date-time');
-            if (el) el.innerText = now.toLocaleDateString('es-EC', options);
+            const dtStr = new Date().toLocaleDateString('es-EC', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            document.getElementById('current-date-time').innerText = dtStr;
+            const rpDate = document.getElementById('report-date-print');
+            if(rpDate) rpDate.innerText = `Fecha de emisión: ${dtStr}`;
+        }
+
+        // VISIBILIDAD PERMANENTE DE CONTRASEÑA
+        function togglePasswordVisibility(inputId, iconId) {
+            const pwdInput = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash';
+            } else {
+                pwdInput.type = 'password';
+                icon.className = 'fa-solid fa-eye';
+            }
         }
 
         function handleLogin(e) {
             e.preventDefault();
-            const pass = document.getElementById('login-password').value;
-            if (pass === 'admin2026') {
+            if (document.getElementById('login-password').value === 'admin2026') {
                 appState.loggedIn = true;
                 saveState();
                 showApp();
-                showToast('Sesión iniciada correctamente', 'success');
+                showToast('Bienvenido al sistema contable', 'success');
             } else {
                 document.getElementById('login-error').classList.remove('hidden');
             }
@@ -475,8 +566,6 @@
             saveState();
             document.getElementById('app-container').classList.add('hidden');
             document.getElementById('login-screen').classList.remove('hidden');
-            document.getElementById('login-password').value = '';
-            showToast('Sesión cerrada', 'info');
         }
 
         function showApp() {
@@ -486,33 +575,50 @@
         }
 
         function loadState() {
-            const saved = localStorage.getItem('clover_accounting_state');
-            if (saved) {
-                try { appState = JSON.parse(saved); } catch(err) { console.error(err); }
-            }
+            const saved = localStorage.getItem('clover_accounting_state_v3_7');
+            if (saved) { try { appState = JSON.parse(saved); } catch(err) { console.error(err); } }
+            if(!appState.recibosEmitidos) appState.recibosEmitidos = [];
         }
 
         function saveState() {
-            localStorage.setItem('clover_accounting_state', JSON.stringify(appState));
+            localStorage.setItem('clover_accounting_state_v3_7', JSON.stringify(appState));
         }
 
-        // --- SISTEMA DE RESPALDOS VERSIÓN 24 HORAS CON FECHA Y HORA ---
+        function resetDemoData() {
+            localStorage.removeItem('clover_accounting_state_v3_7');
+            appState = { loggedIn: true, cetaEstudiantes: {}, cetaDocentes: {}, hubPubs: {}, dleEstudiantes: {}, dleDocentes: {}, servicios: [], libroDiario: [], recibosEmitidos: [] };
+            loadDemoData();
+            refreshAllViews();
+            saveState();
+            showToast('Datos de ejemplo cargados correctamente', 'success');
+        }
+
+        function loadDemoData() {
+            appState.cetaEstudiantes['Carlos Mendoza'] = { nombre: 'Carlos Mendoza', modulo: 'Razonamiento Lógico', totalPagado: 150.00, pagos: [{monto: 150, fecha: '10/11/2026'}] };
+            appState.cetaDocentes['Dr. Roberto Gómez'] = { nombre: 'Dr. Roberto Gómez', modulo: 'Razonamiento Lógico', tipo: 'Mensual', totalRecibido: 450.00, pagos: [{monto: 450, fecha: '10/11/2026'}] };
+            appState.hubPubs['Universidad Central - IA'] = { tipo: 'Publicación de libros', tema: 'IA', integrantes: 'Juan Pérez', univ: 'Universidad Central', tutor: 'Dr. López', totalAcumulado: 300.00, abonos: [{momento: 'Principio (Reserva de Cupo)', valor: 300, fecha: '10/11/2026'}] };
+            appState.dleEstudiantes['Sofía Vergara'] = { nombre: 'Sofía Vergara', nivel: 'B1', totalPagado: 120.00, pagos: [{monto: 120, fecha: '10/11/2026'}] };
+            appState.dleDocentes['Prof. John Smith'] = { nombre: 'Prof. John Smith', nivel: 'B1', tipo: 'Mensual', totalRecibido: 500.00, pagos: [{monto: 500, fecha: '10/11/2026'}] };
+            appState.servicios.push({ tipo: 'Internet', detalle: 'Fibra óptica CNT 500Mbps', monto: 45.00, fechaHora: '10/11/2026' });
+
+            registrarAsiento('CETA PreUniversitario', 'INGRESO', 'Colegiatura', 150, 'Estudiante: Carlos Mendoza');
+            registrarAsiento('CETA PreUniversitario', 'EGRESO', 'Pago Docente', 450, 'Docente: Dr. Roberto Gómez');
+            registrarAsiento('Hub Publications', 'INGRESO', 'Proyecto (Principio)', 300, 'Universidad Central - IA');
+            registrarAsiento('Daily Life English', 'INGRESO', 'Inglés', 120, 'Estudiante: Sofía Vergara');
+            registrarAsiento('Daily Life English', 'EGRESO', 'Docente DLE', 500, 'Docente: Prof. John Smith');
+            registrarAsiento('Echo Technology', 'EGRESO', 'Servicio Internet', 45, 'Fibra óptica');
+
+            appState.recibosEmitidos.push({ id: 'REC-001', fechaHora: new Date().toLocaleString('es-EC'), tipo: 'RECIBO DE PAGO CETA', detalle: 'Carlos Mendoza', monto: 150, datos: { 'Estudiante': 'Carlos Mendoza', 'Abono Actual': '$150.00', 'TOTAL': '$150.00' } });
+            appState.recibosEmitidos.push({ id: 'REC-002', fechaHora: new Date().toLocaleString('es-EC'), tipo: 'RECIBO DE ABONO HUB', detalle: 'Universidad Central - IA', monto: 300, datos: { 'Proyecto': 'Universidad Central - IA', 'Momento': 'Principio', 'TOTAL': '$300.00' } });
+        }
+
         function triggerAutoBackup() {
             const now = new Date();
-            const pad = n => String(n).padStart(2, '0');
-            const fechaStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
-            const horaStr = `${pad(now.getHours())}-${pad(now.getMinutes())}`;
-            const fileName = `clover_backup_${fechaStr}_${horaStr}.json`;
-
+            const fileName = `clover_backup_${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}.json`;
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", fileName);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-
-            showToast(`Respaldo ${fileName} generado con éxito`, 'success');
+            const dl = document.createElement('a'); dl.setAttribute("href", dataStr); dl.setAttribute("download", fileName);
+            document.body.appendChild(dl); dl.click(); dl.remove();
+            showToast('Respaldo generado con éxito', 'success');
         }
 
         function restoreBackup(event) {
@@ -521,19 +627,11 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    const parsed = JSON.parse(e.target.result);
-                    if (parsed && parsed.libroDiario) {
-                        appState = parsed;
-                        appState.loggedIn = true;
-                        saveState();
-                        refreshAllViews();
-                        showToast('Sistema restaurado correctamente desde el respaldo', 'success');
-                    } else {
-                        showToast('El archivo de respaldo no es válido', 'error');
-                    }
-                } catch(err) {
-                    showToast('Error leyendo el archivo JSON', 'error');
-                }
+                    appState = JSON.parse(e.target.result);
+                    appState.loggedIn = true;
+                    saveState(); refreshAllViews();
+                    showToast('Sistema restaurado correctamente', 'success');
+                } catch(err) { showToast('Archivo inválido', 'error'); }
             };
             reader.readAsText(file);
         }
@@ -541,30 +639,23 @@
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-clover-600', 'text-white', 'shadow-lg', 'shadow-clover-600/20');
+                btn.classList.remove('bg-clover-600', 'text-white', 'shadow-lg');
                 btn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-800/60');
             });
-
             const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
             if (activeBtn) {
                 activeBtn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-800/60');
-                activeBtn.classList.add('bg-clover-600', 'text-white', 'shadow-lg', 'shadow-clover-600/20');
+                activeBtn.classList.add('bg-clover-600', 'text-white', 'shadow-lg');
             }
-
             const titles = {
-                'dashboard': 'Dashboard Consolidado',
-                'ceta': 'CETA PreUniversitario',
-                'hub': 'Hub Publications',
-                'dle': 'Daily Life English',
-                'echo': 'Echo Technology',
-                'contabilidad': 'Libro Diario General',
-                'reportes': 'Centro de Reportes Financieros',
-                'respaldos': 'Respaldos y Versiones GitHub'
+                'dashboard': 'Dashboard Consolidado', 'ceta': 'CETA PreUniversitario', 'hub': 'Hub Publications',
+                'dle': 'Daily Life English', 'echo': 'Echo Technology', 'servicios': 'Pagos de Servicios',
+                'contabilidad': 'Libro Diario General', 'reportes': 'Centro de Reportes Financieros', 
+                'recibos': 'Historial de Recibos Emitidos', 'respaldos': 'Respaldos GitHub'
             };
             document.getElementById('page-title').innerText = titles[tabId] || 'Panel';
-            if (tabId === 'dashboard') renderCharts();
+            if (tabId === 'dashboard' || tabId === 'reportes') renderCharts();
         }
 
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
@@ -573,7 +664,7 @@
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `${type === 'success' ? 'bg-emerald-600' : 'bg-slate-800 border border-slate-700'} text-white px-4 py-3 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-3`;
+            toast.className = `${type === 'success' ? 'bg-emerald-600' : 'bg-slate-800'} text-white px-4 py-3 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-3`;
             toast.innerHTML = `<i class="fa-solid fa-${type === 'success' ? 'circle-check' : 'circle-info'}"></i> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
@@ -581,87 +672,213 @@
 
         function registrarAsiento(empresa, tipo, categoria, monto, descripcion) {
             appState.libroDiario.unshift({
-                id: appState.libroDiario.length + 1,
-                fechaHora: new Date().toLocaleString('es-EC'),
+                id: Date.now(), fechaHora: new Date().toLocaleString('es-EC'),
                 empresa, tipo, categoria, monto: parseFloat(monto), descripcion
             });
         }
 
-        // Operaciones formularios
+        function generarReciboModal(titulo, detalleBeneficiario, montoVal, datos) {
+            const recId = `REC-${Math.floor(1000 + Math.random() * 9000)}`;
+            const fh = new Date().toLocaleString('es-EC');
+            
+            appState.recibosEmitidos.unshift({
+                id: recId,
+                fechaHora: fh,
+                tipo: titulo,
+                detalle: detalleBeneficiario,
+                monto: parseFloat(montoVal),
+                datos: datos
+            });
+
+            mostrarReciboEnModal(recId, fh, titulo, datos);
+        }
+
+        function mostrarReciboEnModal(recId, fh, titulo, datos) {
+            const html = `
+                <p><strong>Nº Comprobante:</strong> ${recId}</p>
+                <p><strong>Tipo:</strong> ${titulo}</p>
+                <p><strong>Fecha/Hora:</strong> ${fh}</p>
+                <hr>
+                ${Object.entries(datos).map(([k, v]) => `<p><strong>${k}:</strong> ${v}</p>`).join('')}
+                <hr>
+                <p class="text-center font-bold text-emerald-600 mt-2">¡COMPROBANTE OFICIAL GRUPO CLOVER!</p>
+            `;
+            document.getElementById('receipt-content').innerHTML = html;
+            openModal('modal-receipt');
+        }
+
+        function verRecibo(index) {
+            const r = appState.recibosEmitidos[index];
+            if (r) {
+                mostrarReciboEnModal(r.id, r.fechaHora, r.tipo, r.datos || { 'Detalle': r.detalle, 'Monto': `$${r.monto.toFixed(2)}` });
+            }
+        }
+
+        function openAddPaymentModal(section, key) {
+            activePaymentTarget = { section, key };
+            document.getElementById('pay-amount').value = '';
+            const hubContainer = document.getElementById('hub-moment-container');
+            if (section === 'hub') {
+                hubContainer.classList.remove('hidden');
+                document.getElementById('pay-modal-title').innerText = `Agregar Abono para: ${key}`;
+            } else {
+                hubContainer.classList.add('hidden');
+                document.getElementById('pay-modal-title').innerText = `Agregar Abono / Pago a: ${key}`;
+            }
+            openModal('modal-add-payment');
+        }
+
+        function submitPayment(e) {
+            e.preventDefault();
+            const monto = parseFloat(document.getElementById('pay-amount').value);
+            const { section, key } = activePaymentTarget;
+
+            if (section === 'cetaEst') {
+                appState.cetaEstudiantes[key].totalPagado += monto;
+                appState.cetaEstudiantes[key].pagos.push({ monto, fecha: new Date().toLocaleString('es-EC') });
+                registrarAsiento('CETA PreUniversitario', 'INGRESO', `Colegiatura (${appState.cetaEstudiantes[key].modulo})`, monto, `Estudiante: ${key}`);
+                generarReciboModal('RECIBO DE PAGO ESTUDIANTE CETA', key, monto, { 'Estudiante': key, 'Abono Actual': `$${monto.toFixed(2)}`, 'TOTAL ACUMULADO': `$${appState.cetaEstudiantes[key].totalPagado.toFixed(2)}` });
+            } else if (section === 'cetaDoc') {
+                appState.cetaDocentes[key].totalRecibido += monto;
+                appState.cetaDocentes[key].pagos.push({ monto, fecha: new Date().toLocaleString('es-EC') });
+                registrarAsiento('CETA PreUniversitario', 'EGRESO', `Pago Docente`, monto, `Docente: ${key}`);
+                generarReciboModal('RECIBO DE PAGO DOCENTE CETA', key, monto, { 'Docente': key, 'Pago Actual': `$${monto.toFixed(2)}`, 'TOTAL ACUMULADO': `$${appState.cetaDocentes[key].totalRecibido.toFixed(2)}` });
+            } else if (section === 'hub') {
+                const momento = document.getElementById('pay-hub-moment').value;
+                appState.hubPubs[key].totalAcumulado += monto;
+                appState.hubPubs[key].abonos.push({ momento, valor: monto, fecha: new Date().toLocaleString('es-EC') });
+                registrarAsiento('Hub Publications', 'INGRESO', `Proyecto (${momento})`, monto, `Proyecto: ${key}`);
+                generarReciboModal('RECIBO DE ABONO HUB', key, monto, { 'Proyecto': key, 'Momento': momento, 'Abono Actual': `$${monto.toFixed(2)}`, 'TOTAL ACUMULADO': `$${appState.hubPubs[key].totalAcumulado.toFixed(2)}` });
+            } else if (section === 'dleEst') {
+                appState.dleEstudiantes[key].totalPagado += monto;
+                appState.dleEstudiantes[key].pagos.push({ monto, fecha: new Date().toLocaleString('es-EC') });
+                registrarAsiento('Daily Life English', 'INGRESO', `Inglés`, monto, `Estudiante DLE: ${key}`);
+                generarReciboModal('RECIBO DE PAGO ESTUDIANTE DLE', key, monto, { 'Estudiante': key, 'Abono Actual': `$${monto.toFixed(2)}`, 'TOTAL ACUMULADO': `$${appState.dleEstudiantes[key].totalPagado.toFixed(2)}` });
+            } else if (section === 'dleDoc') {
+                appState.dleDocentes[key].totalRecibido += monto;
+                appState.dleDocentes[key].pagos.push({ monto, fecha: new Date().toLocaleString('es-EC') });
+                registrarAsiento('Daily Life English', 'EGRESO', `Docente DLE`, monto, `Docente DLE: ${key}`);
+                generarReciboModal('RECIBO DE PAGO DOCENTE DLE', key, monto, { 'Docente': key, 'Pago Actual': `$${monto.toFixed(2)}`, 'TOTAL ACUMULADO': `$${appState.dleDocentes[key].totalRecibido.toFixed(2)}` });
+            }
+
+            closeModal('modal-add-payment');
+            refreshAllViews();
+            saveState();
+            showToast('Abono registrado con éxito', 'success');
+        }
+
+        // ELIMINACIÓN SEGURA
+        function confirmDelete(type, key) {
+            deleteTarget = { type, key };
+            document.getElementById('delete-admin-pass').value = '';
+            openModal('modal-delete-confirm');
+        }
+
+        function executeDelete() {
+            if (document.getElementById('delete-admin-pass').value !== 'admin2026') {
+                showToast('Contraseña incorrecta', 'error');
+                return;
+            }
+            const { type, key } = deleteTarget;
+            if (type === 'cetaEst') delete appState.cetaEstudiantes[key];
+            else if (type === 'cetaDoc') delete appState.cetaDocentes[key];
+            else if (type === 'hub') delete appState.hubPubs[key];
+            else if (type === 'dleEst') delete appState.dleEstudiantes[key];
+            else if (type === 'dleDoc') delete appState.dleDocentes[key];
+            else if (type === 'serv') appState.servicios.splice(key, 1);
+
+            closeModal('modal-delete-confirm');
+            refreshAllViews(); saveState();
+            showToast('Registro eliminado', 'success');
+            deleteTarget = null;
+        }
+
+        // FORMULARIOS DE REGISTRO
         function submitCetaEstudiante(e) {
             e.preventDefault();
-            registrarAsiento('CETA PreUniversitario', 'INGRESO', 'Pago Estudiante', document.getElementById('ceta-est-monto').value, `Estudiante: ${document.getElementById('ceta-est-nombre').value}`);
-            appState.cetaEstudiantes.unshift({ nombre: document.getElementById('ceta-est-nombre').value, monto: parseFloat(document.getElementById('ceta-est-monto').value), fechaHora: new Date().toLocaleString('es-EC') });
+            const nombre = document.getElementById('ceta-est-nombre').value.trim();
+            const modulo = document.getElementById('ceta-est-modulo').value;
+            appState.cetaEstudiantes[nombre] = { nombre, modulo, totalPagado: 0, pagos: [] };
             finishAction('modal-ceta-estudiante', e.target, 'Estudiante CETA registrado');
         }
+
         function submitCetaDocente(e) {
             e.preventDefault();
-            registrarAsiento('CETA PreUniversitario', 'EGRESO', 'Pago Docente', document.getElementById('ceta-doc-monto').value, `Docente: ${document.getElementById('ceta-doc-nombre').value}`);
-            appState.cetaDocentes.unshift({ nombre: document.getElementById('ceta-doc-nombre').value, modulo: document.getElementById('ceta-doc-modulo').value, monto: parseFloat(document.getElementById('ceta-doc-monto').value), fechaHora: new Date().toLocaleString('es-EC') });
+            const nombre = document.getElementById('ceta-doc-nombre').value.trim();
+            const modulo = document.getElementById('ceta-doc-modulo').value;
+            const tipo = document.getElementById('ceta-doc-tipo').value;
+            appState.cetaDocentes[nombre] = { nombre, modulo, tipo, totalRecibido: 0, pagos: [] };
             finishAction('modal-ceta-docente', e.target, 'Docente CETA registrado');
         }
+
         function submitHubPub(e) {
             e.preventDefault();
-            registrarAsiento('Hub Publications', 'INGRESO', 'Proyecto', document.getElementById('hub-valor').value, `${document.getElementById('hub-univ').value} - ${document.getElementById('hub-tema').value}`);
-            appState.hubPubs.unshift({ universidad: document.getElementById('hub-univ').value, tema: document.getElementById('hub-tema').value, integrantes: document.getElementById('hub-integrantes').value, tipo: document.getElementById('hub-tipo').value, valorTotal: parseFloat(document.getElementById('hub-valor').value), estado: 'Registrado', fechaHora: new Date().toLocaleString('es-EC') });
-            finishAction('modal-hub-pub', e.target, 'Publicación Hub registrada');
+            const tipo = document.getElementById('hub-tipo').value;
+            const tema = document.getElementById('hub-tema').value.trim();
+            const integrantes = document.getElementById('hub-integrantes').value;
+            const univ = document.getElementById('hub-univ').value.trim();
+            const tutor = document.getElementById('hub-tutor').value;
+            const momento = document.getElementById('hub-momento').value;
+            const valor = parseFloat(document.getElementById('hub-valor').value);
+
+            const key = `${univ} - ${tema}`;
+            appState.hubPubs[key] = { tipo, tema, integrantes, univ, tutor, totalAcumulado: valor, abonos: [{ momento, valor, fecha: new Date().toLocaleString('es-EC') }] };
+            registrarAsiento('Hub Publications', 'INGRESO', `Proyecto (${momento})`, valor, `${univ} - ${tema}`);
+            finishAction('modal-hub-pub', e.target, 'Proyecto Hub registrado');
+            generarReciboModal('RECIBO DE ABONO HUB', key, valor, { 'Proyecto': key, 'Tipo': tipo, 'Momento': momento, 'TOTAL ACUMULADO': `$${valor.toFixed(2)}` });
         }
+
         function submitDleEstudiante(e) {
             e.preventDefault();
-            registrarAsiento('Daily Life English', 'INGRESO', 'Pago Estudiante DLE', document.getElementById('dle-est-monto').value, `Estudiante: ${document.getElementById('dle-est-nombre').value}`);
-            appState.dleEstudiantes.unshift({ nombre: document.getElementById('dle-est-nombre').value, monto: parseFloat(document.getElementById('dle-est-monto').value), fechaHora: new Date().toLocaleString('es-EC') });
+            const nombre = document.getElementById('dle-est-nombre').value.trim();
+            const nivel = document.getElementById('dle-est-nivel').value;
+            appState.dleEstudiantes[nombre] = { nombre, nivel, totalPagado: 0, pagos: [] };
             finishAction('modal-dle-estudiante', e.target, 'Estudiante DLE registrado');
         }
+
         function submitDleDocente(e) {
             e.preventDefault();
-            registrarAsiento('Daily Life English', 'EGRESO', 'Pago Docente DLE', document.getElementById('dle-doc-monto').value, `Docente: ${document.getElementById('dle-doc-nombre').value}`);
-            appState.dleDocentes.unshift({ nombre: document.getElementById('dle-doc-nombre').value, monto: parseFloat(document.getElementById('dle-doc-monto').value), fechaHora: new Date().toLocaleString('es-EC') });
+            const nombre = document.getElementById('dle-doc-nombre').value.trim();
+            const nivel = document.getElementById('dle-doc-nivel').value;
+            const tipo = document.getElementById('dle-doc-tipo').value;
+            appState.dleDocentes[nombre] = { nombre, nivel, tipo, totalRecibido: 0, pagos: [] };
             finishAction('modal-dle-docente', e.target, 'Docente DLE registrado');
         }
-        function submitEchoIngreso(e) {
+
+        function submitServicio(e) {
             e.preventDefault();
-            const empresa = document.getElementById('echo-ing-empresa').value;
-            registrarAsiento(empresa, 'INGRESO', 'Servicios Echo Tech', document.getElementById('echo-ing-monto').value, document.getElementById('echo-ing-concepto').value);
-            appState.echoIngresos.unshift({ empresaDestino: empresa, concepto: document.getElementById('echo-ing-concepto').value, monto: parseFloat(document.getElementById('echo-ing-monto').value), fechaHora: new Date().toLocaleString('es-EC') });
-            finishAction('modal-echo-ingreso', e.target, 'Ingreso Echo registrado');
-        }
-        function submitEchoEgreso(e) {
-            e.preventDefault();
-            const cat = document.getElementById('echo-egr-cat').value;
-            registrarAsiento('Echo Technology', 'EGRESO', `Gasto ${cat}`, document.getElementById('echo-egr-monto').value, document.getElementById('echo-egr-detalle').value);
-            appState.echoEgresos.unshift({ categoria: cat, detalle: document.getElementById('echo-egr-detalle').value, monto: parseFloat(document.getElementById('echo-egr-monto').value), fechaHora: new Date().toLocaleString('es-EC') });
-            finishAction('modal-echo-egreso', e.target, 'Egreso Echo registrado');
+            const tipo = document.getElementById('serv-tipo').value;
+            const detalle = document.getElementById('serv-detalle').value;
+            const monto = document.getElementById('serv-monto').value;
+            registrarAsiento('Echo Technology', 'EGRESO', `Servicio ${tipo}`, monto, `Detalle: ${detalle}`);
+            appState.servicios.unshift({ tipo, detalle, monto: parseFloat(monto), fechaHora: new Date().toLocaleString('es-EC') });
+            finishAction('modal-servicio', e.target, `Servicio de ${tipo} registrado`);
         }
 
         function finishAction(modalId, formEl, msg) {
-            closeModal(modalId);
-            formEl.reset();
-            refreshAllViews();
-            saveState();
-            showToast(msg, 'success');
+            closeModal(modalId); formEl.reset(); refreshAllViews(); saveState(); showToast(msg, 'success');
         }
 
         function refreshAllViews() {
-            renderDashboard();
-            renderTables();
+            renderDashboard(); renderTables(); renderReportValues();
         }
 
         function renderDashboard() {
             let totalIngresos = 0, totalEgresos = 0;
             let ingresosEmpresa = { 'CETA PreUniversitario': 0, 'Hub Publications': 0, 'Daily Life English': 0, 'Echo Technology': 0 };
-            let egresosCat = { 'Luz': 0, 'Internet': 0, 'Pago Docentes': 0, 'Pago MEET': 0, 'Varios': 0 };
+            let egresosCat = { 'Luz': 0, 'Agua': 0, 'Internet': 0, 'Meet': 0, 'Varios': 0, 'Docentes': 0 };
 
             appState.libroDiario.forEach(item => {
                 if (item.tipo === 'INGRESO') {
                     totalIngresos += item.monto;
                     if (ingresosEmpresa[item.empresa] !== undefined) ingresosEmpresa[item.empresa] += item.monto;
-                    else ingresosEmpresa['Echo Technology'] += item.monto;
                 } else {
                     totalEgresos += item.monto;
                     if (item.categoria.includes('Luz')) egresosCat['Luz'] += item.monto;
+                    else if (item.categoria.includes('Agua')) egresosCat['Agua'] += item.monto;
                     else if (item.categoria.includes('Internet')) egresosCat['Internet'] += item.monto;
-                    else if (item.categoria.includes('Docente')) egresosCat['Pago Docentes'] += item.monto;
-                    else if (item.categoria.includes('MEET')) egresosCat['Pago MEET'] += item.monto;
+                    else if (item.categoria.includes('Meet')) egresosCat['Meet'] += item.monto;
+                    else if (item.categoria.includes('Docente')) egresosCat['Docentes'] += item.monto;
                     else egresosCat['Varios'] += item.monto;
                 }
             });
@@ -671,20 +888,21 @@
             document.getElementById('dash-utilidad-neta').innerText = `$${(totalIngresos - totalEgresos).toFixed(2)}`;
             document.getElementById('dash-total-transacciones').innerText = appState.libroDiario.length;
 
-            window.dashData = { ingresosEmpresa, egresosCat };
+            window.dashData = { ingresosEmpresa, egresosCat, totalIngresos, totalEgresos, utilidad: totalIngresos - totalEgresos };
             renderCharts();
         }
 
         function renderCharts() {
             if (!window.dashData) return;
             const { ingresosEmpresa, egresosCat } = window.dashData;
+
             const ctx1 = document.getElementById('chartIngresosEmpresa').getContext('2d');
             if (chartIngresosInstance) chartIngresosInstance.destroy();
             chartIngresosInstance = new Chart(ctx1, {
                 type: 'bar',
                 data: {
-                    labels: ['CETA', 'Hub Pubs', 'Daily Life', 'Echo Tech'],
-                    datasets: [{ data: Object.values(ingresosEmpresa), backgroundColor: ['#f59e0b', '#3b82f6', '#a855f7', '#14b8a6'], borderRadius: 8 }]
+                    labels: ['CETA PreU', 'Hub Pubs', 'Daily Life Eng', 'Echo Tech'],
+                    datasets: [{ label: 'Ingresos ($)', data: Object.values(ingresosEmpresa), backgroundColor: ['#f59e0b', '#3b82f6', '#a855f7', '#14b8a6'], borderRadius: 8 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
@@ -693,20 +911,69 @@
             if (chartEgresosInstance) chartEgresosInstance.destroy();
             chartEgresosInstance = new Chart(ctx2, {
                 type: 'doughnut',
-                data: { labels: Object.keys(egresosCat), datasets: [{ data: Object.values(egresosCat), backgroundColor: ['#eab308', '#06b6d4', '#ec4899', '#8b5cf6', '#64748b'] }] },
+                data: { labels: Object.keys(egresosCat), datasets: [{ data: Object.values(egresosCat), backgroundColor: ['#eab308', '#06b6d4', '#ec4899', '#8b5cf6', '#64748b', '#ef4444'] }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 10 } } } }
+            });
+
+            const rctx1 = document.getElementById('reportChartIngresos').getContext('2d');
+            if (reportChartIngresosInst) reportChartIngresosInst.destroy();
+            reportChartIngresosInst = new Chart(rctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['CETA PreU', 'Hub Pubs', 'Daily Life Eng', 'Echo Tech'],
+                    datasets: [{ label: 'Ingresos ($)', data: Object.values(ingresosEmpresa), backgroundColor: ['#f59e0b', '#3b82f6', '#a855f7', '#14b8a6'], borderRadius: 6 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            const rctx2 = document.getElementById('reportChartEgresos').getContext('2d');
+            if (reportChartEgresosInst) reportChartEgresosInst.destroy();
+            reportChartEgresosInst = new Chart(rctx2, {
+                type: 'doughnut',
+                data: { labels: Object.keys(egresosCat), datasets: [{ data: Object.values(egresosCat), backgroundColor: ['#eab308', '#06b6d4', '#ec4899', '#8b5cf6', '#64748b', '#ef4444'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', boxWidth: 8 } } } }
             });
         }
 
+        function renderReportValues() {
+            if(!window.dashData) return;
+            document.getElementById('rep-total-ingresos').innerText = `$${window.dashData.totalIngresos.toFixed(2)}`;
+            document.getElementById('rep-total-egresos').innerText = `$${window.dashData.totalEgresos.toFixed(2)}`;
+            document.getElementById('rep-utilidad-neta').innerText = `$${window.dashData.utilidad.toFixed(2)}`;
+
+            document.getElementById('table-report-diario').innerHTML = appState.libroDiario.map(i => `
+                <tr>
+                    <td class="p-2 text-slate-400">#${i.id}</td>
+                    <td class="p-2">${i.fechaHora}</td>
+                    <td class="p-2 font-bold">${i.empresa}</td>
+                    <td class="p-2">${i.categoria} - ${i.descripcion}</td>
+                    <td class="p-2 text-right font-bold ${i.tipo === 'INGRESO' ? 'text-emerald-400' : 'text-rose-400'}">${i.tipo === 'INGRESO' ? '+' : '-'}$${i.monto.toFixed(2)}</td>
+                </tr>
+            `).join('') || `<tr><td class="p-3 text-slate-500">Sin movimientos</td></tr>`;
+        }
+
         function renderTables() {
-            document.getElementById('table-ceta-estudiantes').innerHTML = appState.cetaEstudiantes.map(i => `<tr><td class="p-2">${i.nombre}</td><td class="p-2 text-emerald-400 font-bold">$${i.monto.toFixed(2)}</td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
-            document.getElementById('table-ceta-docentes').innerHTML = appState.cetaDocentes.map(i => `<tr><td class="p-2">${i.nombre} (${i.modulo})</td><td class="p-2 text-rose-400 font-bold">$${i.monto.toFixed(2)}</td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
-            document.getElementById('table-hub-pub').innerHTML = appState.hubPubs.map(i => `<tr><td class="p-2">${i.universidad}</td><td class="p-2">${i.tema}</td><td class="p-2 text-emerald-400 font-bold">$${i.valorTotal.toFixed(2)}</td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
-            document.getElementById('table-dle-estudiantes').innerHTML = appState.dleEstudiantes.map(i => `<tr><td class="p-2">${i.nombre}</td><td class="p-2 text-emerald-400 font-bold">$${i.monto.toFixed(2)}</td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
-            document.getElementById('table-dle-docentes').innerHTML = appState.dleDocentes.map(i => `<tr><td class="p-2">${i.nombre}</td><td class="p-2 text-rose-400 font-bold">$${i.monto.toFixed(2)}</td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
-            document.getElementById('table-echo-ingresos').innerHTML = appState.echoIngresos.map(i => `<tr><td class="p-2">${i.empresaDestino}</td><td class="p-2">${i.concepto}</td><td class="p-2 text-emerald-400 font-bold">$${i.monto.toFixed(2)}</td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
-            document.getElementById('table-echo-egresos').innerHTML = appState.echoEgresos.map(i => `<tr><td class="p-2">${i.categoria}</td><td class="p-2">${i.detalle}</td><td class="p-2 text-rose-400 font-bold">$${i.monto.toFixed(2)}</td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
+            document.getElementById('table-ceta-estudiantes').innerHTML = Object.entries(appState.cetaEstudiantes).map(([k, i]) => `<tr><td class="p-2 font-bold">${i.nombre}</td><td class="p-2 text-slate-400">${i.modulo}</td><td class="p-2 text-emerald-400 font-bold">$${i.totalPagado.toFixed(2)}</td><td class="p-2 text-right"><button onclick="openAddPaymentModal('cetaEst', '${k}')" class="text-xs bg-amber-500/20 text-amber-400 px-2 py-1 rounded mr-1">Abonar</button><button onclick="confirmDelete('cetaEst', '${k}')" class="text-rose-400 px-2 py-1 bg-rose-500/10 rounded"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
+            document.getElementById('table-ceta-docentes').innerHTML = Object.entries(appState.cetaDocentes).map(([k, i]) => `<tr><td class="p-2 font-bold">${i.nombre}</td><td class="p-2 text-slate-400">${i.modulo}</td><td class="p-2 text-rose-400 font-bold">$${i.totalRecibido.toFixed(2)}</td><td class="p-2 text-right"><button onclick="openAddPaymentModal('cetaDoc', '${k}')" class="text-xs bg-amber-500/20 text-amber-400 px-2 py-1 rounded mr-1">Pagar</button><button onclick="confirmDelete('cetaDoc', '${k}')" class="text-rose-400 px-2 py-1 bg-rose-500/10 rounded"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
+            document.getElementById('table-hub-pub').innerHTML = Object.entries(appState.hubPubs).map(([k, i]) => `<tr><td class="p-2 font-bold">${i.univ}</td><td class="p-2">${i.tema}</td><td class="p-2 text-emerald-400 font-bold">$${i.totalAcumulado.toFixed(2)}</td><td class="p-2 text-right"><button onclick="openAddPaymentModal('hub', '${k}')" class="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded mr-1">Abonar</button><button onclick="confirmDelete('hub', '${k}')" class="text-rose-400 px-2 py-1 bg-rose-500/10 rounded"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
+            document.getElementById('table-dle-estudiantes').innerHTML = Object.entries(appState.dleEstudiantes).map(([k, i]) => `<tr><td class="p-2 font-bold">${i.nombre}</td><td class="p-2 text-slate-400">${i.nivel}</td><td class="p-2 text-emerald-400 font-bold">$${i.totalPagado.toFixed(2)}</td><td class="p-2 text-right"><button onclick="openAddPaymentModal('dleEst', '${k}')" class="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded mr-1">Abonar</button><button onclick="confirmDelete('dleEst', '${k}')" class="text-rose-400 px-2 py-1 bg-rose-500/10 rounded"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
+            document.getElementById('table-dle-docentes').innerHTML = Object.entries(appState.dleDocentes).map(([k, i]) => `<tr><td class="p-2 font-bold">${i.nombre}</td><td class="p-2 text-slate-400">${i.nivel}</td><td class="p-2 text-rose-400 font-bold">$${i.totalRecibido.toFixed(2)}</td><td class="p-2 text-right"><button onclick="openAddPaymentModal('dleDoc', '${k}')" class="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded mr-1">Pagar</button><button onclick="confirmDelete('dleDoc', '${k}')" class="text-rose-400 px-2 py-1 bg-rose-500/10 rounded"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
+            document.getElementById('table-servicios').innerHTML = appState.servicios.map((i, idx) => `<tr><td class="p-2 font-bold text-rose-400">${i.tipo}</td><td class="p-2">${i.detalle}</td><td class="p-2 text-rose-400 font-bold">$${i.monto.toFixed(2)}</td><td class="p-2 text-right"><button onclick="confirmDelete('serv', ${idx})" class="text-rose-400 px-2 py-1 bg-rose-500/10 rounded"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Sin registros</td></tr>`;
             document.getElementById('table-libro-diario').innerHTML = appState.libroDiario.map(i => `<tr class="ledger-row" data-search="${i.empresa.toLowerCase()}"><td class="p-2 text-slate-400">#${i.id}</td><td class="p-2">${i.fechaHora}</td><td class="p-2 font-bold">${i.empresa}</td><td class="p-2">${i.categoria}</td><td class="p-2 text-right font-bold ${i.tipo === 'INGRESO' ? 'text-emerald-400' : 'text-rose-400'}">${i.tipo === 'INGRESO' ? '+' : '-'}$${i.monto.toFixed(2)}</td></tr>`).join('') || `<tr><td class="p-3 text-slate-500">Libro diario vacío</td></tr>`;
+            
+            // Render de Recibos Emitidos con botón individual de impresión/descarga
+            document.getElementById('table-recibos-emitidos').innerHTML = appState.recibosEmitidos.map((r, idx) => `
+                <tr>
+                    <td class="p-3 font-mono text-amber-400">${r.id}</td>
+                    <td class="p-3 text-slate-400">${r.fechaHora}</td>
+                    <td class="p-3 font-bold text-white">${r.tipo}</td>
+                    <td class="p-3 text-slate-300">${r.detalle}</td>
+                    <td class="p-3 text-right font-bold text-emerald-400">$${r.monto.toFixed(2)}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="verRecibo(${idx})" class="bg-amber-600 hover:bg-amber-500 text-white text-xs px-3 py-1.5 rounded-lg font-semibold"><i class="fa-solid fa-print mr-1"></i> Ver / Imprimir</button>
+                    </td>
+                </tr>
+            `).join('') || `<tr><td colspan="6" class="p-4 text-center text-slate-500">No hay recibos emitidos todavía</td></tr>`;
         }
 
         function filterLedger() {
@@ -716,11 +983,49 @@
             });
         }
 
-        function exportToExcel() {
+        // EXCEL EJECUTIVO CON MÚLTIPLES PESTAÑAS Y BUEN DISEÑO
+        function exportFullReportExcel() {
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(appState.libroDiario), "Libro Diario");
-            XLSX.writeFile(wb, "GrupoClover_Contabilidad.xlsx");
-            showToast('Excel exportado con éxito', 'success');
+
+            // Pestaña 1: Resumen Financiero
+            const resumenData = [
+                ["GRUPO CLOVER S.A. - REPORTE FINANCIERO EJECUTIVO"],
+                ["Fecha de emisión:", new Date().toLocaleString('es-EC')],
+                [],
+                ["Concepto", "Monto ($)"],
+                ["Ingresos Totales", window.dashData ? window.dashData.totalIngresos : 0],
+                ["Egresos Totales", window.dashData ? window.dashData.totalEgresos : 0],
+                ["Utilidad Neta", window.dashData ? window.dashData.utilidad : 0]
+            ];
+            const wsResumen = XLSX.utils.aoa_to_sheet(resumenData);
+            XLSX.utils.book_append_sheet(wb, wsResumen, "Resumen Ejecutivo");
+
+            // Pestaña 2: Libro Diario Consolidado
+            const diarioSheetData = appState.libroDiario.map(i => ({
+                "ID": i.id,
+                "Fecha y Hora": i.fechaHora,
+                "Empresa / Unidad": i.empresa,
+                "Tipo": i.tipo,
+                "Categoría": i.categoria,
+                "Descripción": i.descripcion,
+                "Monto ($)": i.monto
+            }));
+            const wsDiario = XLSX.utils.json_to_sheet(diarioSheetData);
+            XLSX.utils.book_append_sheet(wb, wsDiario, "Libro Diario");
+
+            // Pestaña 3: Recibos Emitidos
+            const recibosSheetData = appState.recibosEmitidos.map(r => ({
+                "Nº Comprobante": r.id,
+                "Fecha y Hora": r.fechaHora,
+                "Tipo de Recibo": r.tipo,
+                "Detalle / Beneficiario": r.detalle,
+                "Monto ($)": r.monto
+            }));
+            const wsRecibos = XLSX.utils.json_to_sheet(recibosSheetData);
+            XLSX.utils.book_append_sheet(wb, wsRecibos, "Recibos Emitidos");
+
+            XLSX.writeFile(wb, "GrupoClover_ReporteEjecutivoCompleto.xlsx");
+            showToast('Reporte en Excel ejecutivo generado con éxito', 'success');
         }
 
         function toggleMobileMenu() {
